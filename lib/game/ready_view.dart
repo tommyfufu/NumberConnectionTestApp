@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/game/board_setting.dart';
+import 'package:number_connection_test/game/game_view.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
 
 class ReadyView extends StatefulWidget {
-  const ReadyView({super.key});
+  const ReadyView({
+    super.key,
+  });
 
   @override
   State<ReadyView> createState() => _ReadyViewState();
 }
 
 class _ReadyViewState extends State<ReadyView> {
-  late final TextEditingController starting_number;
-  late final TextEditingController ending_number;
+  late final TextEditingController startingnumberController;
+  late final TextEditingController endingnumberController;
 
   @override
   void initState() {
-    starting_number = TextEditingController();
-    ending_number = TextEditingController();
+    startingnumberController = TextEditingController();
+    endingnumberController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    starting_number.dispose();
-    ending_number.dispose();
+    startingnumberController.dispose();
+    endingnumberController.dispose();
     super.dispose();
   }
 
@@ -34,7 +39,7 @@ class _ReadyViewState extends State<ReadyView> {
       ),
       body: Column(children: [
         TextField(
-          controller: starting_number,
+          controller: startingnumberController,
           enableSuggestions: true,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -42,7 +47,7 @@ class _ReadyViewState extends State<ReadyView> {
           ),
         ),
         TextField(
-          controller: ending_number,
+          controller: endingnumberController,
           enableSuggestions: true,
           autocorrect: false,
           decoration: const InputDecoration(
@@ -53,14 +58,12 @@ class _ReadyViewState extends State<ReadyView> {
             onPressed: () async {
               final rangeOk = await showRangeCheckingDialog(
                 context,
-                startingnum: starting_number.text,
-                endingnum: ending_number.text,
+                startingnum: startingnumberController.text,
+                endingnum: endingnumberController.text,
               );
               if (rangeOk) {
-                Navigator.of(context).pushNamed('gameRouteStart', arguments: {
-                  int.parse(starting_number.text),
-                  int.parse(ending_number.text),
-                }).then((value) {});
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => GameView()));
               }
             },
             child: const Text('Confirm'))
