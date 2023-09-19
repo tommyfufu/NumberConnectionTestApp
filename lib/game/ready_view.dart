@@ -35,6 +35,7 @@ class _ReadyViewState extends State<ReadyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Number Connection'),
       ),
       body: Column(children: [
@@ -62,8 +63,11 @@ class _ReadyViewState extends State<ReadyView> {
                 endingnum: endingnumberController.text,
               );
               if (rangeOk) {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => GameView()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GameView(
+                          startNum: int.parse(startingnumberController.text),
+                          endNum: int.parse(endingnumberController.text),
+                        )));
               }
             },
             child: const Text('Confirm'))

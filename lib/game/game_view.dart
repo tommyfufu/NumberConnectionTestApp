@@ -1,38 +1,25 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
-import 'package:number_connection_test/game/board_setting.dart';
-import 'package:number_connection_test/game/game_board.dart';
-import 'package:number_connection_test/game/rough_grid.dart';
 import 'dart:math';
 
-class GameView extends StatefulWidget {
-  const GameView({
-    super.key,
-  });
+import 'package:flutter/material.dart';
+import 'package:number_connection_test/game/buttons_view.dart';
 
-  @override
-  State<GameView> createState() => _GameViewState();
-}
-
-class _GameViewState extends State<GameView> {
-  final BoardSetting _boardSetting = const BoardSetting(5, 5, 5);
-
-  @override
-  void initState() {
-    super.initState();
-  }
+class GameView extends StatelessWidget {
+  const GameView({super.key, required this.startNum, required this.endNum});
+  final int startNum;
+  final int endNum;
 
   @override
   Widget build(BuildContext context) {
-    bool _pressedFlag = false;
-    double range = 100;
-    var randomPicker = List<int>.generate(range.toInt(), (i) => i + 1)
+    int range = 50;
+    // var randomLimit = range * range;
+    var randomPicker = List<int>.generate(endNum, (startNum) => startNum + 1)
       ..shuffle();
+    print(randomPicker);
     int num;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Please connect number in order!'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('Game!'),
       ),
       body: Center(
         child: Container(
@@ -40,37 +27,25 @@ class _GameViewState extends State<GameView> {
           constraints: const BoxConstraints(
               maxHeight: 700, maxWidth: 800, minWidth: 400, minHeight: 400),
           margin: const EdgeInsets.only(left: 5, top: 10, right: 5, bottom: 50),
+          decoration:
+              const BoxDecoration(boxShadow: [BoxShadow(color: Colors.black)]),
           child: Column(
             // children: [Board(key: const Key('main board'), setting: _boardSetting)],
             children: [
-              for (var y = 0; y < pow(range, 0.5); y++)
+              for (var y = 0; y <= pow(range, 0.5); y++)
                 Expanded(
                   child: Row(
                     children: [
-                      for (var x = 0; x < pow(range, 0.5); x++)
+                      for (var x = 0; x <= pow(range, 0.5); x++)
                         if (randomPicker.isNotEmpty)
-                          if ((num = randomPicker.removeLast().toInt()) < 20)
+                          if ((num = randomPicker.removeLast().toInt()) <=
+                                  endNum &&
+                              num >= startNum)
                             Expanded(
-                                child: FilledButton(
-                              style: FilledButton.styleFrom(
-                                alignment: const Alignment(0.0, 0.0),
-                                shape: const CircleBorder(),
-                                padding: const EdgeInsets.all(10),
-                                backgroundColor: Colors.white,
-                                foregroundColor:
-                                    _pressedFlag ? Colors.red : Colors.green,
-                                // disabledBackgroundColor: Colors.red,
-                                // disabledForegroundColor: Colors.white,
+                              child: WrapperButton(
+                                labelnum: num,
                               ),
-                              child: Text(
-                                num.toString(),
-                              ),
-                              // child: const SizedBox.shrink(),
-                              onPressed: () {},
-                              onLongPress: () {
-                                setState(() => _pressedFlag = !_pressedFlag);
-                              },
-                            ))
+                            )
                           else
                             const Expanded(child: SizedBox.shrink())
                         else
