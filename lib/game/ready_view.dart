@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/constants/routes.dart';
-import 'package:number_connection_test/game/board_setting.dart';
 import 'package:number_connection_test/game/game_view.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
 
