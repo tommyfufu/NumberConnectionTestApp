@@ -16,7 +16,6 @@ class WrapperButton extends StatefulWidget {
 }
 
 class _WrapperButtonState extends State<WrapperButton> {
-  // var _pressedFlag = {'notPressed': 0, 'firstPressed':1, 'pressAgain':2 };
   bool _pressedFlag = false;
 
   void _changeButtonStateandCheckEnding(int nowValue, int endValue) {
@@ -31,7 +30,7 @@ class _WrapperButtonState extends State<WrapperButton> {
       }
     } else {
       setState(() {
-        _pressedFlag = false;
+        _pressedFlag = _pressedFlag;
       });
       showErrorDialog(context, 'Wrong order!');
     }
