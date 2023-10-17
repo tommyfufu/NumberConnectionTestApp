@@ -1,51 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:number_connection_test/game/ready_view.dart';
-import 'package:number_connection_test/main.dart';
 
-class GameOverView extends StatelessWidget {
-  const GameOverView({super.key});
+class RecordsView extends StatelessWidget {
+  const RecordsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       extendBodyBehindAppBar: true,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'You Win!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 60,
-              ),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'Finish Time: 00:09',
-              style: TextStyle(
-                fontSize: 30,
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Text(
+            Text(
               'Best Records',
               style: TextStyle(
                 fontSize: 30,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: 220,
               height: 10,
               child: Divider(
                 color: Colors.black,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: 220,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -110,53 +90,6 @@ class GameOverView extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              width: 220,
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 60),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const MyApp()));
-                  },
-                  child: Text(
-                    'HOME',
-                    style: GoogleFonts.permanentMarker(fontSize: 18),
-                    textScaleFactor: 1.5,
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                  height: 50,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 60),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ReadyView()));
-                  },
-                  child: Text(
-                    'RESTART',
-                    style: GoogleFonts.permanentMarker(fontSize: 18),
-                    textScaleFactor: 1.5,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

@@ -3,4 +3,7 @@ const registerRoute = '/register';
 const gameRouteReady = '/game_ready';
 const gameRouteStart = '/game_start';
 const verifyEmailRoute = '/verify-email';
+const homeRoute = '/home_view';
+const accountRoute = '/account_view';
+const recordsRoute = '/records_view';
 // const createOrUpdateNoteRoute = '/notes/new-note/';

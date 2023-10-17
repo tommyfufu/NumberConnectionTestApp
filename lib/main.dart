@@ -1,10 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/firebase_options.dart';
 // import 'package:number_connection_test/game/game_view.dart';
 // import 'package:number_connection_test/game/game_view.dart';
 import 'package:number_connection_test/game/ready_view.dart';
+import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/views/account_view.dart';
+import 'package:number_connection_test/views/home_view.dart';
+import 'package:number_connection_test/views/login_view.dart';
+import 'package:number_connection_test/views/records_view.dart';
+import 'package:number_connection_test/views/register_view.dart';
+import 'package:number_connection_test/views/verified.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -17,22 +27,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 5, fontFamily: 'Hind'),
-        ),
+        primarySwatch: Colors.blue,
+        fontFamily: 'PermanentMarker-Regular',
       ),
-      home: const MyHomePage(title: 'Game'),
+      home: const MyHomePage(title: 'Home'),
       routes: {
         gameRouteReady: (context) => const ReadyView(),
-        // gameRouteStart: (context) => const GameView(),
-        // loginRoute: (context) => const LoginView(),
-        // registerRoute: (context) => const RegisterView(),
-        // notesRoute: (context) => const NotesView(),
-        // verifyEmailRoute: (context) => const VerifyEmailView(),
-        // createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
+        homeRoute: (context) => const HomeView(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        accountRoute: (context) => const AccountView(),
+        recordsRoute: (context) => const RecordsView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     );
   }
@@ -50,24 +56,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: Center(
-        child: OutlinedButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed(gameRouteReady);
-          },
-          child: const Text('New Game'),
-        ),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: ,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = AuthService.firebase().currentUser;
+            if (user != null) {
+              if (user.isEmailVerified) {
+                return const HomeView();
+              } else {
+                return const VerifyEmailView();
+              }
+            } else {
+              return const LoginView();
+            }
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }

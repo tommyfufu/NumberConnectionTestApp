@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/game/gaming_exceptions.dart';
 
 class StopWatch extends StatefulWidget {
   const StopWatch({
@@ -30,13 +31,17 @@ class _StopWatchState extends State<StopWatch> {
   }
 
   void addTime() {
-    const int addSeconds = 1;
+    int addSeconds = 1;
     setState(() {
+      () async {
+        try {} on WrongOrderException {
+          addSeconds = 6;
+        }
+      };
       final seconds = duration.inSeconds + addSeconds;
-      if (seconds > 60) {
+      duration = Duration(seconds: seconds);
+      if (seconds > 59) {
         timer?.cancel();
-      } else {
-        duration = Duration(seconds: seconds);
       }
     });
   }
@@ -71,6 +76,8 @@ Widget buildTimecard({
   required String header,
 }) =>
     Container(
+      width: 40,
+      height: 40,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -78,10 +85,11 @@ Widget buildTimecard({
       ),
       child: Text(
         time,
+        textAlign: TextAlign.center,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.black,
-          fontSize: 15,
+          fontSize: 16,
         ),
       ),
     );

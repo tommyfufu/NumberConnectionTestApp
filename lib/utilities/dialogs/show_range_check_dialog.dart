@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/utilities/dialogs/generic_dialog.dart';
 
 Future<bool> showRangeCheckingDialog(BuildContext context,
-    {required String startingnum, required String endingnum}) {
-  if (int.parse(startingnum) >= int.parse(endingnum)) {
+    {required int startingnum, required int endingnum}) {
+  if (startingnum >= endingnum) {
     return showGenericDialog<bool>(
       context: context,
       title: 'Range Error',

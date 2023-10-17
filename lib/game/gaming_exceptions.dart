@@ -1,0 +1,1 @@
+class WrongOrderException implements Exception {}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/game/game_ending_view.dart';
+import 'package:number_connection_test/game/gaming_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 
@@ -33,14 +34,14 @@ class _WrapperButtonState extends State<WrapperButton> {
         _pressedFlag = _pressedFlag;
       });
       showErrorDialog(context, 'Wrong order!');
+      throw WrongOrderException();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-          child: ElevatedButton(
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           alignment: const Alignment(0.0, 0.0),
           shape: const CircleBorder(),
@@ -49,12 +50,17 @@ class _WrapperButtonState extends State<WrapperButton> {
           foregroundColor: Colors.white,
           shadowColor: const Color.fromARGB(247, 186, 184, 184),
           textStyle: const TextStyle(
-            fontSize: 11.2,
+            // fontSize: 11.2,
+            // wordSpacing: -1,
             fontWeight: FontWeight.bold,
           ),
           side: _pressedFlag
-              ? const BorderSide(color: Colors.red, width: 1.5)
-              : const BorderSide(color: Colors.green, width: 1.5),
+              ? const BorderSide(
+                  color: Colors.red,
+                )
+              : const BorderSide(
+                  color: Colors.green,
+                ),
           // minimumSize: const Size(10, 10),
           // maximumSize: const Size(50, 50),
           // textStyle: const TextStyle(fontSize: 11, fontStyle: FontStyle.normal),
@@ -71,7 +77,7 @@ class _WrapperButtonState extends State<WrapperButton> {
         child: Text(
           widget.labelnum.toString(),
         ),
-      )),
+      ),
     );
   }
 }
