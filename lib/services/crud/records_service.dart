@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:number_connection_test/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart'
@@ -11,6 +8,76 @@ import 'package:path/path.dart' show join;
 ////// class for HEApp database service //////
 class HEAppService {
   Database? _db;
+
+  Future<DatabaseRecords> updateNote({
+    required DatabaseRecords record,
+    required String timestamp,
+    required double gametime,
+  }) async {
+    // await _ensureDbIsOpen();
+    final db = _getDatabaseOrThrow();
+    // make sure note exists
+    await getRecord(recordid: record.recordId);
+    // update DB
+    final updatesCount = await db.update(
+      recordsTable,
+      {
+        playTimestampColumn: timestamp,
+        gameTimeColumn: gametime,
+      },
+      //[where] is the optional WHERE clause to apply when updating.
+      /// Passing null will update all rows.
+      where: 'recordId = ?',
+      whereArgs: [record.recordId],
+    );
+
+    if (updatesCount == 0) {
+      throw CouldNotUpdateRecord();
+    } else {
+      return await getRecord(recordid: record.recordId);
+    }
+  }
+
+  Future<Iterable<DatabaseRecords>> getAllRecords() async {
+    final db = _getDatabaseOrThrow();
+    final allRecords = await db.query(recordsTable);
+
+    return allRecords.map((recordRow) => DatabaseRecords.fromRow(recordRow));
+  }
+
+  Future<DatabaseRecords> getRecord({required int recordid}) async {
+    final db = _getDatabaseOrThrow();
+    final records = await db.query(
+      recordsTable,
+      limit: 1,
+      where: 'recordId = ?',
+      whereArgs: [recordid],
+    );
+    if (records.isEmpty) {
+      throw CouldNotFindRecord();
+    } else {
+      return DatabaseRecords.fromRow(records.first);
+    }
+  }
+
+  Future<int> deleteAllRecords() async {
+    final db = _getDatabaseOrThrow();
+    return await db.delete(recordsTable);
+  }
+
+  Future<void> deleteNote({required int recordId}) async {
+    // await _ensureDbIsOpen();
+    final db = _getDatabaseOrThrow();
+    final deletedCount = await db.delete(
+      recordsTable,
+      where: 'recordId = ?',
+      whereArgs: [recordId],
+    );
+
+    if (deletedCount != 1) {
+      throw CouldNotDeleteRecord();
+    } else {}
+  }
 
   Future<DatabaseRecords> createRecord({required DatabaseUser owner}) async {
     final db = _getDatabaseOrThrow();
