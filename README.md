@@ -1,16 +1,11 @@
 # HEAppforTVGH
 
-A new Flutter project.
+A mobile app for patients with Hepatic encephalopathy
 
-## Getting Started
+## Framework
+* FLutter
+  * Front-end: Dart
+  * Back-end: SQLite/mySQL, Firebase
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Demo
+![SM-M127F 2023-10-25 10-49-58](https://github.com/tommyfufu/HEAppforTVGH/assets/101622170/aedb73ca-d88c-4f23-87ea-61520317de24)
