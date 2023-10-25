@@ -19,6 +19,9 @@ class _ReadyViewState extends State<ReadyView> {
 
   @override
   Widget build(BuildContext context) {
+    const double sizeboxWidth = 50.0;
+    const double sizeboxHeigt = 30.0;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       // floatingActionButton: Icon(Icons.arrow_back),
@@ -40,7 +43,7 @@ class _ReadyViewState extends State<ReadyView> {
             style: GoogleFonts.permanentMarker(fontSize: 36),
             textScaleFactor: 1.5,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: sizeboxHeigt),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -70,7 +73,7 @@ class _ReadyViewState extends State<ReadyView> {
                   ),
                 ],
               ),
-              const SizedBox(width: 50),
+              const SizedBox(width: sizeboxWidth),
               Column(
                 children: [
                   Text(

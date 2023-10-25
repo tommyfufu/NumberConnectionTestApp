@@ -8,6 +8,8 @@ class GameOverView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double sizeboxWidth = 50.0;
+    const double sizeboxHeigt = 40.0;
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Center(
@@ -22,7 +24,7 @@ class GameOverView extends StatelessWidget {
                 fontSize: 60,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: sizeboxHeigt),
             const Text(
               'Finish Time: 00:09',
               style: TextStyle(
@@ -30,7 +32,7 @@ class GameOverView extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: sizeboxHeigt,
             ),
             const Text(
               'Best Records',
@@ -58,7 +60,7 @@ class GameOverView extends StatelessWidget {
                             Icons.looks_one_outlined,
                             size: 40,
                           ),
-                          SizedBox(width: 50),
+                          SizedBox(width: sizeboxWidth),
                           Text(
                             '00:09',
                             style: TextStyle(
@@ -76,7 +78,7 @@ class GameOverView extends StatelessWidget {
                             Icons.looks_two_outlined,
                             size: 40,
                           ),
-                          SizedBox(width: 50),
+                          SizedBox(width: sizeboxWidth),
                           Text(
                             '00:10',
                             style: TextStyle(
@@ -94,7 +96,7 @@ class GameOverView extends StatelessWidget {
                             Icons.looks_3_outlined,
                             size: 40,
                           ),
-                          SizedBox(width: 50),
+                          SizedBox(width: sizeboxWidth),
                           Text(
                             '00:25',
                             style: TextStyle(
@@ -105,9 +107,7 @@ class GameOverView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 50,
-                  ),
+                  SizedBox(width: sizeboxWidth),
                 ],
               ),
             ),
