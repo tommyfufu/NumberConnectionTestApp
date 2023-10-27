@@ -12,6 +12,11 @@ class RecordsService {
   Database? _db;
   List<DatabaseRecords> _records = [];
 
+  //Recourds should be singleton
+  static final RecordsService _shared = RecordsService._sharedInstance();
+  RecordsService._sharedInstance();
+  factory RecordsService() => _shared;
+
   final _recordsStreamController =
       StreamController<List<DatabaseRecords>>.broadcast();
 

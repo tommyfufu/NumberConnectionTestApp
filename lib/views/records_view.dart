@@ -1,13 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/services/crud/records_service.dart';
+import 'package:number_connection_test/views/records_list_view.dart';
 
-class RecordsView extends StatelessWidget {
+class RecordsView extends StatefulWidget {
   const RecordsView({super.key});
 
   @override
+  State<RecordsView> createState() => _RecordsViewState();
+}
+
+class _RecordsViewState extends State<RecordsView> {
+  late final RecordsService _recordsService;
+  String get userEmail => AuthService.firebase().currentUser!.email;
+
+  @override
+  void initState() {
+    _recordsService = RecordsService();
+    // _recordsService.open(); we don't need this anymore, because we make sure
+    // db will open at any RecordsService, aka _ensureDbIsOpen();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _recordsService.close();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      extendBodyBehindAppBar: true,
-    );
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        body: FutureBuilder(
+          future: _recordsService.getOrCreateUser(email: userEmail),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                return StreamBuilder(
+                    stream: _recordsService.allRecords,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                        case ConnectionState.active:
+                          if (snapshot.hasData) {
+                            final allRecords =
+                                snapshot.data as List<DatabaseRecords>;
+                            return RecordsListView(
+                              records: allRecords,
+                              onDeleteRecord: (record) async {
+                                await _recordsService.deleteRecord(
+                                    recordid: record.recordId);
+                              },
+                              onTap: (record) async {
+                                // Navigator.of(context).pushNamed(
+                                //   createOrUpdateRecordRoute,
+                                //   arguments: record,
+                                // );
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    });
+              default:
+                return const CircularProgressIndicator();
+            }
+          },
+        ));
   }
 }
 

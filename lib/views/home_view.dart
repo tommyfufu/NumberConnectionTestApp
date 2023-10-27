@@ -14,24 +14,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  late final RecordsService _recordsService;
-  String get userEmail => AuthService.firebase().currentUser!.email;
-
-  @override
-  void initState() {
-    _recordsService = RecordsService();
-    // _recordsService.open(); we don't need this anymore, because we make sure
-    // db will open at any RecordsService, aka _ensureDbIsOpen();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _recordsService.close();
-
-    super.dispose();
-  }
-
   int _currentIndex = 0; //預設值
   final pages = [
     const GamesHomeView(),
@@ -57,6 +39,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _onItemClick(int index) {
+    //use to change bottom navigationbar
     setState(() {
       _currentIndex = index;
     });
