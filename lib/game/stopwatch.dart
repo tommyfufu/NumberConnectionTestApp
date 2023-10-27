@@ -40,7 +40,7 @@ class _StopWatchState extends State<StopWatch> {
       };
       final seconds = duration.inSeconds + addSeconds;
       duration = Duration(seconds: seconds);
-      if (seconds > 59) {
+      if (seconds > 180) {
         timer?.cancel();
       }
     });

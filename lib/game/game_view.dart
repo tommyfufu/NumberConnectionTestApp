@@ -49,22 +49,6 @@ class _GameViewState extends State<GameView> {
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // backgroundColor: Theme.of(context).colorScheme.primary,
-        // title: gameStart
-        //     ? const SizedBox()
-        //     : const Text('Game!', style: TextStyle(fontSize: 25)),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       // if (!gameStart) {
-        //       //   setState(() {
-        //       //     gameStart = true;
-        //       //   });
-        //       // }
-        //     },
-        //     icon: const Icon(Icons.play_arrow),
-        //   ),
-        // ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(10.0),
           child: Container(
@@ -129,15 +113,7 @@ class _GameViewState extends State<GameView> {
                     ),
                   ),
               ],
-            )
-            // : SizedBox.expand(
-            //     child: Center(
-            //       child: startStringPopUp
-            //           ? CountDownAnimation()
-            //           : Text('Start!'),
-            //     ),
-            //   ),
-            ),
+            )),
       ),
     );
   }

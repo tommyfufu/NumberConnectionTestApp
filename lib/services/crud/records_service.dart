@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:number_connection_test/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -6,17 +8,42 @@ import 'package:path_provider/path_provider.dart'
 import 'package:path/path.dart' show join;
 
 ////// class for HEApp database service //////
-class HEAppService {
+class RecordsService {
   Database? _db;
+  List<DatabaseRecords> _records = [];
 
-  Future<DatabaseRecords> updateNote({
+  final _recordsStreamController =
+      StreamController<List<DatabaseRecords>>.broadcast();
+
+  Stream<List<DatabaseRecords>> get allRecords =>
+      _recordsStreamController.stream;
+
+  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+    try {
+      final user = await getUser(email: email);
+      return user;
+    } on CouldNotFindUser {
+      final createNewUser = await createUser(email: email);
+      return createNewUser;
+    } catch (e) {
+      rethrow; //used for debug
+    }
+  }
+
+  Future<void> _cacheRecords() async {
+    final allRecords = await getAllRecords();
+    _records = allRecords.toList();
+    _recordsStreamController.add(_records);
+  }
+
+  Future<DatabaseRecords> updateRecord({
     required DatabaseRecords record,
     required String timestamp,
     required double gametime,
   }) async {
-    // await _ensureDbIsOpen();
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    // make sure note exists
+    // make sure record exists
     await getRecord(recordid: record.recordId);
     // update DB
     final updatesCount = await db.update(
@@ -34,11 +61,17 @@ class HEAppService {
     if (updatesCount == 0) {
       throw CouldNotUpdateRecord();
     } else {
-      return await getRecord(recordid: record.recordId);
+      final updateRecord = await getRecord(recordid: record.recordId);
+      _records
+          .removeWhere((record) => record.recordId == updateRecord.recordId);
+      _records.add(updateRecord);
+      _recordsStreamController.add(_records);
+      return updateRecord;
     }
   }
 
   Future<Iterable<DatabaseRecords>> getAllRecords() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final allRecords = await db.query(recordsTable);
 
@@ -46,40 +79,60 @@ class HEAppService {
   }
 
   Future<DatabaseRecords> getRecord({required int recordid}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final records = await db.query(
       recordsTable,
       limit: 1,
-      where: 'recordId = ?',
+      where:
+          'recordId = ?', // Tommy's typing habits, 'I' for db (I think this is column in DB,
+      //so it need to use same word with DB), 'i' for arg in func
       whereArgs: [recordid],
     );
     if (records.isEmpty) {
       throw CouldNotFindRecord();
     } else {
-      return DatabaseRecords.fromRow(records.first);
+      final record = DatabaseRecords.fromRow(records.first);
+      _records.removeWhere((record) => record.recordId == recordid);
+      _records.add(record); //for outside world
+      _recordsStreamController.add(_records); //for outside world
+      return record;
     }
   }
 
   Future<int> deleteAllRecords() async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
-    return await db.delete(recordsTable);
+    final numberOfDeletions = await db.delete(recordsTable);
+    _records = []; //reset _records and streamcontroller
+    _recordsStreamController.add(_records);
+    return numberOfDeletions;
   }
 
-  Future<void> deleteNote({required int recordId}) async {
-    // await _ensureDbIsOpen();
+  Future<void> deleteRecord({required int recordid}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       recordsTable,
       where: 'recordId = ?',
-      whereArgs: [recordId],
+      whereArgs: [recordid],
     );
 
-    if (deletedCount != 1) {
+    if (deletedCount == 0) {
       throw CouldNotDeleteRecord();
-    } else {}
+    } else {
+      final countBefore = _records.length;
+      _records.removeWhere((record) => record.recordId == recordid);
+      if (_records.length != countBefore) {
+        _recordsStreamController.add(_records);
+      } else {
+        throw CouldNotDeleteRecord(); //safety guard to check remove the record from _records success
+      }
+    }
   }
 
   Future<DatabaseRecords> createRecord({required DatabaseUser owner}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
     //make sure owner exists in the db with the correct id
@@ -104,11 +157,15 @@ class HEAppService {
       gameTime: gameTime,
     );
 
+    // add record to _records and _recordsStreamController
+    _records.add(record);
+    _recordsStreamController.add(_records);
+
     return record;
   }
 
   Future<DatabaseUser> getUser({required String email}) async {
-    // await _ensureDbIsOpen();
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -124,6 +181,7 @@ class HEAppService {
   }
 
   Future<DatabaseUser> createUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final results = await db.query(
       userTable,
@@ -142,6 +200,7 @@ class HEAppService {
   }
 
   Future<void> deleteUser({required String email}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       userTable,
@@ -172,6 +231,12 @@ class HEAppService {
     }
   }
 
+  Future<void> _ensureDbIsOpen() async {
+    try {
+      await open();
+    } on DatabaseAlreadyOpenException {}
+  }
+
   Future<void> open() async {
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
@@ -184,6 +249,7 @@ class HEAppService {
       //create sqlite db
       await db.execute(createUserTable); //create the user table
       await db.execute(createRecordsTable); //create the records table
+      await _cacheRecords(); //when we call open, we will cache all records in _records
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
     }

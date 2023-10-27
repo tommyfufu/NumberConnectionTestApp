@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/services/crud/records_service.dart';
 import 'package:number_connection_test/views/account_view.dart';
 import 'package:number_connection_test/views/games_home_view.dart';
 import 'package:number_connection_test/views/records_view.dart';
@@ -12,12 +14,25 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  late final RecordsService _recordsService;
+  String get userEmail => AuthService.firebase().currentUser!.email;
+
+  @override
+  void initState() {
+    _recordsService = RecordsService();
+    // _recordsService.open(); we don't need this anymore, because we make sure
+    // db will open at any RecordsService, aka _ensureDbIsOpen();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _recordsService.close();
+
+    super.dispose();
+  }
+
   int _currentIndex = 0; //預設值
-  // final pages = [
-  //   homeRoute,
-  //   recordsRoute,
-  //   accountRoute,
-  // ];
   final pages = [
     const GamesHomeView(),
     const RecordsView(),
@@ -27,18 +42,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   title: const Text(
-      //     "遊戲大廳",
-      //     style: TextStyle(
-      //       color: Colors.black,
-      //       fontSize: 25,
-      //     ),
-      //   ),
-      // ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(MdiIcons.controller), label: '遊戲'),

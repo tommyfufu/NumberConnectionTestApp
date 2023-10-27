@@ -26,6 +26,7 @@ class _WrapperButtonState extends State<WrapperButton> {
         gamingNumber = nowValue;
       });
       if (nowValue == endValue) {
+        // game over
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const GameOverView()));
       }
