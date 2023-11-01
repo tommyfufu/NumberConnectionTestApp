@@ -1,9 +1,11 @@
 import 'dart:math';
-
+import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:number_connection_test/game/buttons_view.dart';
-import 'package:number_connection_test/game/stopwatch.dart';
 import 'package:number_connection_test/globals/gobals.dart';
+import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/services/crud/records_service.dart';
 
 class GameView extends StatefulWidget {
   const GameView({super.key, required this.startNum, required this.endNum});
@@ -15,6 +17,11 @@ class GameView extends StatefulWidget {
 }
 
 class _GameViewState extends State<GameView> {
+  DatabaseRecords? _record;
+  late final RecordsService _recordsService;
+  late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
+  late final String _gametime;
+  final stopwatch = Stopwatch();
   bool gameStart = true;
   bool startStringPopUp = true;
   List<String> countDownAnimationString = [
@@ -23,6 +30,46 @@ class _GameViewState extends State<GameView> {
     '2',
     '3',
   ];
+
+  @override
+  void initState() {
+    _recordsService = RecordsService();
+    stopwatch.start();
+    super.initState();
+  }
+
+  void _createAndSaveNewRecord() async {
+    final currentUser = AuthService.firebase().currentUser!;
+    final email = currentUser.email;
+    final owner = await _recordsService.getUser(email: email);
+
+    String nowTime = _now.toString();
+    final newRecord = await _recordsService.createRecord(
+      owner: owner,
+      timestamp: nowTime,
+      gametime: _gametime,
+    );
+    _record = newRecord;
+    // _record = await _recordsService.updateRecord(
+    //     record: newRecord, timestamp: nowTime, gametime: _gametime.toDouble());
+  }
+
+  @override
+  void deactivate() {
+    stopwatch.stop;
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
+    final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
+    _gametime = '$minutes : $seconds';
+    _createAndSaveNewRecord();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    // _recordsService.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,19 +96,6 @@ class _GameViewState extends State<GameView> {
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(10.0),
-          child: Container(
-            alignment: Alignment.bottomRight,
-            child: PreferredSize(
-                preferredSize: const Size.fromHeight(5.0),
-                child: gameStart
-                    ? const StopWatch(
-                        start: true,
-                      )
-                    : const SizedBox()),
-          ),
-        ),
       ),
       extendBody: false,
       body: Center(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:number_connection_test/extensions/filter.dart';
 import 'package:number_connection_test/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart'
@@ -12,23 +13,47 @@ class RecordsService {
   Database? _db;
   List<DatabaseRecords> _records = [];
 
+  DatabaseUser? _user;
+
   //Recourds should be singleton
   static final RecordsService _shared = RecordsService._sharedInstance();
-  RecordsService._sharedInstance();
+  RecordsService._sharedInstance() {
+    _recordsStreamController =
+        StreamController<List<DatabaseRecords>>.broadcast(
+      onListen: () {
+        _recordsStreamController.sink.add(_records);
+      },
+    );
+  }
   factory RecordsService() => _shared;
 
-  final _recordsStreamController =
-      StreamController<List<DatabaseRecords>>.broadcast();
+  late final StreamController<List<DatabaseRecords>> _recordsStreamController;
 
   Stream<List<DatabaseRecords>> get allRecords =>
-      _recordsStreamController.stream;
+      _recordsStreamController.stream.filter((record) {
+        final currentUser = _user;
+        if (currentUser != null) {
+          return record.userId == currentUser.id;
+        } else {
+          throw UserShouldBeSetBeforeReadingAllRecord();
+        }
+      });
 
-  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+  Future<DatabaseUser> getOrCreateUser({
+    required String email,
+    bool setAsCurrentUser = true,
+  }) async {
     try {
       final user = await getUser(email: email);
+      if (setAsCurrentUser) {
+        _user = user;
+      }
       return user;
     } on CouldNotFindUser {
       final createNewUser = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = createNewUser;
+      }
       return createNewUser;
     } catch (e) {
       rethrow; //used for debug
@@ -41,39 +66,39 @@ class RecordsService {
     _recordsStreamController.add(_records);
   }
 
-  Future<DatabaseRecords> updateRecord({
-    required DatabaseRecords record,
-    required String timestamp,
-    required double gametime,
-  }) async {
-    await _ensureDbIsOpen();
-    final db = _getDatabaseOrThrow();
-    // make sure record exists
-    await getRecord(recordid: record.recordId);
-    // update DB
-    final updatesCount = await db.update(
-      recordsTable,
-      {
-        playTimestampColumn: timestamp,
-        gameTimeColumn: gametime,
-      },
-      //[where] is the optional WHERE clause to apply when updating.
-      /// Passing null will update all rows.
-      where: 'recordId = ?',
-      whereArgs: [record.recordId],
-    );
+  // Future<DatabaseRecords> updateRecord({
+  //   required DatabaseRecords record,
+  //   required String timestamp,
+  //   required String gametime,
+  // }) async {
+  //   await _ensureDbIsOpen();
+  //   final db = _getDatabaseOrThrow();
+  //   // make sure record exists
+  //   await getRecord(recordid: record.recordId);
+  //   // update DB
+  //   final updatesCount = await db.update(
+  //     recordsTable,
+  //     {
+  //       playTimestampColumn: timestamp,
+  //       gameTimeColumn: gametime,
+  //     },
+  //     //[where] is the optional WHERE clause to apply when updating.
+  //     /// Passing null will update all rows.
+  //     where: 'recordId = ?',
+  //     whereArgs: [record.recordId],
+  //   );
 
-    if (updatesCount == 0) {
-      throw CouldNotUpdateRecord();
-    } else {
-      final updateRecord = await getRecord(recordid: record.recordId);
-      _records
-          .removeWhere((record) => record.recordId == updateRecord.recordId);
-      _records.add(updateRecord);
-      _recordsStreamController.add(_records);
-      return updateRecord;
-    }
-  }
+  //   if (updatesCount == 0) {
+  //     throw CouldNotUpdateRecord();
+  //   } else {
+  //     final updateRecord = await getRecord(recordid: record.recordId);
+  //     _records
+  //         .removeWhere((record) => record.recordId == updateRecord.recordId);
+  //     _records.add(updateRecord);
+  //     _recordsStreamController.add(_records);
+  //     return updateRecord;
+  //   }
+  // }
 
   Future<Iterable<DatabaseRecords>> getAllRecords() async {
     await _ensureDbIsOpen();
@@ -136,7 +161,11 @@ class RecordsService {
     }
   }
 
-  Future<DatabaseRecords> createRecord({required DatabaseUser owner}) async {
+  Future<DatabaseRecords> createRecord({
+    required DatabaseUser owner,
+    required String timestamp,
+    required String gametime,
+  }) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
@@ -146,8 +175,8 @@ class RecordsService {
       throw CouldNotFindUser();
     }
 
-    const textforTimestamp = '';
-    const double gameTime = 0.0;
+    final textforTimestamp = timestamp;
+    final String gameTime = gametime;
     //create the record
     final recordId = await db.insert(recordsTable, {
       userIdColumn: owner.id,
@@ -297,7 +326,7 @@ class DatabaseRecords {
   final int recordId;
   final int userId;
   final String playTimestamp;
-  final double gameTime;
+  final String gameTime;
 
   DatabaseRecords({
     required this.recordId,
@@ -310,7 +339,7 @@ class DatabaseRecords {
       : recordId = map[recordIdColumn] as int,
         userId = map[userIdColumn] as int,
         playTimestamp = map[playTimestampColumn] as String,
-        gameTime = map[gameTimeColumn] as double;
+        gameTime = map[gameTimeColumn] as String;
   // in flutter tutorial, there was a data named isSyncedWithCloud, it was bool type as member var.
   // but in sqlite, there is no boolean type instead of int
   // so here comes the correct code
@@ -332,8 +361,8 @@ const idColumn = 'id';
 const emailColumn = 'email';
 const recordIdColumn = 'record_id';
 const userIdColumn = 'user_id';
-const playTimestampColumn = 'play_timestamp';
-const gameTimeColumn = 'game_time';
+const playTimestampColumn = 'play_timestamp'; //when play the game, unique
+const gameTimeColumn = 'game_time'; //play game total time
 const dbName = 'records.db'; // db file name
 const userTable = 'user'; // user's table name in sqlite
 const recordsTable = 'records'; // records's table name in sqlite
@@ -342,11 +371,11 @@ const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
           "email"	TEXT NOT NULL UNIQUE,
           PRIMARY KEY("id" AUTOINCREMENT)
         );''';
-const createRecordsTable = '''CREATE TABLE IF NOT EXISTS "records" (
-          "record_id"	INTEGER NOT NULL,
-          "user_id"	INTEGER NOT NULL,
-          "play_timestamp"	TEXT NOT NULL UNIQUE,
-          "game_time"	REAL NOT NULL,
-          FOREIGN KEY("user_id") REFERENCES "user"("id"),
-          PRIMARY KEY("record_id" AUTOINCREMENT)
-        );''';
+const createRecordsTable = '''CREATE TABLE "records" (
+	"record_id"	INTEGER NOT NULL,
+	"user_id"	INTEGER NOT NULL,
+	"play_timestamp"	TEXT NOT NULL UNIQUE,
+	"game_time"	TEXT NOT NULL,
+	PRIMARY KEY("record_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "user"("id")
+);''';

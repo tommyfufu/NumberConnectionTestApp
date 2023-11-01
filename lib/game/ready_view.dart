@@ -34,12 +34,12 @@ class _ReadyViewState extends State<ReadyView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Game',
+            '數字',
             style: GoogleFonts.permanentMarker(fontSize: 36),
             textScaleFactor: 1.5,
           ),
           Text(
-            'Connection',
+            '點點名',
             style: GoogleFonts.permanentMarker(fontSize: 36),
             textScaleFactor: 1.5,
           ),
@@ -50,7 +50,7 @@ class _ReadyViewState extends State<ReadyView> {
               Column(
                 children: [
                   Text(
-                    'Start',
+                    '起始數字',
                     style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),
@@ -77,7 +77,7 @@ class _ReadyViewState extends State<ReadyView> {
               Column(
                 children: [
                   Text(
-                    'End',
+                    '結束數字',
                     style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),
@@ -102,7 +102,7 @@ class _ReadyViewState extends State<ReadyView> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              fixedSize: const Size(140, 60),
+              fixedSize: const Size(180, 80),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
@@ -122,7 +122,7 @@ class _ReadyViewState extends State<ReadyView> {
               }
             },
             child: Text(
-              'Play',
+              '開始遊戲',
               style: GoogleFonts.permanentMarker(fontSize: 25),
               textScaleFactor: 1.5,
             ),

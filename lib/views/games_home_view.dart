@@ -12,6 +12,9 @@ class _GamesHomeViewState extends State<GamesHomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('遊戲選單'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -26,6 +29,9 @@ class _GamesHomeViewState extends State<GamesHomeView> {
                   fontSize: 50,
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 50,
             ),
             OutlinedButton(
               onPressed: () {

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/firebase_options.dart';
+import 'package:number_connection_test/game/game_ending_view.dart';
 import 'package:number_connection_test/game/ready_view.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/views/account_view.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         accountRoute: (context) => const AccountView(),
         recordsRoute: (context) => const RecordsView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
+        gameoverRoute: (context) => const GameOverView(),
       },
     );
   }

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/game/gaming_exceptions.dart';
 
-class StopWatch extends StatefulWidget {
-  const StopWatch({
+class UIStopWatch extends StatefulWidget {
+  const UIStopWatch({
     super.key,
     required this.start,
   });
@@ -12,17 +12,16 @@ class StopWatch extends StatefulWidget {
   // final bool isRunning;
 
   @override
-  State<StopWatch> createState() => _StopWatchState();
+  State<UIStopWatch> createState() => _UIStopWatchState();
 }
 
-class _StopWatchState extends State<StopWatch> {
+class _UIStopWatchState extends State<UIStopWatch> {
   Duration duration = const Duration();
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-
     startTimer();
   }
 

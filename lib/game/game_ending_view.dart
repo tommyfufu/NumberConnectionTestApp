@@ -18,7 +18,7 @@ class GameOverView extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'You Win!',
+              '你贏了!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 60,
@@ -26,7 +26,7 @@ class GameOverView extends StatelessWidget {
             ),
             const SizedBox(height: sizeboxHeigt),
             const Text(
-              'Finish Time: 00:09',
+              '完成時間: 00:09',
               style: TextStyle(
                 fontSize: 30,
               ),
@@ -35,7 +35,7 @@ class GameOverView extends StatelessWidget {
               height: sizeboxHeigt,
             ),
             const Text(
-              'Best Records',
+              '積分榜',
               style: TextStyle(
                 fontSize: 30,
               ),
@@ -130,7 +130,7 @@ class GameOverView extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const MyApp()));
                   },
                   child: Text(
-                    'HOME',
+                    '遊戲選單',
                     style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),
@@ -151,7 +151,7 @@ class GameOverView extends StatelessWidget {
                         builder: (context) => const ReadyView()));
                   },
                   child: Text(
-                    'RESTART',
+                    '再來一次',
                     style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),

@@ -24,7 +24,7 @@ class _RecordsViewState extends State<RecordsView> {
 
   @override
   void dispose() {
-    _recordsService.close();
+    // _recordsService.close();
 
     super.dispose();
   }
@@ -32,7 +32,10 @@ class _RecordsViewState extends State<RecordsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: const Text('遊戲紀錄'),
+        ),
+        extendBodyBehindAppBar: false,
         body: FutureBuilder(
           future: _recordsService.getOrCreateUser(email: userEmail),
           builder: (context, snapshot) {
@@ -49,16 +52,6 @@ class _RecordsViewState extends State<RecordsView> {
                                 snapshot.data as List<DatabaseRecords>;
                             return RecordsListView(
                               records: allRecords,
-                              onDeleteRecord: (record) async {
-                                await _recordsService.deleteRecord(
-                                    recordid: record.recordId);
-                              },
-                              onTap: (record) async {
-                                // Navigator.of(context).pushNamed(
-                                //   createOrUpdateRecordRoute,
-                                //   arguments: record,
-                                // );
-                              },
                             );
                           } else {
                             return const CircularProgressIndicator();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/game/game_ending_view.dart';
+import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/game/gaming_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
@@ -27,8 +27,8 @@ class _WrapperButtonState extends State<WrapperButton> {
       });
       if (nowValue == endValue) {
         // game over
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const GameOverView()));
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(gameoverRoute, (_) => false);
       }
     } else {
       setState(() {

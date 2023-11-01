@@ -22,7 +22,10 @@ class _AccountViewState extends State<AccountView> {
               (_) => false,
             );
           },
-          child: const Text('登出'),
+          child: const Text(
+            '登出',
+            textScaleFactor: 5,
+          ),
         ),
       ),
     );

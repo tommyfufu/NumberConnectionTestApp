@@ -6,4 +6,5 @@ const verifyEmailRoute = '/verify-email';
 const homeRoute = '/home_view';
 const accountRoute = '/account_view';
 const recordsRoute = '/records_view';
+const gameoverRoute = '/gameover_view';
 // const createOrUpdateNoteRoute = '/notes/new-note/';
