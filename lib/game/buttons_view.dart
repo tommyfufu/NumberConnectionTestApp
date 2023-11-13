@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/game/gaming_exceptions.dart';
@@ -9,15 +11,23 @@ class WrapperButton extends StatefulWidget {
     super.key,
     required this.labelnum,
     required this.endnum,
+    required this.postiions,
   });
   final int labelnum;
   final int endnum;
+  final List<Offset> postiions;
   @override
   State<WrapperButton> createState() => _WrapperButtonState();
 }
 
 class _WrapperButtonState extends State<WrapperButton> {
   bool _pressedFlag = false;
+
+  @override
+  void initState() {
+    // print('Label Num = ${widget.labelnum}');
+    super.initState();
+  }
 
   void _changeButtonStateandCheckEnding(int nowValue, int endValue) {
     if (gamingNumber == (nowValue - 1)) {
@@ -41,43 +51,44 @@ class _WrapperButtonState extends State<WrapperButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          alignment: const Alignment(0.0, 0.0),
-          shape: const CircleBorder(),
-          // padding: const EdgeInsets.all(15.0),
-          backgroundColor: _pressedFlag ? Colors.red : Colors.green,
-          foregroundColor: Colors.white,
-          shadowColor: const Color.fromARGB(247, 186, 184, 184),
-          textStyle: const TextStyle(
-            // fontSize: 11.2,
-            // wordSpacing: -1,
-            fontWeight: FontWeight.bold,
-          ),
-          side: _pressedFlag
-              ? const BorderSide(
-                  color: Colors.red,
-                )
-              : const BorderSide(
-                  color: Colors.green,
-                ),
-          // minimumSize: const Size(10, 10),
-          // maximumSize: const Size(50, 50),
-          // textStyle: const TextStyle(fontSize: 11, fontStyle: FontStyle.normal),
-          // disabledBackgroundColor: Colors.red,
-          // disabledForegroundColor: Colors.white,
+    bool makeBig = Random().nextBool();
+    // Offset position = widget.postiions[widget.labelnum - 1];
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        // alignment: const Alignment(0.0, 0.0),
+        shape: const CircleBorder(),
+        padding:
+            makeBig ? const EdgeInsets.all(20.0) : const EdgeInsets.all(10.0),
+        backgroundColor: _pressedFlag ? Colors.red : Colors.green,
+        foregroundColor: Colors.white,
+        shadowColor: const Color.fromARGB(247, 186, 184, 184),
+        textStyle: const TextStyle(
+          fontSize: 20,
+          // wordSpacing: -1,
+          fontWeight: FontWeight.bold,
         ),
-        onPressed: () {},
-        onLongPress: () {
-          _changeButtonStateandCheckEnding(
-            widget.labelnum,
-            widget.endnum,
-          );
-        },
-        child: Text(
-          widget.labelnum.toString(),
-        ),
+        side: _pressedFlag
+            ? const BorderSide(
+                color: Colors.red,
+              )
+            : const BorderSide(
+                color: Colors.green,
+              ),
+        // minimumSize: const Size(10, 10),
+        maximumSize: makeBig ? const Size(200, 200) : const Size(100, 100),
+        // textStyle: const TextStyle(fontSize: 11, fontStyle: FontStyle.normal),
+        // disabledBackgroundColor: Colors.red,
+        // disabledForegroundColor: Colors.white,
+      ),
+      onPressed: () {},
+      onLongPress: () {
+        _changeButtonStateandCheckEnding(
+          widget.labelnum,
+          widget.endnum,
+        );
+      },
+      child: Text(
+        widget.labelnum.toString(),
       ),
     );
   }

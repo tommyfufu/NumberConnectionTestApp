@@ -25,8 +25,7 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(MdiIcons.controller), label: '遊戲'),
-          BottomNavigationBarItem(
-              icon: Icon(MdiIcons.searchWeb), label: '病患資料'),
+          BottomNavigationBarItem(icon: Icon(MdiIcons.podium), label: '我的遊戲紀錄'),
           BottomNavigationBarItem(
               icon: Icon(MdiIcons.faceAgent), label: '會員專區'),
         ],

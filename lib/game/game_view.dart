@@ -22,20 +22,64 @@ class _GameViewState extends State<GameView> {
   late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
   late final String _gametime;
   final stopwatch = Stopwatch();
-  bool gameStart = true;
-  bool startStringPopUp = true;
-  List<String> countDownAnimationString = [
-    'Start',
-    '1',
-    '2',
-    '3',
-  ];
+
+  List<Offset> buttonPositions = [];
 
   @override
   void initState() {
     _recordsService = RecordsService();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buttonPositions = generateButtonPositions(context);
+      setState(() {});
+    });
     stopwatch.start();
     super.initState();
+  }
+
+  List<Offset> generateButtonPositions(BuildContext context) {
+    final List<Offset> positions = [];
+    final Random random = Random();
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    // final double screenWidth = 300;
+    // final double screenHeight = 700;
+
+    // print(
+    //     'MediaQuery.of(context).size.width: ${MediaQuery.of(context).size.width}');
+    // print(
+    //     'MediaQuery.of(context).size.height: ${MediaQuery.of(context).size.height}');
+    int totalButtons = (widget.endNum - widget.startNum) + 1;
+    for (int i = 0; i < totalButtons; i++) {
+      Offset position;
+      bool isTooClose;
+      do {
+        // Generate a random position within the screen boundaries
+        position = Offset(
+          (random.nextDouble() * screenWidth) % (screenWidth - 60),
+          (random.nextDouble() * screenHeight) % (screenHeight - 140),
+        );
+        isTooClose = isPositionTooClose(position, positions);
+      } while (isTooClose);
+
+      positions.add(position);
+      // print('position = $position');
+    }
+
+    if (positions.length < totalButtons) {
+      return generateButtonPositions(context);
+    }
+
+    return positions;
+  }
+
+  bool isPositionTooClose(Offset newPosition, List<Offset> existingPositions) {
+    for (final Offset existingPosition in existingPositions) {
+      final double distance = (newPosition - existingPosition).distance;
+      if (distance < 80.0) {
+        return true; // Too close
+      }
+    }
+    return false;
   }
 
   void _createAndSaveNewRecord() async {
@@ -50,8 +94,6 @@ class _GameViewState extends State<GameView> {
       gametime: _gametime,
     );
     _record = newRecord;
-    // _record = await _recordsService.updateRecord(
-    //     record: newRecord, timestamp: nowTime, gametime: _gametime.toDouble());
   }
 
   @override
@@ -73,81 +115,30 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    int range = widget.endNum - widget.startNum + 1;
-
-    if (range <= 10) {
-      range = 16;
-    } else if (range > 10 && range <= 20) {
-      range = 25;
-    } else {
-      range = 50;
-    }
-
-    // var randomLimit = range * range;
-    var randomPicker = List<int>.generate(range, (startNum) => startNum + 1)
-      ..shuffle();
-    int num;
     gamingNumber = widget.startNum - 1;
 
-    return Scaffold(
-      // extendBodyBehindAppBar: true,
-      backgroundColor: const Color.fromARGB(255, 255, 240, 219),
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      extendBody: false,
-      body: Center(
-        child: Container(
-            alignment: Alignment.center,
-            // constraints: const BoxConstraints(
-            //     maxHeight: 700, maxWidth: 800, minWidth: 400, minHeight: 400),
-            margin:
-                const EdgeInsets.only(left: 5, top: 10, right: 5, bottom: 50),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color:
-                      const Color.fromARGB(10, 255, 240, 219).withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-              border: Border.all(
-                color: const Color.fromARGB(247, 186, 184, 184),
-                width: 5.0,
+    return Center(
+      child: Scaffold(
+        // extendBodyBehindAppBar: true,
+        backgroundColor: const Color.fromARGB(255, 255, 240, 219),
+        appBar: AppBar(
+          leading: const BackButton(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        extendBody: false,
+        body: Stack(children: [
+          for (int i = 0; i < (widget.endNum - widget.startNum + 1); i++)
+            Positioned(
+              left: buttonPositions[i].dx,
+              top: buttonPositions[i].dy,
+              child: WrapperButton(
+                labelnum: widget.startNum + i,
+                endnum: widget.endNum,
+                postiions: buttonPositions,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (var y = 0; y <= pow(range, 0.5); y++)
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (var x = 0; x <= pow(range, 0.5); x++)
-                          if (randomPicker.isNotEmpty)
-                            if ((num = randomPicker.removeLast().toInt()) <=
-                                    widget.endNum &&
-                                num >= widget.startNum)
-                              Expanded(
-                                child: WrapperButton(
-                                  labelnum: num,
-                                  endnum: widget.endNum,
-                                ),
-                              )
-                            else
-                              const Expanded(child: SizedBox.shrink())
-                          else
-                            const Expanded(child: SizedBox.shrink()),
-                      ],
-                    ),
-                  ),
-              ],
-            )),
+        ]),
       ),
     );
   }

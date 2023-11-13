@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/game/ready_view.dart';
 import 'package:number_connection_test/main.dart';
 
@@ -126,8 +127,10 @@ class GameOverView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const MyApp()));
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      homeRoute,
+                      (_) => false,
+                    );
                   },
                   child: Text(
                     '遊戲選單',

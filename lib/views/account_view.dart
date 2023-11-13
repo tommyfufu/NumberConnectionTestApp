@@ -13,6 +13,9 @@ class _AccountViewState extends State<AccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('會員專區'),
+      ),
       body: Center(
         child: TextButton(
           onPressed: () async {
