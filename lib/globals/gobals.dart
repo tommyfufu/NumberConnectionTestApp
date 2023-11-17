@@ -1,3 +1,3 @@
 library my_prj.globals;
 
-int gamingNumber = -1;
+int globGamingNumber = -1;

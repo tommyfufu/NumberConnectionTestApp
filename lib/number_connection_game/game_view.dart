@@ -22,6 +22,8 @@ class _GameViewState extends State<GameView> {
   late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
   late final String _gametime;
   final stopwatch = Stopwatch();
+  late final int _range;
+  late final _nodesNumber;
 
   List<Offset> buttonPositions = [];
 
@@ -41,13 +43,16 @@ class _GameViewState extends State<GameView> {
     final Random random = Random();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    // final double screenWidth = 300;
-    // final double screenHeight = 700;
 
-    // print(
-    //     'MediaQuery.of(context).size.width: ${MediaQuery.of(context).size.width}');
-    // print(
-    //     'MediaQuery.of(context).size.height: ${MediaQuery.of(context).size.height}');
+    _nodesNumber = widget.endNum - widget.startNum + 1;
+    print(_nodesNumber);
+    if (_nodesNumber <= 20) {
+      _range = 100;
+    } else if (_nodesNumber <= 35) {
+      _range = 75;
+    } else {
+      _range = 60;
+    }
     int totalButtons = (widget.endNum - widget.startNum) + 1;
     for (int i = 0; i < totalButtons; i++) {
       Offset position;
@@ -58,11 +63,14 @@ class _GameViewState extends State<GameView> {
           (random.nextDouble() * screenWidth) % (screenWidth - 60),
           (random.nextDouble() * screenHeight) % (screenHeight - 140),
         );
-        isTooClose = isPositionTooClose(position, positions);
+        if (positions.isEmpty) {
+          isTooClose = false;
+        } else {
+          isTooClose = isPositionTooClose(position, positions);
+        }
       } while (isTooClose);
 
       positions.add(position);
-      // print('position = $position');
     }
 
     if (positions.length < totalButtons) {
@@ -73,9 +81,11 @@ class _GameViewState extends State<GameView> {
   }
 
   bool isPositionTooClose(Offset newPosition, List<Offset> existingPositions) {
+    // if (existingPositions.isEmpty) return false;
     for (final Offset existingPosition in existingPositions) {
       final double distance = (newPosition - existingPosition).distance;
-      if (distance < 80.0) {
+
+      if (distance < _range) {
         return true; // Too close
       }
     }
@@ -115,8 +125,7 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    gamingNumber = widget.startNum - 1;
-
+    globGamingNumber = widget.startNum - 1;
     return Center(
       child: Scaffold(
         // extendBodyBehindAppBar: true,

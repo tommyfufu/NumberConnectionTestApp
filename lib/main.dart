@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'PermanentMarker-Regular',
       ),
       home: const MyHomePage(title: 'Home'),
       routes: {

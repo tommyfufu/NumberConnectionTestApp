@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/game/gaming_exceptions.dart';
@@ -30,10 +28,10 @@ class _WrapperButtonState extends State<WrapperButton> {
   }
 
   void _changeButtonStateandCheckEnding(int nowValue, int endValue) {
-    if (gamingNumber == (nowValue - 1)) {
+    if (globGamingNumber == (nowValue - 1)) {
       setState(() {
         _pressedFlag = true;
-        gamingNumber = nowValue;
+        globGamingNumber = nowValue;
       });
       if (nowValue == endValue) {
         // game over
@@ -51,19 +49,19 @@ class _WrapperButtonState extends State<WrapperButton> {
 
   @override
   Widget build(BuildContext context) {
-    bool makeBig = Random().nextBool();
+    // bool makeBig = Random().nextBool();
     // Offset position = widget.postiions[widget.labelnum - 1];
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         // alignment: const Alignment(0.0, 0.0),
         shape: const CircleBorder(),
-        padding:
-            makeBig ? const EdgeInsets.all(20.0) : const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         backgroundColor: _pressedFlag ? Colors.red : Colors.green,
         foregroundColor: Colors.white,
         shadowColor: const Color.fromARGB(247, 186, 184, 184),
         textStyle: const TextStyle(
           fontSize: 20,
+          color: Colors.white,
           // wordSpacing: -1,
           fontWeight: FontWeight.bold,
         ),
@@ -75,7 +73,7 @@ class _WrapperButtonState extends State<WrapperButton> {
                 color: Colors.green,
               ),
         // minimumSize: const Size(10, 10),
-        maximumSize: makeBig ? const Size(200, 200) : const Size(100, 100),
+        maximumSize: const Size(100, 100),
         // textStyle: const TextStyle(fontSize: 11, fontStyle: FontStyle.normal),
         // disabledBackgroundColor: Colors.red,
         // disabledForegroundColor: Colors.white,
