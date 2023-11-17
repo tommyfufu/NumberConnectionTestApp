@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
-import 'package:number_connection_test/game/ready_view.dart';
+import 'package:number_connection_test/number_connection_game/ready_view.dart';
 import 'package:number_connection_test/main.dart';
 
 class GameOverView extends StatelessWidget {

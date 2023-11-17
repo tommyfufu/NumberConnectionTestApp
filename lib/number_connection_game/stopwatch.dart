@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/game/gaming_exceptions.dart';
+import 'package:number_connection_test/number_connection_game/gaming_exceptions.dart';
 
 class UIStopWatch extends StatefulWidget {
   const UIStopWatch({

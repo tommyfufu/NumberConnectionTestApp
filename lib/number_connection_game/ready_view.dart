@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/game/game_view.dart';
+import 'package:number_connection_test/number_connection_game/game_view.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
