@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:number_connection_test/game/buttons_view.dart';
+import 'package:number_connection_test/number_connection_game/buttons_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/records_service.dart';
