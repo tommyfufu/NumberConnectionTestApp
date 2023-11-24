@@ -25,7 +25,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
   late final String _gametime;
   final stopwatch = Stopwatch();
   late final int _range;
-  late final _nodesNumber;
+  late final int _nodesNumber;
 
   List<Offset> buttonPositions = [];
 
@@ -47,7 +47,6 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     _nodesNumber = widget.endNum - widget.startNum + 1;
-    print(_nodesNumber);
     if (_nodesNumber <= 20) {
       _range = 100;
     } else if (_nodesNumber <= 35) {
