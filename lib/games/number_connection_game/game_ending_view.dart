@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
-import 'package:number_connection_test/number_connection_game/ready_view.dart';
-import 'package:number_connection_test/main.dart';
 
 class GameOverView extends StatelessWidget {
   const GameOverView({super.key});
@@ -150,8 +148,10 @@ class GameOverView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ReadyView()));
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      numberConnectionReadyRoute,
+                      (_) => false,
+                    );
                   },
                   child: Text(
                     '再來一次',

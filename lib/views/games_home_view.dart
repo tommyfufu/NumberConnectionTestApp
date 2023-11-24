@@ -21,7 +21,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
           children: [
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(gameRouteReady);
+                Navigator.of(context).pushNamed(numberConnectionReadyRoute);
               },
               child: const Text(
                 '數字點點名',
@@ -35,7 +35,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(gameRouteReady);
+                Navigator.of(context).pushNamed(colorVsWordsGameRoute);
               },
               child: const Text(
                 '五顏配六色',

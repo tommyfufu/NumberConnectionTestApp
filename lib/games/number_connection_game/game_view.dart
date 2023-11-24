@@ -2,21 +2,23 @@ import 'dart:math';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:number_connection_test/number_connection_game/buttons_view.dart';
+import 'package:number_connection_test/games/number_connection_game/buttons_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/records_service.dart';
 
-class GameView extends StatefulWidget {
-  const GameView({super.key, required this.startNum, required this.endNum});
+class NumberConnectionGameView extends StatefulWidget {
+  const NumberConnectionGameView(
+      {super.key, required this.startNum, required this.endNum});
   final int startNum;
   final int endNum;
 
   @override
-  State<GameView> createState() => _GameViewState();
+  State<NumberConnectionGameView> createState() =>
+      _NumberConnectionGameViewState();
 }
 
-class _GameViewState extends State<GameView> {
+class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
   DatabaseRecords? _record;
   late final RecordsService _recordsService;
   late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/number_connection_game/game_view.dart';
+import 'package:number_connection_test/games/number_connection_game/game_view.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ReadyView extends StatefulWidget {
-  const ReadyView({
+class NumberConnectionReadyView extends StatefulWidget {
+  const NumberConnectionReadyView({
     super.key,
   });
 
   @override
-  State<ReadyView> createState() => _ReadyViewState();
+  State<NumberConnectionReadyView> createState() =>
+      _NumberConnectionReadyViewState();
 }
 
-class _ReadyViewState extends State<ReadyView> {
+class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
   int _startingNumber = 1;
   int _endingNumber = 1;
 
@@ -115,7 +116,7 @@ class _ReadyViewState extends State<ReadyView> {
               );
               if (rangeOk) {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GameView(
+                    builder: (context) => NumberConnectionGameView(
                           startNum: _startingNumber,
                           endNum: _endingNumber,
                         )));
