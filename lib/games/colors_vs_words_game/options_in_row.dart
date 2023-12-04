@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 Expanded genrow(
     {required int btn1,
     required int btn2,
+    required bool questionType,
     required String btn1ListString,
     required String btn2ListString,
+    required Color buttonBackgroundColor1,
+    required Color buttonBackgroundColor2,
     required void Function(String) updatestate}) {
   return Expanded(
     flex: 2,
@@ -15,12 +18,20 @@ Expanded genrow(
         children: [
           Expanded(
             child: genbutton(
-                btnNum: btn1, btnStr: btn1ListString, updatestate: updatestate),
+                btnNum: btn1,
+                questionType: questionType,
+                btnStr: btn1ListString,
+                updatestate: updatestate,
+                buttonBackgroundColor: buttonBackgroundColor1),
           ),
           const SizedBox(width: 5.0),
           Expanded(
             child: genbutton(
-                btnNum: btn2, btnStr: btn2ListString, updatestate: updatestate),
+                questionType: questionType,
+                btnNum: btn2,
+                btnStr: btn2ListString,
+                updatestate: updatestate,
+                buttonBackgroundColor: buttonBackgroundColor2),
           ),
         ],
       ),
@@ -30,15 +41,17 @@ Expanded genrow(
 
 ElevatedButton genbutton(
     {required int btnNum,
-    required String btnStr,
+    required var btnStr,
+    required bool questionType,
+    required Color buttonBackgroundColor,
     required void Function(String) updatestate}) {
   return ElevatedButton(
     onPressed: () {
-      String userAns = btnStr;
+      var userAns = btnStr;
       updatestate(userAns);
     },
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.redAccent[100],
+      backgroundColor: buttonBackgroundColor,
       side: const BorderSide(
         width: 2.0,
         style: BorderStyle.solid,
@@ -46,10 +59,11 @@ ElevatedButton genbutton(
       ),
     ),
     child: Text(
-      btnStr,
+      questionType ? btnStr : "",
       style: const TextStyle(
-        fontSize: 20.0,
+        fontSize: 50.0,
         fontFamily: 'KGB',
+        color: Colors.black,
         // fontWeight: FontWeight.bold,
       ),
     ),

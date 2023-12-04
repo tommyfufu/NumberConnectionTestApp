@@ -12,7 +12,7 @@ class RecordsView extends StatefulWidget {
 
 class _RecordsViewState extends State<RecordsView> {
   late final RecordsService _recordsService;
-  String get userEmail => AuthService.firebase().currentUser!.email;
+  String get _userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _RecordsViewState extends State<RecordsView> {
         ),
         extendBodyBehindAppBar: false,
         body: FutureBuilder(
-          future: _recordsService.getOrCreateUser(email: userEmail),
+          future: _recordsService.getOrCreateUser(email: _userEmail),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:

@@ -36,7 +36,7 @@ class _WrapperButtonState extends State<WrapperButton> {
       if (nowValue == endValue) {
         // game over
         Navigator.of(context)
-            .pushNamedAndRemoveUntil(gameoverRoute, (_) => false);
+            .pushNamedAndRemoveUntil(ncgameoverRoute, (_) => false);
       }
     } else {
       setState(() {

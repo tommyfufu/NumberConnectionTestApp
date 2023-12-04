@@ -19,8 +19,9 @@ class RecordsListView extends StatelessWidget {
         final reverseRecords = records.reversed.toList();
         final record = reverseRecords[index];
         return ListTile(
+          titleAlignment: ListTileTitleAlignment.center,
           title: Text(
-            '${record.playTimestamp}         ${record.gameTime}',
+            '${record.playTimestamp}  ${record.gameTime}',
             style: const TextStyle(fontSize: 20),
             maxLines: 1,
             softWrap: true,

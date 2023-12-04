@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colorsvsword_game_view.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/firebase_options.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/cw_game_ending_view.dart';
 import 'package:number_connection_test/games/number_connection_game/game_ending_view.dart';
 import 'package:number_connection_test/games/number_connection_game/ready_view.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
         accountRoute: (context) => const AccountView(),
         recordsRoute: (context) => const RecordsView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
-        gameoverRoute: (context) => const GameOverView(),
+        ncgameoverRoute: (context) => const NCGameOverView(),
+        cwgameoverRoute: (context) => const CWGameOverView(),
       },
     );
   }

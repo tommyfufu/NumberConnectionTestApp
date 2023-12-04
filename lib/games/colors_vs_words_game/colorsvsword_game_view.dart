@@ -23,27 +23,29 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
   late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
   late final String _gametime;
   final stopwatch = Stopwatch();
-  int _currindex = 0;
 
-  var ansIndexList = <int>[0, 1, 2, 3, 4, 5, 6, 7, 8];
-  var optionsUsedList = <int>[0, 1, 2, 3, 4, 5, 6, 7, 8];
-  var optionsIndexList = <int>[1, 2, 3, 4];
-  final _random = Random();
+  //
+  int _currAnsIndex = 0;
+  int _currinterferenceOptionIndex = 1;
+  List ansIndexList = <int>[0, 1, 2, 3, 4, 5, 6, 7, 8];
+  List optionsUsedList = <int>[0, 1, 2, 3, 4, 5, 6, 7, 8];
+  List optionsIndexList = <int>[1, 2, 3, 4];
 
-  void checkAnswer(userAns, BuildContext context) {
+  void checkAnswer(userAns, bool questionType, BuildContext context) {
     // print(userAns + wordsList[ansIndexList[_currindex]]);
 
-    if (userAns == wordsList[ansIndexList[_currindex]]) {
+    if (userAns == wordsList[ansIndexList[_currAnsIndex - 1]]) {
       score += 1;
     }
-    _currindex += 1;
-    if (_currindex == ansIndexList.length) {
+
+    if (_currinterferenceOptionIndex == 0) {
       // game over
-      _currindex -= 1; // Prevent out-of-range errors
       Navigator.of(context)
-          .pushNamedAndRemoveUntil(gameoverRoute, (_) => false);
+          .pushNamedAndRemoveUntil(cwgameoverRoute, (_) => false);
     }
   }
+
+  void handlerOptionsAndAnwser() {}
 
   @override
   void initState() {
@@ -51,6 +53,21 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
     ansIndexList.shuffle();
     stopwatch.start();
     score = 0;
+    print('new');
+    print(
+        "ansIndexList[_currAnsIndex] ${ansIndexList[_currAnsIndex]} ansIndexList[_currinterferenceOptionIndex]  ${ansIndexList[_currinterferenceOptionIndex]}");
+    optionsUsedList.remove(ansIndexList[_currAnsIndex]);
+    optionsUsedList.remove(ansIndexList[_currinterferenceOptionIndex]);
+    optionsUsedList.shuffle();
+    optionsIndexList.clear();
+    print("clear $optionsIndexList");
+    optionsIndexList = optionsUsedList.take(2).toList();
+    optionsIndexList.add(ansIndexList[_currAnsIndex]);
+    optionsIndexList.add(ansIndexList[_currinterferenceOptionIndex]);
+    print("add ans and inter $optionsIndexList");
+    optionsIndexList.shuffle();
+    optionsUsedList.add(ansIndexList[_currAnsIndex]);
+    optionsUsedList.add(ansIndexList[_currinterferenceOptionIndex]);
     super.initState();
   }
 
@@ -69,13 +86,25 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   void setState(VoidCallback fn) {
-    optionsUsedList.remove(ansIndexList[_currindex]);
+    _currAnsIndex += 1;
+    _currinterferenceOptionIndex =
+        (_currinterferenceOptionIndex + 1) % (ansIndexList.length);
+    print('new');
+    print(
+        "ansIndexList[_currAnsIndex] ${ansIndexList[_currAnsIndex]} ansIndexList[_currinterferenceOptionIndex]  ${ansIndexList[_currinterferenceOptionIndex]}");
+    optionsUsedList.remove(ansIndexList[_currAnsIndex]);
+    optionsUsedList.remove(ansIndexList[_currinterferenceOptionIndex]);
     optionsUsedList.shuffle();
     optionsIndexList.clear();
-    optionsIndexList = optionsUsedList.take(3).toList();
-    optionsIndexList.add(ansIndexList[_currindex]);
+    print("clear $optionsIndexList");
+    optionsIndexList = optionsUsedList.take(2).toList();
+    optionsIndexList.add(ansIndexList[_currAnsIndex]);
+    optionsIndexList.add(ansIndexList[_currinterferenceOptionIndex]);
+    print("add ans and inter $optionsIndexList");
     optionsIndexList.shuffle();
-    optionsUsedList.add(ansIndexList[_currindex]);
+    optionsUsedList.add(ansIndexList[_currAnsIndex]);
+    optionsUsedList.add(ansIndexList[_currinterferenceOptionIndex]);
+
     super.setState(fn);
   }
 
@@ -98,12 +127,20 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   Widget build(BuildContext context) {
-    optionsUsedList.remove(ansIndexList[_currindex]);
-    optionsUsedList.shuffle();
-    optionsIndexList = optionsUsedList.take(3).toList();
-    optionsIndexList.add(ansIndexList[_currindex]);
-    optionsIndexList.shuffle();
-    optionsUsedList.add(ansIndexList[_currindex]);
+    print(
+        "ansIndexList[_currAnsIndex]: ${ansIndexList[_currAnsIndex]} ansIndexList[_currinterferenceOptionIndex]: ${ansIndexList[_currinterferenceOptionIndex]}");
+    print("$optionsIndexList");
+
+    // For both question types, the title is represented by a Chinese character denoting color,
+    // harmoniously paired with a distinct background color.
+    // 1. Present a selection of 4 colors, each accompanied by a background of a different hue,
+    //    empowering users to discern and choose the color that aligns with the intended significance
+    //    of the text in the question.
+    // 2. Offer a set of 4 color words as alternatives, enabling users to align their choice
+    //    with the background color of the Chinese text within the question.
+    // bool questionType = Random().nextBool();
+    bool questionType = true;
+    print(questionType);
 
     return Scaffold(
       // extendBodyBehindAppBar: true,
@@ -179,18 +216,35 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             /// Question
+                            questionType
+                                ? const Text(
+                                    '字的底色是什麼顏色',
+                                    style: TextStyle(fontSize: 25),
+                                  )
+                                : const Text(
+                                    '字的意義代表什麼顏色',
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                            const SizedBox(
+                              height: 50,
+                            ),
                             Center(
                               child: Text(
-                                // question is at index 0 of daques where quesinorder[quesno]
-                                // is the index of question no in daques
-                                wordsList[ansIndexList[_currindex]],
+                                questionType
+                                    ? wordsList[ansIndexList[
+                                        _currinterferenceOptionIndex]]
+                                    : wordsList[ansIndexList[_currAnsIndex]],
                                 style: TextStyle(
-                                  fontSize: 100.0,
+                                  fontSize: 150.0,
                                   fontFamily: 'RussoOne',
-                                  color: colorsList[ansIndexList[((_random
-                                              .nextInt(colorsList.length - 1)) +
-                                          (_currindex + 1)) %
-                                      (colorsList.length)]],
+                                  // color: colorsList[ansIndexList[((_random
+                                  //             .nextInt(colorsList.length - 1)) +
+                                  //         (_currAnsIndex + 1)) %
+                                  //     (colorsList.length)]],
+                                  color: questionType
+                                      ? colorsList[ansIndexList[_currAnsIndex]]
+                                      : colorsList[ansIndexList[
+                                          _currinterferenceOptionIndex]],
                                   height: 1,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -208,11 +262,18 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
               genrow(
                   btn1: 0,
                   btn2: 1,
+                  questionType: questionType,
                   btn1ListString: wordsList[optionsIndexList[0]],
                   btn2ListString: wordsList[optionsIndexList[1]],
+                  buttonBackgroundColor1: questionType
+                      ? Colors.white
+                      : colorsList[optionsIndexList[0]],
+                  buttonBackgroundColor2: questionType
+                      ? Colors.white
+                      : colorsList[optionsIndexList[1]],
                   updatestate: (String userAns) {
                     setState(() {
-                      checkAnswer(userAns, context);
+                      checkAnswer(userAns, questionType, context);
                     });
                   }),
               const SizedBox(height: 5.0),
@@ -221,11 +282,18 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
               genrow(
                   btn1: 2,
                   btn2: 3,
+                  questionType: questionType,
                   btn1ListString: wordsList[optionsIndexList[2]],
                   btn2ListString: wordsList[optionsIndexList[3]],
+                  buttonBackgroundColor1: questionType
+                      ? Colors.white
+                      : colorsList[optionsIndexList[2]],
+                  buttonBackgroundColor2: questionType
+                      ? Colors.white
+                      : colorsList[optionsIndexList[3]],
                   updatestate: (String userAns) {
                     setState(() {
-                      checkAnswer(userAns, context);
+                      checkAnswer(userAns, questionType, context);
                     });
                   }),
               const SizedBox(height: 5.0),

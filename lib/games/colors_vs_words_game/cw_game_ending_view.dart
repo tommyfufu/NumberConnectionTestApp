@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
 
-class NCGameOverView extends StatelessWidget {
-  const NCGameOverView({super.key});
+class CWGameOverView extends StatelessWidget {
+  const CWGameOverView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class NCGameOverView extends StatelessWidget {
                   ),
                   onPressed: () async {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      numberConnectionReadyRoute,
+                      colorVsWordsGameRoute,
                       (_) => false,
                     );
                   },

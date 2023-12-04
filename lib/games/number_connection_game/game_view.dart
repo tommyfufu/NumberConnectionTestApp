@@ -27,13 +27,13 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
   late final int _range;
   late final int _nodesNumber;
 
-  List<Offset> buttonPositions = [];
+  List<Offset> _buttonPositions = [];
 
   @override
   void initState() {
     _recordsService = RecordsService();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      buttonPositions = generateButtonPositions(context);
+      _buttonPositions = generateButtonPositions(context);
       setState(() {});
     });
     stopwatch.start();
@@ -140,12 +140,12 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
         body: Stack(children: [
           for (int i = 0; i < (widget.endNum - widget.startNum + 1); i++)
             Positioned(
-              left: buttonPositions[i].dx,
-              top: buttonPositions[i].dy,
+              left: _buttonPositions[i].dx,
+              top: _buttonPositions[i].dy,
               child: WrapperButton(
                 labelnum: widget.startNum + i,
                 endnum: widget.endNum,
-                postiions: buttonPositions,
+                postiions: _buttonPositions,
               ),
             ),
         ]),

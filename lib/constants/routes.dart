@@ -8,5 +8,6 @@ const verifyEmailRoute = '/verify-email';
 const homeRoute = '/home_view';
 const accountRoute = '/account_view';
 const recordsRoute = '/records_view';
-const gameoverRoute = '/gameover_view';
+const ncgameoverRoute = '/ncgameover_view';
+const cwgameoverRoute = '/cwgameover_view';
 // const createOrUpdateNoteRoute = '/notes/new-note/';
