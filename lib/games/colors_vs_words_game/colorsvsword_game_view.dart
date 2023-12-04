@@ -138,8 +138,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
     //    of the text in the question.
     // 2. Offer a set of 4 color words as alternatives, enabling users to align their choice
     //    with the background color of the Chinese text within the question.
-    // bool questionType = Random().nextBool();
-    bool questionType = true;
+    bool questionType = Random().nextBool();
     print(questionType);
 
     return Scaffold(
