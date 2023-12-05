@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_ready_view.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colorsvsword_game_view.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/firebase_options.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       routes: {
         numberConnectionReadyRoute: (context) =>
             const NumberConnectionReadyView(),
-        colorVsWordsGameRoute: (context) => const ColorvsWordGameView(),
+        colorVsWordsGameRoute: (context) => const ColorsVsWordGameReadyView(),
         homeRoute: (context) => const HomeView(),
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
