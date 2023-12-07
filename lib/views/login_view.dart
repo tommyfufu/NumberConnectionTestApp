@@ -86,17 +86,20 @@ class _LoginViewState extends State<LoginView> {
               } on UserNotFoundAuthException {
                 await showErrorDialog(
                   context,
-                  'User not found',
+                  '用戶問題',
+                  '找不到輸入的用戶',
                 );
               } on WrongPasswordAuthException {
                 await showErrorDialog(
                   context,
-                  'Wrong credentials',
+                  '用戶問題',
+                  '輸入的密碼錯誤',
                 );
               } on GenericAuthException {
                 await showErrorDialog(
                   context,
-                  'Authentication error',
+                  '驗證問題',
+                  '驗證問題',
                 );
               }
             },

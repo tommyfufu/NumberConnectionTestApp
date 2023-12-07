@@ -4,11 +4,11 @@ import 'package:number_connection_test/utilities/dialogs/generic_dialog.dart';
 Future<bool> showLogOutDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
-    title: 'Log out',
-    content: 'Are you sure you want to log out?',
+    title: '登出',
+    content: '確定要登出嗎？',
     optionsBuilder: () => {
-      'Cancel': false,
-      'Log out': true,
+      '取消': false,
+      '確定登出': true,
     },
   ).then(
     (value) => value ?? false,

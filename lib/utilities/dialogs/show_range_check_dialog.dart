@@ -6,10 +6,10 @@ Future<bool> showRangeCheckingDialog(BuildContext context,
   if (startingnum >= endingnum) {
     return showGenericDialog<bool>(
       context: context,
-      title: 'Range Error',
-      content: 'Starting Number must be smaller than Ending Number',
+      title: '數字範圍選取錯誤',
+      content: '起始數字必須小於結束數字',
       optionsBuilder: () => {
-        'OK': false,
+        '我瞭解了': false,
       },
     ).then(
       (value) => value ?? false,
@@ -17,11 +17,11 @@ Future<bool> showRangeCheckingDialog(BuildContext context,
   }
   return showGenericDialog<bool>(
     context: context,
-    title: 'Range',
-    content: 'Starting Number: $startingnum\nEnding Number: $endingnum',
+    title: '範圍',
+    content: '起始數字：$startingnum\n結束數字：$endingnum',
     optionsBuilder: () => {
-      'Reset': false,
-      'Yes': true,
+      '重選數字': false,
+      '好的，開始遊戲': true,
     },
   ).then(
     (value) => value ?? false,

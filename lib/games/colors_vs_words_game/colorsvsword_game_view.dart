@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/cw_game_ending_view.dart';
 
 import 'package:number_connection_test/games/colors_vs_words_game/options_in_row.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';
@@ -12,7 +12,7 @@ import 'package:number_connection_test/services/crud/records_service.dart';
 
 class ColorvsWordGameView extends StatefulWidget {
   const ColorvsWordGameView({super.key, required this.questionType});
-  final bool questionType;
+  final int questionType;
   @override
   State<ColorvsWordGameView> createState() => _ColorvsWordGameViewState();
 }
@@ -35,24 +35,30 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
     // print(userAns + wordsList[ansIndexList[_currindex]]);
 
     if (userAns == wordsList[ansIndexList[_currAnsIndex - 1]]) {
-      score += 1;
+      globScore += 1;
     }
 
     if (_currinterferenceOptionIndex == 0) {
+      stopwatch.stop;
+      String twoDigits(int n) => n.toString().padLeft(2, '0');
+      final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
+      final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
+      _gametime = '$minutes : $seconds';
       // game over
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(cwgameoverRoute, (_) => false);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CWGameOverView(
+                gameScore: globScore,
+                finishedTime: _gametime,
+              )));
     }
   }
-
-  void handlerOptionsAndAnwser() {}
 
   @override
   void initState() {
     _recordsService = RecordsService();
     ansIndexList.shuffle();
     stopwatch.start();
-    score = 0;
+    globScore = 0;
 
     optionsUsedList.remove(ansIndexList[_currAnsIndex]);
     optionsUsedList.remove(ansIndexList[_currinterferenceOptionIndex]);
@@ -66,6 +72,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
     optionsIndexList.shuffle();
     optionsUsedList.add(ansIndexList[_currAnsIndex]);
     optionsUsedList.add(ansIndexList[_currinterferenceOptionIndex]);
+
     super.initState();
   }
 
@@ -103,11 +110,6 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   void deactivate() {
-    stopwatch.stop;
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
-    final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
-    _gametime = '$minutes : $seconds';
     _createAndSaveNewRecord();
     super.deactivate();
   }
@@ -120,6 +122,12 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   Widget build(BuildContext context) {
+    late bool questionType;
+    if (widget.questionType == 2) {
+      questionType = Random().nextBool();
+    } else {
+      questionType = widget.questionType == 1 ? true : false;
+    }
     // For both question types, the title is represented by a Chinese character denoting color,
     // harmoniously paired with a distinct background color.
     // 1. Present a selection of 4 colors, each accompanied by a background of a different hue,
@@ -181,7 +189,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                                   ),
                                 ),
                                 child: Text(
-                                  'Score: $score',
+                                  'Score: $globScore',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: 'KGB',
@@ -202,7 +210,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             /// Question
-                            widget.questionType
+                            questionType
                                 ? const Text(
                                     '字的底色是什麼顏色',
                                     style: TextStyle(fontSize: 25),
@@ -216,7 +224,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                             ),
                             Center(
                               child: Text(
-                                widget.questionType
+                                questionType
                                     ? wordsList[ansIndexList[
                                         _currinterferenceOptionIndex]]
                                     : wordsList[ansIndexList[_currAnsIndex]],
@@ -227,7 +235,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                                   //             .nextInt(colorsList.length - 1)) +
                                   //         (_currAnsIndex + 1)) %
                                   //     (colorsList.length)]],
-                                  color: widget.questionType
+                                  color: questionType
                                       ? colorsList[ansIndexList[_currAnsIndex]]
                                       : colorsList[ansIndexList[
                                           _currinterferenceOptionIndex]],
@@ -248,18 +256,18 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
               genrow(
                   btn1: 0,
                   btn2: 1,
-                  questionType: widget.questionType,
+                  questionType: questionType,
                   btn1ListString: wordsList[optionsIndexList[0]],
                   btn2ListString: wordsList[optionsIndexList[1]],
-                  buttonBackgroundColor1: widget.questionType
+                  buttonBackgroundColor1: questionType
                       ? Colors.white
                       : colorsList[optionsIndexList[0]],
-                  buttonBackgroundColor2: widget.questionType
+                  buttonBackgroundColor2: questionType
                       ? Colors.white
                       : colorsList[optionsIndexList[1]],
                   updatestate: (String userAns) {
                     setState(() {
-                      checkAnswer(userAns, widget.questionType, context);
+                      checkAnswer(userAns, questionType, context);
                     });
                   }),
               const SizedBox(height: 5.0),
@@ -268,18 +276,18 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
               genrow(
                   btn1: 2,
                   btn2: 3,
-                  questionType: widget.questionType,
+                  questionType: questionType,
                   btn1ListString: wordsList[optionsIndexList[2]],
                   btn2ListString: wordsList[optionsIndexList[3]],
-                  buttonBackgroundColor1: widget.questionType
+                  buttonBackgroundColor1: questionType
                       ? Colors.white
                       : colorsList[optionsIndexList[2]],
-                  buttonBackgroundColor2: widget.questionType
+                  buttonBackgroundColor2: questionType
                       ? Colors.white
                       : colorsList[optionsIndexList[3]],
                   updatestate: (String userAns) {
                     setState(() {
-                      checkAnswer(userAns, widget.questionType, context);
+                      checkAnswer(userAns, questionType, context);
                     });
                   }),
               const SizedBox(height: 5.0),

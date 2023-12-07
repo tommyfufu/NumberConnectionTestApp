@@ -42,7 +42,7 @@ class _WrapperButtonState extends State<WrapperButton> {
       setState(() {
         _pressedFlag = _pressedFlag;
       });
-      showErrorDialog(context, 'Wrong order!');
+      showErrorDialog(context, '阿喔錯了', '請按照按鈕上的數字順序點選按鈕喔');
       throw WrongOrderException();
     }
   }

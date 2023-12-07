@@ -3,8 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
 
 class CWGameOverView extends StatelessWidget {
-  const CWGameOverView({super.key});
-
+  const CWGameOverView({
+    super.key,
+    required this.finishedTime,
+    required this.gameScore,
+  });
+  final String finishedTime;
+  final int gameScore;
   @override
   Widget build(BuildContext context) {
     const double sizeboxWidth = 50.0;
@@ -17,21 +22,22 @@ class CWGameOverView extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              '你贏了!',
-              textAlign: TextAlign.center,
+              '遊戲結束',
+              textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 60,
               ),
             ),
             const SizedBox(height: sizeboxHeigt),
-            const Text(
-              '完成時間: 00:09',
-              style: TextStyle(
+            Text(
+              '完成時間: $finishedTime\n答對題數: $gameScore',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
                 fontSize: 30,
               ),
             ),
             const SizedBox(
-              height: sizeboxHeigt,
+              height: 20,
             ),
             const Text(
               '積分榜',
@@ -54,6 +60,8 @@ class CWGameOverView extends StatelessWidget {
                   Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.looks_one_outlined,
@@ -61,17 +69,16 @@ class CWGameOverView extends StatelessWidget {
                           ),
                           SizedBox(width: sizeboxWidth),
                           Text(
-                            '00:09',
+                            '10',
                             style: TextStyle(
                               fontSize: 25,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.looks_two_outlined,
@@ -79,17 +86,16 @@ class CWGameOverView extends StatelessWidget {
                           ),
                           SizedBox(width: sizeboxWidth),
                           Text(
-                            '00:10',
+                            '6',
                             style: TextStyle(
                               fontSize: 25,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.looks_3_outlined,
@@ -97,7 +103,7 @@ class CWGameOverView extends StatelessWidget {
                           ),
                           SizedBox(width: sizeboxWidth),
                           Text(
-                            '00:25',
+                            '5',
                             style: TextStyle(
                               fontSize: 25,
                             ),

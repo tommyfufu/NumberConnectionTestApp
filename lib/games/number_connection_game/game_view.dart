@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:number_connection_test/games/number_connection_game/buttons_view.dart';
+import 'package:number_connection_test/games/number_connection_game/gaming_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/records_service.dart';
@@ -47,12 +48,16 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     _nodesNumber = widget.endNum - widget.startNum + 1;
-    if (_nodesNumber <= 20) {
-      _range = 100;
-    } else if (_nodesNumber <= 35) {
+    if (_nodesNumber > 1 && _nodesNumber <= 20) {
+      _range = 90;
+    } else if (_nodesNumber > 20 && _nodesNumber <= 30) {
       _range = 75;
-    } else {
+    } else if (_nodesNumber > 30 && _nodesNumber <= 40) {
       _range = 60;
+    } else if (_nodesNumber > 40 && _nodesNumber <= 50) {
+      _range = 52;
+    } else {
+      throw WrongRangeException;
     }
     int totalButtons = (widget.endNum - widget.startNum) + 1;
     for (int i = 0; i < totalButtons; i++) {
@@ -61,8 +66,8 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
       do {
         // Generate a random position within the screen boundaries
         position = Offset(
-          (random.nextDouble() * screenWidth) % (screenWidth - 60),
-          (random.nextDouble() * screenHeight) % (screenHeight - 140),
+          (random.nextDouble() * screenWidth) % (screenWidth * (0.8)),
+          (random.nextDouble() * screenHeight) % (screenHeight * (0.8)),
         );
         if (positions.isEmpty) {
           isTooClose = false;

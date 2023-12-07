@@ -1,4 +1,5 @@
 library my_prj.globals;
 
 int globGamingNumber = -1;
-int score = 0;
+int globScore = 0;
+String globFinishedTime = '';
