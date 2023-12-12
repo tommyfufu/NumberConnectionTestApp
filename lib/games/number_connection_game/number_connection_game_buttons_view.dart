@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
-import 'package:number_connection_test/games/number_connection_game/gaming_exceptions.dart';
+import 'package:number_connection_test/games/number_connection_game/number_connection_game_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 

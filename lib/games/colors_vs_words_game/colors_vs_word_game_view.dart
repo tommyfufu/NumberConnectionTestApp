@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:number_connection_test/games/colors_vs_words_game/cw_game_ending_view.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_ending_view.dart';
 
 import 'package:number_connection_test/games/colors_vs_words_game/options_in_row.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';

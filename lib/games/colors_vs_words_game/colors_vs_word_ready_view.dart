@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:number_connection_test/games/colors_vs_words_game/colorsvsword_game_view.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_view.dart';
 
 class ColorsVsWordGameReadyView extends StatefulWidget {
   const ColorsVsWordGameReadyView({
@@ -15,8 +15,8 @@ class ColorsVsWordGameReadyView extends StatefulWidget {
 class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
   @override
   Widget build(BuildContext context) {
-    const double sizeboxHeigt = 30.0;
-    int _mode = 1;
+    const double sizeboxHeigt = 20.0;
+    const double sizeboxWidth = 20.0;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -46,9 +46,9 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               ),
               textScaleFactor: 1.5,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: sizeboxHeigt),
             Text(
-              '字的底色模式：\n根據字體的顏色選出答案\n\n字的意義模式：\n根據字義代表的顏色選出答案\n\n混合出題模式：\n兩種模式隨機出題',
+              '字的顏色模式：\n根據字體的顏色選出答案\n\n字的意義模式：\n根據字義代表的顏色選出答案\n\n混合出題模式：\n兩種模式隨機出題',
               style: GoogleFonts.permanentMarker(
                 fontSize: 20,
                 color: Colors.grey.shade700,
@@ -57,7 +57,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               textAlign: TextAlign.left,
               textScaleFactor: 1,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: sizeboxHeigt),
             Text(
               '選擇模式',
               style: GoogleFonts.permanentMarker(
@@ -66,7 +66,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               ),
               textScaleFactor: 1,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: sizeboxHeigt),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -88,7 +88,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                             )));
                   },
                   child: Text(
-                    '字的\n底色',
+                    '字的\n顏色',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.permanentMarker(
                       fontSize: 25,
@@ -97,7 +97,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                     textScaleFactor: 1,
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     maximumSize: const Size(120, 100),
@@ -124,7 +124,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                     textScaleFactor: 1,
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     maximumSize: const Size(120, 100),

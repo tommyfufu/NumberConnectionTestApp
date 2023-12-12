@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/games/number_connection_game/game_view.dart';
+import 'package:number_connection_test/games/number_connection_game/number_connection_game_view.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +21,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
   @override
   Widget build(BuildContext context) {
     const double sizeboxWidth = 50.0;
-    const double sizeboxHeigt = 30.0;
+    const double sizeboxHeigt = 20.0;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -51,7 +51,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
               ),
               textScaleFactor: 1.5,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: sizeboxHeigt),
             Text(
               '遊戲規則：\n螢幕上將出現隨機分布的數字\n請從起始數字開始\n將綠色按鈕長按成紅色\n按到結束數字時遊戲結束',
               style: GoogleFonts.permanentMarker(
@@ -62,7 +62,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
               textAlign: TextAlign.left,
               textScaleFactor: 1,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: sizeboxHeigt),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
