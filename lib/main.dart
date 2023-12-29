@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_ready_view.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/firebase_options.dart';
@@ -15,6 +16,10 @@ import 'package:number_connection_test/views/verified.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // lock the device orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 
