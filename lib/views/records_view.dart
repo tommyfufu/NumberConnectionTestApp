@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/records_service.dart';
+import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 import 'package:number_connection_test/views/records_list_view.dart';
 
 class RecordsView extends StatefulWidget {

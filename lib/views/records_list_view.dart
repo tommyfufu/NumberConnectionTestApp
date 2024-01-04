@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/services/crud/records_service.dart';
+import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 
 typedef RecordCallback = void Function(DatabaseRecords record);
 

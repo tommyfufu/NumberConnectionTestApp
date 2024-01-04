@@ -6,7 +6,7 @@ import 'package:number_connection_test/games/number_connection_game/number_conne
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/records_service.dart';
+import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 
 class NumberConnectionGameView extends StatefulWidget {
   const NumberConnectionGameView(

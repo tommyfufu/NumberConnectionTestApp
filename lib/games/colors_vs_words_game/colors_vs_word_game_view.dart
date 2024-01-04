@@ -8,7 +8,7 @@ import 'package:number_connection_test/games/colors_vs_words_game/options_in_row
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/records_service.dart';
+import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 
 class ColorvsWordGameView extends StatefulWidget {
   const ColorvsWordGameView({super.key, required this.questionType});

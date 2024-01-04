@@ -10,6 +10,8 @@ class UserAlreadyExists implements Exception {}
 
 class CouldNotFindUser implements Exception {}
 
+class CouldNotUpdateUser implements Exception {}
+
 class CouldNotDeleteRecord implements Exception {}
 
 class CouldNotFindRecord implements Exception {}
