@@ -14,9 +14,8 @@ class RecordsService {
   List<DatabaseRecords> _records = [];
 
   DatabaseUser? _user;
+  late final StreamController<List<DatabaseRecords>> _recordsStreamController;
 
-  //Recourds should be singleton
-  static final RecordsService _shared = RecordsService._sharedInstance();
   RecordsService._sharedInstance() {
     _recordsStreamController =
         StreamController<List<DatabaseRecords>>.broadcast(
@@ -25,9 +24,10 @@ class RecordsService {
       },
     );
   }
-  factory RecordsService() => _shared;
+  //Recourds should be singleton
+  static final RecordsService _shared = RecordsService._sharedInstance();
 
-  late final StreamController<List<DatabaseRecords>> _recordsStreamController;
+  factory RecordsService() => _shared;
 
   Stream<List<DatabaseRecords>> get allRecords =>
       _recordsStreamController.stream.filter((record) {
@@ -242,7 +242,7 @@ class RecordsService {
       whereArgs: [email.toLowerCase()],
     );
     if (deletedCount != 1) {
-      throw CouldNoteDeleteUser();
+      throw CouldNotDeleteUser();
     }
   }
 
