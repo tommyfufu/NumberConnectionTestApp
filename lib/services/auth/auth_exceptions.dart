@@ -2,7 +2,7 @@
 //Login Exceptions
 class UserNotFoundAuthException implements Exception {}
 
-class WrongPasswordAuthException implements Exception {}
+class WrongPasswordOrUserNotFoundAuthException implements Exception {}
 
 //Register Exceptions
 class WeakPasswordAuthException implements Exception {}

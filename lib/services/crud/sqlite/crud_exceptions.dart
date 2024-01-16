@@ -6,11 +6,11 @@ class DatabaseIsNotOpen implements Exception {}
 
 class CouldNotDeleteUser implements Exception {}
 
-class CouldNotCreateUser implements Exception {}
+class DBCouldNotCreateUser implements Exception {}
 
-class UserAlreadyExists implements Exception {}
+class DBUserAlreadyExists implements Exception {}
 
-class CouldNotFindUser implements Exception {}
+class DBCouldNotFindUser implements Exception {}
 
 class CouldNotUpdateUser implements Exception {}
 

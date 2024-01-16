@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/services/auth/auth_exceptions.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
+import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -65,42 +68,49 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await AuthService.firebase().logIn(
-                  email: email,
-                  password: password,
-                );
-                final user = AuthService.firebase().currentUser;
-                if (user?.isEmailVerified ?? false) {
-                  //user's email is verified
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    homeRoute,
-                    (route) => false,
+                await Services().getDatabaseUser(email: email);
+                try {
+                  await AuthService.firebase().logIn(
+                    email: email,
+                    password: password,
                   );
-                } else {
-                  //user's email is NOT verified
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    verifyEmailRoute,
-                    (route) => false,
+                  final user = AuthService.firebase().currentUser;
+                  if (user?.isEmailVerified ?? false) {
+                    //user's email is verified
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      homeRoute,
+                      (route) => false,
+                    );
+                  } else {
+                    //user's email is NOT verified
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      verifyEmailRoute,
+                      (route) => false,
+                    );
+                  }
+                } on WrongPasswordOrUserNotFoundAuthException {
+                  await showErrorDialog(
+                    context,
+                    '用戶問題',
+                    '找不到輸入的用戶或輸入的密碼錯誤',
+                  );
+                } on InvalidEmailAuthException {
+                  await showErrorDialog(
+                    context,
+                    '用戶問題',
+                    '輸入的Email格式錯誤',
+                  );
+                } on GenericAuthException {
+                  await showErrorDialog(
+                    context,
+                    '驗證問題',
+                    '驗證問題',
                   );
                 }
-              } on UserNotFoundAuthException {
-                await showErrorDialog(
-                  context,
-                  '用戶問題',
-                  '找不到輸入的用戶',
-                );
-              } on WrongPasswordAuthException {
-                await showErrorDialog(
-                  context,
-                  '用戶問題',
-                  '輸入的密碼錯誤',
-                );
-              } on GenericAuthException {
-                await showErrorDialog(
-                  context,
-                  '驗證問題',
-                  '驗證問題',
-                );
+              } on DBCouldNotFindUser {
+                await showErrorDialog(context, 'Database', 'Can Not find user');
+              } on DatabaseIsNotOpen {
+                await showErrorDialog(context, 'Database', 'Did not open');
               }
             },
             child: const Text('登入'),

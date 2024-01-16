@@ -49,7 +49,7 @@ class RecordsService {
         _user = user;
       }
       return user;
-    } on CouldNotFindUser {
+    } on DBCouldNotFindUser {
       final createNewUser = await createUser(email: email);
       if (setAsCurrentUser) {
         _user = createNewUser;
@@ -172,7 +172,7 @@ class RecordsService {
     //make sure owner exists in the db with the correct id
     final dbUser = await getUser(email: owner.email);
     if (dbUser != owner) {
-      throw CouldNotFindUser();
+      throw DBCouldNotFindUser();
     }
 
     final textforTimestamp = timestamp;
@@ -208,7 +208,7 @@ class RecordsService {
       whereArgs: [email.toLowerCase()],
     );
     if (results.isEmpty) {
-      throw CouldNotFindUser();
+      throw DBCouldNotFindUser();
     } else {
       return DatabaseUser.fromRow(results.first); // only one email
     }
@@ -224,7 +224,7 @@ class RecordsService {
       whereArgs: [email.toLowerCase()],
     );
     if (results.isNotEmpty) {
-      throw UserAlreadyExists();
+      throw DBUserAlreadyExists();
     }
     final userId = await db.insert(userTable, {
       emailColumn: email.toLowerCase(),

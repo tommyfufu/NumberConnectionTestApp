@@ -61,7 +61,7 @@ class _RecordsViewState extends State<RecordsView> {
                       }
                     });
               default:
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
             }
           },
         ));

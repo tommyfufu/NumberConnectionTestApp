@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/views/account_view.dart';
 import 'package:number_connection_test/views/games_home_view.dart';
 import 'package:number_connection_test/views/records_view.dart';
@@ -12,6 +13,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  Future<DatabaseUser>? thisAppUser;
+
   int _currentIndex = 0; //預設值
   final pages = [
     const GamesHomeView(),

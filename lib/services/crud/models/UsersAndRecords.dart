@@ -8,7 +8,7 @@ String databaseUsersToJson(List<DatabaseUser> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class DatabaseUser {
-  UnsignedInt id;
+  int id;
   String email;
   String name;
   String identity;
@@ -43,9 +43,9 @@ String databaseRecordsToJson(List<DatabaseRecord> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class DatabaseRecord {
-  UnsignedInt recordId;
-  UnsignedInt fkUserId;
-  UnsignedInt gameId;
+  int recordId;
+  int fkUserId;
+  int gameId;
   String gameDateTime;
   String gameTime;
 
