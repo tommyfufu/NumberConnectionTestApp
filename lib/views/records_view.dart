@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
+import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 import 'package:number_connection_test/views/records_list_view.dart';
 
@@ -12,147 +14,71 @@ class RecordsView extends StatefulWidget {
 
 class _RecordsViewState extends State<RecordsView> {
   late final RecordsService _recordsService;
+  late final Services _services;
+  var isLoaded = false;
   String get _userEmail => AuthService.firebase().currentUser!.email;
 
   @override
   void initState() {
-    _recordsService = RecordsService();
-    // _recordsService.open(); we don't need this anymore, because we make sure
-    // db will open at any RecordsService, aka _ensureDbIsOpen();
+    _services = Services();
+    _initializeToGetRecord();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // _recordsService.close();
-
-    super.dispose();
+  Future<void> _initializeToGetRecord() async {
+    // print("$_userEmail");
+    try {
+      var user = await _services.getDatabaseUser(email: _userEmail);
+      var dbRecord = await _services.createDatabaseRecord(
+          owner: user, gameId: 0, gameTime: '100', score: 10);
+      print(dbRecord.gameDateTime);
+      setState(() {
+        isLoaded = true;
+      });
+    } on DBCouldNotFindUser {
+      print('cant find user');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('遊戲紀錄'),
-        ),
-        extendBodyBehindAppBar: false,
-        body: FutureBuilder(
-          future: _recordsService.getOrCreateUser(email: _userEmail),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return StreamBuilder(
-                    stream: _recordsService.allRecords,
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                        case ConnectionState.active:
-                          if (snapshot.hasData) {
-                            final allRecords =
-                                snapshot.data as List<DatabaseRecords>;
-                            return RecordsListView(
-                              records: allRecords,
-                            );
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        default:
-                          return const CircularProgressIndicator();
-                      }
-                    });
-              default:
-                return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ));
+      appBar: AppBar(
+        title: const Text('遊戲紀錄'),
+      ),
+      extendBodyBehindAppBar: false,
+      body: Text('testing'),
+      // FutureBuilder(
+      //   future: _recordsService.getOrCreateUser(email: _userEmail),
+      //   builder: (context, snapshot) {
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.done:
+      //         return StreamBuilder(
+      //             stream: _recordsService.allRecords,
+      //             builder: (context, snapshot) {
+      //               switch (snapshot.connectionState) {
+      //                 case ConnectionState.waiting:
+      //                 case ConnectionState.active:
+      //                   if (snapshot.hasData) {
+      //                     final allRecords =
+      //                         snapshot.data as List<DatabaseRecords>;
+      //                     return RecordsListView(
+      //                       records: allRecords,
+      //                     );
+      //                   } else {
+      //                     return const CircularProgressIndicator();
+      //                   }
+      //                 default:
+      //                   return const CircularProgressIndicator();
+      //               }
+      //             });
+      //       default:
+      //         return const Center(child: CircularProgressIndicator());
+      //     }
+      //   },
+      // )
+    );
   }
 }
-
-// all body layout
-// body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     // crossAxisAlignment: CrossAxisAlignment.center,
-      //     children: [
-      //       Text(
-      //         'Best Records',
-      //         style: TextStyle(
-      //           fontSize: 30,
-      //         ),
-      //       ),
-      //       SizedBox(
-      //         width: 220,
-      //         height: 10,
-      //         child: Divider(
-      //           color: Colors.black,
-      //         ),
-      //       ),
-      //       SizedBox(
-      //         width: 220,
-      //         child: Row(
-      //           mainAxisAlignment: MainAxisAlignment.start,
-      //           children: [
-      //             Column(
-      //               children: [
-      //                 Row(
-      //                   children: [
-      //                     Icon(
-      //                       Icons.looks_one_outlined,
-      //                       size: 40,
-      //                     ),
-      //                     SizedBox(width: 50),
-      //                     Text(
-      //                       '00:09',
-      //                       style: TextStyle(
-      //                         fontSize: 25,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //                 SizedBox(
-      //                   height: 20,
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     Icon(
-      //                       Icons.looks_two_outlined,
-      //                       size: 40,
-      //                     ),
-      //                     SizedBox(width: 50),
-      //                     Text(
-      //                       '00:10',
-      //                       style: TextStyle(
-      //                         fontSize: 25,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //                 SizedBox(
-      //                   height: 20,
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     Icon(
-      //                       Icons.looks_3_outlined,
-      //                       size: 40,
-      //                     ),
-      //                     SizedBox(width: 50),
-      //                     Text(
-      //                       '00:25',
-      //                       style: TextStyle(
-      //                         fontSize: 25,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ],
-      //             ),
-      //             SizedBox(
-      //               width: 50,
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),

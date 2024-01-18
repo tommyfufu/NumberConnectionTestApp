@@ -24,17 +24,11 @@ class Services {
   static const updateUserRoute = "$userApi/update_user.php";
 
   // CRUD record
-  // static const createRecordRoute = "$userApi/create_user.php";
-
-  // static const _CREATE_USER = 'CREATE_USER';
-  // static const _DELETE_USER = 'DELETE_USER';
-  // static const _GET_USER = 'GET_USER';
-  // static const _GET_ALL_USERS = 'GET_ALL_USERS';
-  // static const _CREATE_RECORD = 'CREATE_RECORD';
-  // static const _GET_ALL_RECORD = 'GET_ALL_RECORD';
+  static const createRecord = "$recordApi/create_record.php";
+  static const getAllRecord = "$recordApi/get_all_records.php";
 
   var httpClient = http.Client();
-  late DatabaseUser? _user;
+  DatabaseUser? _user;
   List<DatabaseRecord> _records = [];
 
   late final StreamController<List<DatabaseRecord>> _recordsStreamController;
@@ -60,67 +54,38 @@ class Services {
     );
   }
 
-  // Future<DatabaseRecord> deleteDatabaseRecord({
-  //   required UnsignedInt userId,
-  //   required UnsignedInt recordId,
-  // }) async {
-  //   final response = await http.post(
-  //     Uri.parse('$endpoint/record'),
-  //     body: jsonEncode(
-  //       <String, String>{
-  //         'recordId': recordId.toString(),
-  //         'userId': userId.toString(),
-  //       },
-  //     ),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return DatabaseRecord.fromJson(jsonDecode(response.body));
-  //   } else {
-  //     throw Exception('Failed to create Database user.');
-  //   }
-  // }
-
-  // Future<List<DatabaseRecord>?> getAllDatabaseRecord({
-  //   required UnsignedInt userId,
-  //   required UnsignedInt gameId,
-  // }) async {
-  //   final response = await http.post(
-  //     Uri.parse('$endpoint/record'),
-  //     body: jsonEncode(
-  //       <String, String>{
-  //         'userId': userId.toString(),
-  //         'gameId': gameId.toString(),
-  //       },
-  //     ),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return databaseRecordsFromJson(jsonDecode(response.body));
-  //   } else {
-  //     throw CouldNotGetAllRecord;
-  //   }
-  // }
-
-  // Future<DatabaseRecord> createDatabaseRecord({
-  //   required UnsignedInt userId,
-  //   required UnsignedInt gameId,
-  //   required String gameTime,
-  // }) async {
-  //   final response = await http.post(
-  //     Uri.parse('$endpoint/record'),
-  //     body: jsonEncode(
-  //       <String, String>{
-  //         'userId': userId.toString(),
-  //         'gameId': gameId.toString(),
-  //         'gameTime': gameTime,
-  //       },
-  //     ),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return DatabaseRecord.fromJson(jsonDecode(response.body));
-  //   } else {
-  //     throw Exception('Failed to create Database user.');
-  //   }
-  // }
+  Future<DatabaseRecord> createDatabaseRecord({
+    required DatabaseUser owner,
+    required int gameId,
+    required String gameTime,
+    required int score,
+  }) async {
+    //make sure owner exists in the db with the correct id
+    final recordUser = await getDatabaseUser(email: owner.email);
+    if (recordUser != owner) {
+      throw DBCouldNotFindUser();
+    }
+    print('${recordUser.id}, $gameId, $gameTime, $score');
+    final response = await http.post(
+      Uri.parse(createRecord),
+      body: jsonEncode(
+        <String, dynamic>{
+          'userId': recordUser.id,
+          'gameId': gameId,
+          'gameTime': gameTime,
+          'score': score,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      final record = DatabaseRecord.fromJson(jsonDecode(response.body));
+      _records.add(record);
+      _recordsStreamController.add(_records);
+      return record;
+    } else {
+      throw Exception('Failed to create Database Record.');
+    }
+  }
 
   Future<void> updateDatabaseUser(
     String name,
@@ -172,11 +137,9 @@ class Services {
     _user = null;
   }
 
-  DatabaseUser getUser() {
-    return _user!;
-  }
-
   Future<DatabaseUser> getDatabaseUser({required String email}) async {
+    if (_user != null) return _user!;
+    // print('test');
     final encodedEmail = Uri.encodeComponent(email);
     final response =
         await http.get(Uri.parse('$getUserRoute?email=$encodedEmail'));

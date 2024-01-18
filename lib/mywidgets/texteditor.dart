@@ -11,12 +11,19 @@ class TextEditorWidget extends StatefulWidget {
 
 class _TextEditorWidgetState extends State<TextEditorWidget> {
   bool _isEditingText = false;
-  late final TextEditingController _editingController;
-  String initialText = "";
+  final TextEditingController _editingController = TextEditingController();
+  late String initialText;
   @override
   void initState() {
-    _editingController = TextEditingController(text: initialText);
-    initialText = widget.text;
+    _editingController.addListener(() {
+      final String text = _editingController.text;
+      _editingController.value = _editingController.value.copyWith(
+        text: text,
+        selection:
+            TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });
     super.initState();
   }
 

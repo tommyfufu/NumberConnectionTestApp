@@ -48,6 +48,7 @@ class DatabaseRecord {
   int gameId;
   String gameDateTime;
   String gameTime;
+  int score;
 
   DatabaseRecord({
     required this.recordId,
@@ -55,6 +56,7 @@ class DatabaseRecord {
     required this.gameId,
     required this.gameDateTime,
     required this.gameTime,
+    required this.score,
   });
 
   factory DatabaseRecord.fromJson(Map<String, dynamic> json) => DatabaseRecord(
@@ -63,13 +65,13 @@ class DatabaseRecord {
         gameId: json["game_id"],
         gameDateTime: json["game_date_time"],
         gameTime: json["game_time"],
+        score: json["score"],
       );
 
   Map<String, dynamic> toJson() => {
-        "record_id": recordId,
         "fk_user_id": fkUserId,
         "game_id": gameId,
-        "game_date_time": gameDateTime,
         "game_time": gameTime,
+        "score": score,
       };
 }

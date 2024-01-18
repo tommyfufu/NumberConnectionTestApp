@@ -66,40 +66,6 @@ class RecordsService {
     _recordsStreamController.add(_records);
   }
 
-  // Future<DatabaseRecords> updateRecord({
-  //   required DatabaseRecords record,
-  //   required String timestamp,
-  //   required String gametime,
-  // }) async {
-  //   await _ensureDbIsOpen();
-  //   final db = _getDatabaseOrThrow();
-  //   // make sure record exists
-  //   await getRecord(recordid: record.recordId);
-  //   // update DB
-  //   final updatesCount = await db.update(
-  //     recordsTable,
-  //     {
-  //       playTimestampColumn: timestamp,
-  //       gameTimeColumn: gametime,
-  //     },
-  //     //[where] is the optional WHERE clause to apply when updating.
-  //     /// Passing null will update all rows.
-  //     where: 'recordId = ?',
-  //     whereArgs: [record.recordId],
-  //   );
-
-  //   if (updatesCount == 0) {
-  //     throw CouldNotUpdateRecord();
-  //   } else {
-  //     final updateRecord = await getRecord(recordid: record.recordId);
-  //     _records
-  //         .removeWhere((record) => record.recordId == updateRecord.recordId);
-  //     _records.add(updateRecord);
-  //     _recordsStreamController.add(_records);
-  //     return updateRecord;
-  //   }
-  // }
-
   Future<Iterable<DatabaseRecords>> getAllRecords() async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
@@ -288,6 +254,39 @@ class RecordsService {
       throw UnableToGetDocumentsDirectory();
     }
   }
+  // Future<DatabaseRecords> updateRecord({
+  //   required DatabaseRecords record,
+  //   required String timestamp,
+  //   required String gametime,
+  // }) async {
+  //   await _ensureDbIsOpen();
+  //   final db = _getDatabaseOrThrow();
+  //   // make sure record exists
+  //   await getRecord(recordid: record.recordId);
+  //   // update DB
+  //   final updatesCount = await db.update(
+  //     recordsTable,
+  //     {
+  //       playTimestampColumn: timestamp,
+  //       gameTimeColumn: gametime,
+  //     },
+  //     //[where] is the optional WHERE clause to apply when updating.
+  //     /// Passing null will update all rows.
+  //     where: 'recordId = ?',
+  //     whereArgs: [record.recordId],
+  //   );
+
+  //   if (updatesCount == 0) {
+  //     throw CouldNotUpdateRecord();
+  //   } else {
+  //     final updateRecord = await getRecord(recordid: record.recordId);
+  //     _records
+  //         .removeWhere((record) => record.recordId == updateRecord.recordId);
+  //     _records.add(updateRecord);
+  //     _recordsStreamController.add(_records);
+  //     return updateRecord;
+  //   }
+  // }
 }
 
 ////// end HEApp database class //////
