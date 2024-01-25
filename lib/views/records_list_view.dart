@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
+import 'package:number_connection_test/globals/gobals.dart';
+import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 
-typedef RecordCallback = void Function(DatabaseRecords record);
+typedef RecordCallback = void Function(DatabaseRecord record);
 
 class RecordsListView extends StatelessWidget {
-  final List<DatabaseRecords> records;
+  final List<DatabaseRecord> records;
 
   const RecordsListView({
     Key? key,
@@ -18,11 +19,14 @@ class RecordsListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final reverseRecords = records.reversed.toList();
         final record = reverseRecords[index];
+        final gameId = record.gameId;
+        final gameIdtoString = gameMap[gameId];
+        final formattedTime = record.gameDateTime.split('.')[0];
         return ListTile(
           titleAlignment: ListTileTitleAlignment.center,
           title: Text(
-            '${record.playTimestamp}  ${record.gameTime}',
-            style: const TextStyle(fontSize: 20),
+            '$formattedTime $gameIdtoString ${record.gameTime} ${record.score}',
+            style: const TextStyle(fontSize: 18),
             maxLines: 1,
             softWrap: true,
             overflow: TextOverflow.ellipsis,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
 class TextEditorWidget extends StatefulWidget {
   String text;

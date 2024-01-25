@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/globals/gobals.dart';
+import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
+import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
-class NCGameOverView extends StatelessWidget {
+class NCGameOverView extends StatefulWidget {
   const NCGameOverView({super.key});
+
+  @override
+  State<NCGameOverView> createState() => _NCGameOverViewState();
+}
+
+class _NCGameOverViewState extends State<NCGameOverView> {
+  var _record;
+  final _service = Services();
+  @override
+  void initState() {
+    super.initState();
+    fetchRecord();
+  }
+
+  void fetchRecord() async {
+    _record = _service.getLatestDatabaseRecord();
+  }
 
   @override
   Widget build(BuildContext context) {
     const double sizeboxWidth = 50.0;
     const double sizeboxHeigt = 40.0;
+    const TextStyle dataTextStyle = TextStyle(fontSize: 20);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Center(
@@ -17,26 +38,26 @@ class NCGameOverView extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              '你贏了!',
+              '數字點點名',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 60,
               ),
             ),
-            const SizedBox(height: sizeboxHeigt),
             const Text(
-              '完成時間: 00:09',
+              '遊戲結束',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 50,
               ),
             ),
             const SizedBox(
               height: sizeboxHeigt,
             ),
             const Text(
-              '積分榜',
+              '遊戲數據',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 40,
               ),
             ),
             const SizedBox(
@@ -46,69 +67,83 @@ class NCGameOverView extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            const SizedBox(
-              width: 220,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.looks_one_outlined,
-                            size: 40,
-                          ),
-                          SizedBox(width: sizeboxWidth),
-                          Text(
-                            '00:09',
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.looks_two_outlined,
-                            size: 40,
-                          ),
-                          SizedBox(width: sizeboxWidth),
-                          Text(
-                            '00:10',
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.looks_3_outlined,
-                            size: 40,
-                          ),
-                          SizedBox(width: sizeboxWidth),
-                          Text(
-                            '00:25',
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: sizeboxWidth),
-                ],
-              ),
+            Table(
+              columnWidths: const {
+                0: FractionColumnWidth(0.5), // Adjust these widths as needed
+                1: FractionColumnWidth(0.5),
+              },
+              children: [
+                TableRow(
+                  children: [
+                    Text(
+                      '遊玩日期：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      _record.gameDateTime,
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      '遊玩時間：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      _record.gameTime,
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      '按鈕總數：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      ' $globEndingRecordScore',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      '按錯次數：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      ' $globEndingRecordScore',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      '遊玩分數：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
+                    Text(
+                      ' $globEndingRecordScore',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ],
             ),
             const SizedBox(
               width: 220,

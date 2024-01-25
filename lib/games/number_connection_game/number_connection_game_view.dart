@@ -1,12 +1,11 @@
 import 'dart:math';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_buttons_view.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
+import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
 class NumberConnectionGameView extends StatefulWidget {
   const NumberConnectionGameView(
@@ -20,19 +19,18 @@ class NumberConnectionGameView extends StatefulWidget {
 }
 
 class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
-  DatabaseRecords? _record;
-  late final RecordsService _recordsService;
-  late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
+  late final Services _services;
+  // late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
   late final String _gametime;
   final stopwatch = Stopwatch();
   late final int _range;
   late final int _nodesNumber;
-
+  static const _gameid = 0; // gameMap[0]
   List<Offset> _buttonPositions = [];
 
   @override
   void initState() {
-    _recordsService = RecordsService();
+    _services = Services();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _buttonPositions = generateButtonPositions(context);
       setState(() {});
@@ -101,15 +99,20 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
   void _createAndSaveNewRecord() async {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email;
-    final owner = await _recordsService.getUser(email: email);
-
-    String nowTime = _now.toString();
-    final newRecord = await _recordsService.createRecord(
+    final owner = await _services.getDatabaseUser(email: email);
+    final gameRecord = await _services.createDatabaseRecord(
       owner: owner,
-      timestamp: nowTime,
-      gametime: _gametime,
+      gameId: _gameid,
+      gameTime: _gametime,
+      score: _nodesNumber,
     );
-    _record = newRecord;
+    var tmp = gameRecord.gameDateTime.split('.')[0];
+    DateTime dateTime = DateTime.parse(tmp);
+    String formattedDate =
+        "${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+    globEndingRecordGameDateTime = formattedDate;
+    globEndingRecordGameTime = gameRecord.gameTime;
+    globEndingRecordScore = _nodesNumber;
   }
 
   @override
@@ -118,7 +121,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
     final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
-    _gametime = '$minutes : $seconds';
+    _gametime = '$minutes:$seconds';
     _createAndSaveNewRecord();
     super.deactivate();
   }
@@ -142,18 +145,21 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
           elevation: 0,
         ),
         extendBody: false,
-        body: Stack(children: [
-          for (int i = 0; i < (widget.endNum - widget.startNum + 1); i++)
-            Positioned(
-              left: _buttonPositions[i].dx,
-              top: _buttonPositions[i].dy,
-              child: WrapperButton(
-                labelnum: widget.startNum + i,
-                endnum: widget.endNum,
-                postiions: _buttonPositions,
-              ),
-            ),
-        ]),
+        body: Stack(
+          children: [
+            for (int i = 0; i < (widget.endNum - widget.startNum + 1); i++)
+              if (i < _buttonPositions.length)
+                Positioned(
+                  left: _buttonPositions[i].dx,
+                  top: _buttonPositions[i].dy,
+                  child: WrapperButton(
+                    labelnum: widget.startNum + i,
+                    endnum: widget.endNum,
+                    postiions: _buttonPositions,
+                  ),
+                ),
+          ],
+        ),
       ),
     );
   }

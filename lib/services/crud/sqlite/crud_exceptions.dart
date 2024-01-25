@@ -25,3 +25,5 @@ class CouldNotCreateRecord implements Exception {}
 class CouldNotGetAllRecord implements Exception {}
 
 class UserShouldBeSetBeforeReadingAllRecord implements Exception {}
+
+class UserNotLoggedInException implements Exception {}

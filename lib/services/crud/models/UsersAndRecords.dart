@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 List<DatabaseUser> databaseUsersFromJson(String str) => List<DatabaseUser>.from(
     json.decode(str).map((x) => DatabaseUser.fromJson(x)));
@@ -35,9 +34,9 @@ class DatabaseUser {
       };
 }
 
-List<DatabaseRecord> databaseRecordsFromJson(String str) =>
-    List<DatabaseRecord>.from(
-        json.decode(str).map((x) => DatabaseRecord.fromJson(x)));
+List<DatabaseRecord> databaseRecordsFromJson(List<dynamic> recordsJson) {
+  return recordsJson.map((x) => DatabaseRecord.fromJson(x)).toList();
+}
 
 String databaseRecordsToJson(List<DatabaseRecord> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));

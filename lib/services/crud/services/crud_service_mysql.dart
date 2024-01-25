@@ -1,12 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:number_connection_test/extensions/filter.dart';
-import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
@@ -52,6 +47,41 @@ class Services {
         _recordsStreamController.sink.add(_records);
       },
     );
+  }
+
+  Future<void> _cacheRecords() async {
+    final allRecords = await getAllRecords();
+    _records = allRecords.toList();
+    _recordsStreamController.add(_records);
+  }
+
+  Future<Iterable<DatabaseRecord>> getAllRecords() async {
+    var currentUser = _user;
+    if (currentUser == null) {
+      throw UserNotLoggedInException(); // Define this exception as per your requirement
+    }
+    final response =
+        await http.get(Uri.parse('$getAllRecord?userId=${currentUser.id}'));
+
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      if (res['success']) {
+        return databaseRecordsFromJson(res['records']);
+      } else {
+        throw Exception('test');
+      }
+    } else {
+      // Handle server errors or bad requests
+      throw CouldNotGetAllRecord(); // Define this exception as per your requirement
+    }
+  }
+
+  Future<DatabaseRecord?> getLatestDatabaseRecord() async {
+    if (_records.isNotEmpty) {
+      return _records.last;
+    } else {
+      return null;
+    }
   }
 
   Future<DatabaseRecord> createDatabaseRecord({
@@ -148,6 +178,7 @@ class Services {
       if (res['exist']) {
         var user = DatabaseUser.fromJson(res);
         _user = user;
+        await _cacheRecords();
         return user;
       } else {
         throw DBCouldNotFindUser();
