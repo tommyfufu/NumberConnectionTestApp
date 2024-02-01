@@ -8,10 +8,15 @@ import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
 class NumberConnectionGameView extends StatefulWidget {
-  const NumberConnectionGameView(
-      {super.key, required this.startNum, required this.endNum});
+  const NumberConnectionGameView({
+    super.key,
+    required this.startNum,
+    required this.endNum,
+    required this.mode,
+  });
   final int startNum;
   final int endNum;
+  final bool mode;
 
   @override
   State<NumberConnectionGameView> createState() =>
@@ -31,6 +36,8 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
   @override
   void initState() {
     _services = Services();
+    globWrongPressedCount = 0;
+    globButtonsCount = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _buttonPositions = generateButtonPositions(context);
       setState(() {});
@@ -49,16 +56,16 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     if (_nodesNumber > 1 && _nodesNumber <= 20) {
       _range = 90;
     } else if (_nodesNumber > 20 && _nodesNumber <= 30) {
-      _range = 75;
+      _range = 70;
     } else if (_nodesNumber > 30 && _nodesNumber <= 40) {
-      _range = 60;
-    } else if (_nodesNumber > 40 && _nodesNumber <= 50) {
-      _range = 52;
+      _range = 50;
     } else {
       throw WrongRangeException;
     }
     int totalButtons = (widget.endNum - widget.startNum) + 1;
-    for (int i = 0; i < totalButtons; i++) {
+    int more = 0;
+    if (widget.mode) more = 10;
+    for (int i = 0; i < totalButtons + more; i++) {
       Offset position;
       bool isTooClose;
       do {
@@ -80,7 +87,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     if (positions.length < totalButtons) {
       return generateButtonPositions(context);
     }
-
+    globButtonsCount = _nodesNumber;
     return positions;
   }
 
@@ -100,19 +107,12 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
-    final gameRecord = await _services.createDatabaseRecord(
+    await _services.createDatabaseRecord(
       owner: owner,
       gameId: _gameid,
       gameTime: _gametime,
       score: _nodesNumber,
     );
-    var tmp = gameRecord.gameDateTime.split('.')[0];
-    DateTime dateTime = DateTime.parse(tmp);
-    String formattedDate =
-        "${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
-    globEndingRecordGameDateTime = formattedDate;
-    globEndingRecordGameTime = gameRecord.gameTime;
-    globEndingRecordScore = _nodesNumber;
   }
 
   @override
@@ -122,13 +122,13 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
     final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
     _gametime = '$minutes:$seconds';
+
     _createAndSaveNewRecord();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    // _recordsService.close();
     super.dispose();
   }
 
@@ -145,21 +145,49 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
           elevation: 0,
         ),
         extendBody: false,
-        body: Stack(
-          children: [
-            for (int i = 0; i < (widget.endNum - widget.startNum + 1); i++)
-              if (i < _buttonPositions.length)
-                Positioned(
-                  left: _buttonPositions[i].dx,
-                  top: _buttonPositions[i].dy,
-                  child: WrapperButton(
-                    labelnum: widget.startNum + i,
-                    endnum: widget.endNum,
-                    postiions: _buttonPositions,
-                  ),
-                ),
-          ],
-        ),
+        body: widget.mode
+            ? Stack(
+                children: [
+                  for (int i = 0; i < _buttonPositions.length; i++)
+                    if (i < (widget.endNum - widget.startNum + 1))
+                      Positioned(
+                        left: _buttonPositions[i].dx,
+                        top: _buttonPositions[i].dy,
+                        child: WrapperButton(
+                          labelnum: widget.startNum + i,
+                          endnum: widget.endNum,
+                          postiions: _buttonPositions,
+                        ),
+                      )
+                    else
+                      Positioned(
+                        left: _buttonPositions[i].dx,
+                        top: _buttonPositions[i].dy,
+                        child: WrapperButton(
+                          labelnum: widget.endNum - i,
+                          endnum: widget.endNum,
+                          postiions: _buttonPositions,
+                        ),
+                      )
+                ],
+              )
+            : Stack(
+                children: [
+                  for (int i = 0;
+                      i < (widget.endNum - widget.startNum + 1);
+                      i++)
+                    if (i < _buttonPositions.length)
+                      Positioned(
+                        left: _buttonPositions[i].dx,
+                        top: _buttonPositions[i].dy,
+                        child: WrapperButton(
+                          labelnum: widget.startNum + i,
+                          endnum: widget.endNum,
+                          postiions: _buttonPositions,
+                        ),
+                      ),
+                ],
+              ),
       ),
     );
   }

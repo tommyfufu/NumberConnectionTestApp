@@ -21,7 +21,7 @@ class RecordsListView extends StatelessWidget {
         final record = reverseRecords[index];
         final gameId = record.gameId;
         final gameIdtoString = gameMap[gameId];
-        final formattedTime = record.gameDateTime.split('.')[0];
+        final formattedTime = record.gameDateTime;
         return ListTile(
           titleAlignment: ListTileTitleAlignment.center,
           title: Text(

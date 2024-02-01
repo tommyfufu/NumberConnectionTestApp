@@ -76,11 +76,11 @@ class Services {
     }
   }
 
-  Future<DatabaseRecord?> getLatestDatabaseRecord() async {
+  Future<DatabaseRecord> getLatestDatabaseRecord() async {
     if (_records.isNotEmpty) {
       return _records.last;
     } else {
-      return null;
+      throw CouldNotFindRecord();
     }
   }
 
@@ -95,7 +95,6 @@ class Services {
     if (recordUser != owner) {
       throw DBCouldNotFindUser();
     }
-    print('${recordUser.id}, $gameId, $gameTime, $score');
     final response = await http.post(
       Uri.parse(createRecord),
       body: jsonEncode(

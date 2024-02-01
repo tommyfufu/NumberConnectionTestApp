@@ -1,6 +1,7 @@
 const loginRoute = '/login/';
 const registerRoute = '/register';
 const numberConnectionReadyRoute = '/numberconnection_game_ready';
+const numberConnectionSteadyRoute = '/numberconnection_game_steady';
 const numberConnectionGameRoute = '/numberconnection_game_start';
 const colorVsWordsReadyRoute = '/colorvswords_game_ready';
 const colorVsWordsGameRoute = '/colorvswords_game_start';

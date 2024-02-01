@@ -3,31 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
-class NCGameOverView extends StatefulWidget {
-  const NCGameOverView({super.key});
+class NCEndingRecordView extends StatefulWidget {
+  const NCEndingRecordView({super.key, required this.record});
+  final DatabaseRecord record;
 
   @override
-  State<NCGameOverView> createState() => _NCGameOverViewState();
+  State<NCEndingRecordView> createState() => _NCEndingRecordViewState();
 }
 
-class _NCGameOverViewState extends State<NCGameOverView> {
-  var _record;
-  final _service = Services();
-  @override
-  void initState() {
-    super.initState();
-    fetchRecord();
-  }
-
-  void fetchRecord() async {
-    _record = _service.getLatestDatabaseRecord();
-  }
-
+class _NCEndingRecordViewState extends State<NCEndingRecordView> {
   @override
   Widget build(BuildContext context) {
-    const double sizeboxWidth = 50.0;
     const double sizeboxHeigt = 40.0;
     const TextStyle dataTextStyle = TextStyle(fontSize: 20);
     return Scaffold(
@@ -75,13 +62,13 @@ class _NCGameOverViewState extends State<NCGameOverView> {
               children: [
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       '遊玩日期：',
                       style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      _record.gameDateTime,
+                      widget.record.gameDateTime.split(" ")[0],
                       style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
@@ -89,13 +76,13 @@ class _NCGameOverViewState extends State<NCGameOverView> {
                 ),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       '遊玩時間：',
                       style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      _record.gameTime,
+                      widget.record.gameDateTime.split(" ")[1],
                       style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
@@ -103,13 +90,27 @@ class _NCGameOverViewState extends State<NCGameOverView> {
                 ),
                 TableRow(
                   children: [
+                    const Text(
+                      '遊玩時長：',
+                      style: dataTextStyle,
+                      textAlign: TextAlign.right,
+                    ),
                     Text(
+                      widget.record.gameTime,
+                      style: dataTextStyle,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    const Text(
                       '按鈕總數：',
                       style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      ' $globEndingRecordScore',
+                      ' $globButtonsCount',
                       style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
@@ -117,13 +118,13 @@ class _NCGameOverViewState extends State<NCGameOverView> {
                 ),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       '按錯次數：',
                       style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      ' $globEndingRecordScore',
+                      ' $globWrongPressedCount',
                       style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
@@ -131,13 +132,13 @@ class _NCGameOverViewState extends State<NCGameOverView> {
                 ),
                 TableRow(
                   children: [
-                    Text(
+                    const Text(
                       '遊玩分數：',
                       style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      ' $globEndingRecordScore',
+                      ' ${globButtonsCount - globWrongPressedCount}',
                       style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),

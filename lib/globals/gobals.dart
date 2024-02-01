@@ -12,6 +12,5 @@ const Map gameMap = <int, String>{
 };
 
 // current game ending record info
-String globEndingRecordGameDateTime = '';
-String globEndingRecordGameTime = '';
-int globEndingRecordScore = 0;
+int globWrongPressedCount = 0;
+int globButtonsCount = 0;

@@ -8,7 +8,8 @@ import 'package:number_connection_test/games/colors_vs_words_game/options_in_row
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
+import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+// import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 
 class ColorvsWordGameView extends StatefulWidget {
   const ColorvsWordGameView({super.key, required this.questionType});
@@ -18,11 +19,11 @@ class ColorvsWordGameView extends StatefulWidget {
 }
 
 class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
-  DatabaseRecords? _record;
-  late final RecordsService _recordsService;
-  late final _now = DateFormat('yyyy-MM-dd').add_Hms().format(DateTime.now());
+  // DatabaseRecords? _record;
+  late final Services _services;
   late final String _gametime;
   final stopwatch = Stopwatch();
+  static const _gameid = 1; // gameMap[1]
 
   //
   int _currAnsIndex = 0;
@@ -55,7 +56,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   void initState() {
-    _recordsService = RecordsService();
+    _services = Services();
     ansIndexList.shuffle();
     stopwatch.start();
     globScore = 0;
@@ -79,14 +80,14 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
   void _createAndSaveNewRecord() async {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email;
-    final owner = await _recordsService.getUser(email: email);
-    String nowTime = _now.toString();
-    final newRecord = await _recordsService.createRecord(
+    final owner = await _services.getDatabaseUser(email: email);
+
+    await _services.createDatabaseRecord(
       owner: owner,
-      timestamp: nowTime,
-      gametime: _gametime,
+      gameId: _gameid,
+      gameTime: _gametime,
+      score: 10,
     );
-    _record = newRecord;
   }
 
   @override

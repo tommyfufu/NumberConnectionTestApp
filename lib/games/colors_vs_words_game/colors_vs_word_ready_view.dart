@@ -29,6 +29,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               '五顏',
@@ -47,15 +48,70 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               textScaleFactor: 1.5,
             ),
             const SizedBox(height: sizeboxHeigt),
-            Text(
-              '字的顏色模式：\n根據字體的顏色選出答案\n\n字的意義模式：\n根據字義代表的顏色選出答案\n\n混合出題模式：\n兩種模式隨機出題',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 20,
-                color: Colors.grey.shade700,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
-              textScaleFactor: 1,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '字的顏色模式：',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.green.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '根據字體的顏色選出答案',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '字的意義模式：',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.blue.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '根據字義代表的顏色選出答案',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '混合出題模式：',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.red.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '兩種模式隨機出題',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 20,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1,
+                ),
+              ],
             ),
             const SizedBox(height: sizeboxHeigt),
             Text(
@@ -72,6 +128,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade700,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
@@ -100,6 +157,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                 const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue.shade700,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
@@ -127,6 +185,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                 const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade700,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
