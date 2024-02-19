@@ -14,27 +14,25 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Verify E-mail'),
+        title: const Text('驗證E-mail'),
       ),
       body: Column(
         children: [
-          const Text(
-              "We've sent you and email verification. Please open it ot verify your account."),
-          const Text(
-              "If you haven't received a verification email yet, press the button below"),
+          const Text("我們已向您發送了E-mail驗證。 請開啟它並驗證您的E-mail帳戶。"),
+          const Text("如果您尚未收到驗證E-mail，請按下下面的按鈕"),
           TextButton(
             onPressed: () async {
               await AuthService.firebase().sendEmailVerification();
             },
-            child: const Text('Send E-mail Verification'),
+            child: const Text('重新發送E-mail驗證信'),
           ),
           TextButton(
             onPressed: () async {
               await AuthService.firebase().logOut();
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+                  .pushNamedAndRemoveUntil(loginRoute, (route) => false);
             },
-            child: const Text('Restart'),
+            child: const Text('以驗證完畢，重新登入'),
           )
         ],
       ),

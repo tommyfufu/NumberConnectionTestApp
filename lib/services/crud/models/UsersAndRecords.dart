@@ -11,12 +11,16 @@ class DatabaseUser {
   String email;
   String name;
   String identity;
+  String birthday;
+  String gender;
 
   DatabaseUser({
     required this.id,
     required this.email,
     required this.name,
     required this.identity,
+    required this.birthday,
+    required this.gender,
   });
 
   factory DatabaseUser.fromJson(Map<String, dynamic> json) => DatabaseUser(
@@ -24,6 +28,8 @@ class DatabaseUser {
         email: json["email"],
         name: json["name"],
         identity: json["identity"],
+        birthday: json["birthday"],
+        gender: json["gender"],
       );
 
   Map<String, dynamic> toJson() => {

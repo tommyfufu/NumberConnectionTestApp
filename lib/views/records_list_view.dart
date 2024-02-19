@@ -2,39 +2,108 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 
-typedef RecordCallback = void Function(DatabaseRecord record);
-
 class RecordsListView extends StatelessWidget {
-  final List<DatabaseRecord> records;
+  // final List<DatabaseRecord> records;
+  final Map<int, List<DatabaseRecord>> groupedRecords;
 
   const RecordsListView({
     Key? key,
-    required this.records,
+    required this.groupedRecords,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: records.length,
+    var groupedRecordsList = groupedRecords.entries.toList();
+    return ListView.builder(
+      itemCount: groupedRecordsList.length,
       itemBuilder: (context, index) {
-        final reverseRecords = records.reversed.toList();
-        final record = reverseRecords[index];
-        final gameId = record.gameId;
-        final gameIdtoString = gameMap[gameId];
-        final formattedTime = record.gameDateTime;
-        return ListTile(
-          titleAlignment: ListTileTitleAlignment.center,
-          title: Text(
-            '$formattedTime $gameIdtoString ${record.gameTime} ${record.score}',
-            style: const TextStyle(fontSize: 18),
-            maxLines: 1,
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-          ),
+        // Get game ID and records for the current section
+        final gameId = groupedRecordsList[index].key;
+        final records = groupedRecordsList[index].value;
+        final gameName = gameMap[gameId]; // Assuming gameMap is accessible here
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                gameName, // Fallback if game name is not found
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text('日期',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18)),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text('遊玩時長',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18)),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text('遊戲分數',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18)),
+                  ),
+                ],
+              ),
+            ),
+            ListView.separated(
+              physics:
+                  const NeverScrollableScrollPhysics(), // To prevent inner list scroll
+              shrinkWrap: true, // Needed for ListView inside ListView
+              itemCount: records.length,
+              itemBuilder: (context, recordIndex) {
+                final record = records[recordIndex];
+                // final gameDateTimeDate = record.gameDateTime.split(" ").first;
+                // final gameDateTimeTime = record.gameDateTime.split(" ").last;
+                return ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      // Expanded(
+                      //   flex: 2, // Adjust flex as needed to allocate space
+                      //   child: Text("$gameDateTimeDate\n$gameDateTimeTime",
+                      //       style: const TextStyle(fontSize: 18)),
+                      // ),
+                      Expanded(
+                        flex: 3, // Adjust flex as needed to allocate space
+                        child: Text(record.gameDateTime,
+                            style: const TextStyle(fontSize: 18)),
+                      ),
+                      Expanded(
+                        flex: 2, // Adjust flex as needed
+                        child: Text(record.gameTime,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 18)),
+                      ),
+                      Expanded(
+                        flex: 2, // Adjust flex as needed
+                        child: Text(record.score.toString(),
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(fontSize: 18)),
+                      ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const Divider(),
+            ),
+          ],
         );
-      },
-      separatorBuilder: (context, index) {
-        return const Divider();
       },
     );
   }

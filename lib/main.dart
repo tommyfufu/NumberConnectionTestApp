@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_ending_view.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_ready_view.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/firebase_options.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_over_view.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_ready_view.dart';
-import 'package:number_connection_test/games/number_connection_game/number_connection_game_steady_view.dart';
+import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_game_ending_view.dart';
+import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_ready_view.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/views/account_view.dart';
 import 'package:number_connection_test/views/home_view.dart';
@@ -33,13 +35,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: TextStyle(
+              fontSize: 22,
+              color: Colors.grey.shade800,
+            ), // Default style for TextButton text
+          ),
+        ),
       ),
       home: const MyHomePage(title: 'Home'),
       routes: {
         numberConnectionReadyRoute: (context) =>
             const NumberConnectionReadyView(),
-        colorVsWordsGameRoute: (context) => const ColorsVsWordGameReadyView(),
+        colorVsWordsGameReadyRoute: (context) =>
+            const ColorsVsWordGameReadyView(),
+        soldiersInFormationGameReadyRoute: (context) =>
+            const SoldiersInFormationGameReadyView(),
         homeRoute: (context) => const HomeView(),
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
@@ -47,7 +60,8 @@ class MyApp extends StatelessWidget {
         recordsRoute: (context) => const RecordsView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
         ncgameoverRoute: (context) => const NCGameOverView(),
-        // cwgameoverRoute: (context) => const CWGameOverView(),
+        cwgameoverRoute: (context) => const CWGameOverView(),
+        sifgameoverRoute: (context) => const SIFGameOverView(),
       },
     );
   }

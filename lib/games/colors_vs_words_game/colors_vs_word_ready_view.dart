@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_view.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 
 class ColorsVsWordGameReadyView extends StatefulWidget {
   const ColorsVsWordGameReadyView({
@@ -32,15 +33,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '五顏',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-              ),
-              textScaleFactor: 1.5,
-            ),
-            Text(
-              '配六色',
+              '五顏配六色',
               style: GoogleFonts.permanentMarker(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
@@ -55,14 +48,14 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                   '字的顏色模式：',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
-                    color: Colors.green.shade700,
+                    color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.left,
                   textScaleFactor: 1,
                 ),
                 Text(
-                  '根據字體的顏色選出答案',
+                  '根據字體的顏色選出答案\n',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
                     color: Colors.grey.shade700,
@@ -75,14 +68,14 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                   '字的意義模式：',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
-                    color: Colors.blue.shade700,
+                    color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.left,
                   textScaleFactor: 1,
                 ),
                 Text(
-                  '根據字義代表的顏色選出答案',
+                  '根據字義代表的顏色選出答案\n',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
                     color: Colors.grey.shade700,
@@ -95,7 +88,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                   '混合出題模式：',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
-                    color: Colors.red.shade700,
+                    color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.left,
@@ -128,13 +121,14 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade700,
+                    backgroundColor: Colors.white,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       side: BorderSide(
-                        color: Colors.grey,
+                        color: Colors.white,
+                        width: 1.5,
                       ),
                     ),
                   ),
@@ -150,6 +144,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                     style: GoogleFonts.permanentMarker(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      color: globColor,
                     ),
                     textScaleFactor: 1,
                   ),
@@ -157,12 +152,13 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                 const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade700,
+                    backgroundColor: Colors.white,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
                       side: BorderSide(
-                        color: Colors.grey,
+                        color: Colors.white,
+                        width: 1.5,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
@@ -178,6 +174,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                     style: GoogleFonts.permanentMarker(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      color: globColor,
                     ),
                     textScaleFactor: 1,
                   ),
@@ -185,13 +182,14 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                 const SizedBox(width: sizeboxWidth),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade700,
+                    backgroundColor: Colors.white,
                     maximumSize: const Size(120, 100),
                     minimumSize: const Size(100, 80),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       side: BorderSide(
-                        color: Colors.grey,
+                        color: Colors.white,
+                        width: 1.5,
                       ),
                     ),
                   ),
@@ -206,6 +204,7 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
                     style: GoogleFonts.permanentMarker(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      color: globColor,
                     ),
                     textScaleFactor: 1,
                   ),

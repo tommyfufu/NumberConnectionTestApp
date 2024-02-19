@@ -31,18 +31,11 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '數字',
+              '數字點點名',
               style: GoogleFonts.permanentMarker(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-              ),
-              textScaleFactor: 1.5,
-            ),
-            Text(
-              '點點名',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800,
               ),
               textScaleFactor: 1.5,
             ),
@@ -52,20 +45,10 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '選擇遊戲模式',
-                  style: GoogleFonts.permanentMarker(
-                    fontSize: 30,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  // textAlign: TextAlign.left,
-                  textScaleFactor: 1,
-                ),
-                Text(
                   '普通模式：',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 26,
-                    color: Colors.green.shade700,
+                    fontSize: 20,
+                    color: const Color.fromARGB(255, 120, 169, 140),
                     fontWeight: FontWeight.bold,
                   ),
                   // textAlign: TextAlign.left,
@@ -81,11 +64,12 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                   // textAlign: TextAlign.left,
                   textScaleFactor: 1,
                 ),
+                const SizedBox(height: sizeboxHeigt),
                 Text(
                   '進階模式：',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 26,
-                    color: Colors.red.shade700,
+                    fontSize: 20,
+                    color: const Color.fromARGB(255, 120, 169, 140),
                     fontWeight: FontWeight.bold,
                   ),
                   // textAlign: TextAlign.left,
@@ -104,61 +88,83 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
               ],
             ),
             const SizedBox(height: sizeboxHeigt),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                maximumSize: const Size(200, 100),
-                minimumSize: const Size(180, 80),
-                backgroundColor: Colors.green,
-                shape: const RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                ),
+            Text(
+              '選擇模式',
+              style: GoogleFonts.permanentMarker(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800,
               ),
-              onPressed: () async {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const NumberConnectionSteadyView(
-                          mode: false,
-                        )));
-              },
-              child: Text(
-                '普通模式',
-                style: GoogleFonts.permanentMarker(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-                textScaleFactor: 1.5,
-              ),
+              textScaleFactor: 1,
             ),
             const SizedBox(height: sizeboxHeigt),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                maximumSize: const Size(200, 100),
-                minimumSize: const Size(180, 80),
-                backgroundColor: Colors.red,
-                shape: const RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Colors.grey,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    maximumSize: const Size(140, 120),
+                    minimumSize: const Size(120, 100),
+                    // backgroundColor: const Color.fromARGB(255, 27, 97, 149),
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.white,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    // padding: EdgeInsets.all(20),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  onPressed: () async {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NumberConnectionSteadyView(
+                              mode: false,
+                            )));
+                  },
+                  child: Text(
+                    '普通\n模式',
+                    style: GoogleFonts.permanentMarker(
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 120, 169, 140),
+                    ),
+                    textScaleFactor: 1,
+                  ),
                 ),
-              ),
-              onPressed: () async {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const NumberConnectionSteadyView(
-                          mode: true,
-                        )));
-              },
-              child: Text(
-                '進階模式',
-                style: GoogleFonts.permanentMarker(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(width: 20.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    maximumSize: const Size(140, 120),
+                    minimumSize: const Size(120, 100),
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      side: BorderSide(
+                        // color: Colors.black,
+                        color: Colors.white,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NumberConnectionSteadyView(
+                              mode: true,
+                            )));
+                  },
+                  child: Text(
+                    '進階\n模式',
+                    style: GoogleFonts.permanentMarker(
+                      fontSize: 27,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 120, 169, 140),
+                    ),
+                    textScaleFactor: 1,
+                  ),
                 ),
-                textScaleFactor: 1.5,
-              ),
-            ),
+              ],
+            )
           ],
         ),
       ),

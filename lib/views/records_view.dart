@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 import 'package:number_connection_test/views/records_list_view.dart';
@@ -12,6 +13,7 @@ class RecordsView extends StatefulWidget {
 
 class _RecordsViewState extends State<RecordsView> {
   late final Services _services;
+  int selectedGameId = 0; // default from 0
 
   @override
   void initState() {
@@ -19,11 +21,40 @@ class _RecordsViewState extends State<RecordsView> {
     super.initState();
   }
 
+  Map<int, List<DatabaseRecord>> groupRecordsByGameId(
+      List<DatabaseRecord> records) {
+    return records.fold<Map<int, List<DatabaseRecord>>>({}, (map, record) {
+      if (!map.containsKey(record.gameId)) {
+        map[record.gameId] = [];
+      }
+      map[record.gameId]!.add(record);
+      return map;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('遊戲紀錄'),
+        actions: <Widget>[
+          PopupMenuButton<int>(
+            onSelected: (int gameId) {
+              setState(() {
+                selectedGameId = gameId;
+              });
+            },
+            itemBuilder: (BuildContext context) {
+              return gameMap.entries.map((entry) {
+                return PopupMenuItem<int>(
+                  value: entry.key,
+                  child: Text(entry.value),
+                );
+              }).toList();
+            },
+            icon: const Icon(Icons.menu),
+          ),
+        ],
       ),
       extendBodyBehindAppBar: false,
       body: FutureBuilder<Iterable<DatabaseRecord>>(
@@ -32,14 +63,17 @@ class _RecordsViewState extends State<RecordsView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // Handle error
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final allRecords = snapshot.data as List<DatabaseRecord>;
-            return RecordsListView(records: allRecords);
+            final filteredRecords = allRecords
+                .reversed // Reverse the list of records so that the new record is at the front
+                .where((record) => record.gameId == selectedGameId)
+                .toList();
+            final groupedRecords = groupRecordsByGameId(filteredRecords);
+            return RecordsListView(groupedRecords: groupedRecords);
           } else {
-            // Handle the case where there's no data
-            return const Center(child: Text('No records found.'));
+            return const Center(child: Text('沒有遊戲紀錄'));
           }
         },
       ),

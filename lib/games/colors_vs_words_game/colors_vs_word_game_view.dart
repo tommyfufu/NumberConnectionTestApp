@@ -1,15 +1,12 @@
 import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_ending_view.dart';
-
+import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/options_in_row.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
-// import 'package:number_connection_test/services/crud/sqlite/records_service.dart';
 
 class ColorvsWordGameView extends StatefulWidget {
   const ColorvsWordGameView({super.key, required this.questionType});
@@ -46,11 +43,13 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
       final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
       _gametime = '$minutes : $seconds';
       // game over
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CWGameOverView(
-                gameScore: globScore,
-                finishedTime: _gametime,
-              )));
+      // Navigator.of(context).push(MaterialPageRoute(
+      //     builder: (context) => CWGameOverView(
+      //           gameScore: globScore,
+      //           finishedTime: _gametime,
+      //         )));
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(cwgameoverRoute, (_) => false);
     }
   }
 
@@ -86,7 +85,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
       owner: owner,
       gameId: _gameid,
       gameTime: _gametime,
-      score: 10,
+      score: globScore,
     );
   }
 
@@ -117,7 +116,6 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
 
   @override
   void dispose() {
-    // _recordsService.close();
     super.dispose();
   }
 
@@ -213,7 +211,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                             /// Question
                             questionType
                                 ? const Text(
-                                    '字的底色是什麼顏色',
+                                    '字的顏色是什麼顏色',
                                     style: TextStyle(fontSize: 25),
                                   )
                                 : const Text(
@@ -232,10 +230,6 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                                 style: TextStyle(
                                   fontSize: 150.0,
                                   fontFamily: 'RussoOne',
-                                  // color: colorsList[ansIndexList[((_random
-                                  //             .nextInt(colorsList.length - 1)) +
-                                  //         (_currAnsIndex + 1)) %
-                                  //     (colorsList.length)]],
                                   color: questionType
                                       ? colorsList[ansIndexList[_currAnsIndex]]
                                       : colorsList[ansIndexList[

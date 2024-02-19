@@ -4,6 +4,7 @@ import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/views/asus_vivowatch_data_view.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -52,14 +53,114 @@ class _AccountViewState extends State<AccountView> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData) {
               final user = snapshot.data!;
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('E-mail: ${user.email}'),
-                    Text('Name: ${user.name}'),
-                    Text('Identity: ${user.identity}'),
-                  ],
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CircleAvatar(
+                            radius: 70, // Adjust the radius as needed
+                            backgroundImage: NetworkImage(
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwM5DeX5IzxdcfTTbDO1J_P7jBnUZIini9gg&usqp=CAU'),
+                            backgroundColor: Colors.transparent,
+                          ),
+                          const SizedBox(
+                              width: 20), // Space between image and text fields
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  initialValue: user.name,
+                                  decoration: const InputDecoration(
+                                    labelText: '姓名',
+                                    labelStyle: TextStyle(
+                                      fontSize: 25, // Set your desired size
+                                    ),
+                                  ),
+                                  readOnly: true,
+                                  style: const TextStyle(
+                                    fontSize:
+                                        28, // Adjust the font size as needed
+                                  ),
+                                ),
+                                TextFormField(
+                                  initialValue: user.gender,
+                                  decoration: const InputDecoration(
+                                    labelText: '性別',
+                                    labelStyle: TextStyle(
+                                      fontSize: 25, // Set your desired size
+                                    ),
+                                  ),
+                                  readOnly: true,
+                                  style: const TextStyle(
+                                    fontSize:
+                                        28, // Adjust the font size as needed
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20), // Space between rows
+                      TextFormField(
+                        initialValue: user.email,
+                        decoration: const InputDecoration(
+                          labelText: 'E-mail',
+                          labelStyle: TextStyle(
+                            fontSize: 25, // Set your desired size
+                          ),
+                        ),
+                        readOnly: true,
+                        style: const TextStyle(
+                          fontSize: 26, // Adjust the font size as needed
+                        ),
+                      ),
+                      TextFormField(
+                        initialValue: user.identity,
+                        decoration: const InputDecoration(
+                          labelText: '身份',
+                          labelStyle: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                        readOnly: true,
+                        style: const TextStyle(
+                          fontSize: 28, // Adjust the font size as needed
+                        ),
+                      ),
+                      TextFormField(
+                        initialValue: user.birthday,
+                        decoration: const InputDecoration(
+                          labelText: '生日',
+                          labelStyle: TextStyle(
+                            fontSize: 25, // Set your desired size
+                          ),
+                        ),
+                        readOnly: true,
+                        style: const TextStyle(
+                          fontSize: 28, // Adjust the font size as needed
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const ASUSVivoWatchDataView()));
+                          },
+                          child: const Text(
+                            'ASUS VivoWatch 資料',
+                            style: TextStyle(fontSize: 25),
+                          )),
+                    ],
+                  ),
                 ),
               );
             } else {

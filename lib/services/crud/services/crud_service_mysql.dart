@@ -168,7 +168,7 @@ class Services {
 
   Future<DatabaseUser> getDatabaseUser({required String email}) async {
     if (_user != null) return _user!;
-    // print('test');
+    print('test');
     final encodedEmail = Uri.encodeComponent(email);
     final response =
         await http.get(Uri.parse('$getUserRoute?email=$encodedEmail'));
@@ -201,14 +201,21 @@ class Services {
     required String email,
     required String name,
     required String identity,
+    required String birthday,
+    required String gender,
   }) async {
     final response = await http.post(
       Uri.parse(createUser),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
       body: jsonEncode(
         <String, String>{
           'email': email,
           'name': name,
           'identity': identity,
+          'birthday': birthday,
+          'gender': gender,
         },
       ),
     );
@@ -217,7 +224,6 @@ class Services {
 
       if (res['success']) {
         if (res['exist']) {
-          // print(userAreadyExistCheck.toString());
           throw DBUserAlreadyExists();
         } else {
           _user = DatabaseUser.fromJson(res);

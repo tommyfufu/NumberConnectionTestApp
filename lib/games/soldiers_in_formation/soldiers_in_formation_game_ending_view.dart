@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_ending_record_view.dart';
+import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_game_ending_record_view.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
 
-class CWGameOverView extends StatefulWidget {
-  const CWGameOverView({
+class SIFGameOverView extends StatefulWidget {
+  const SIFGameOverView({
     super.key,
   });
 
   @override
-  State<CWGameOverView> createState() => _CWGameOverViewState();
+  State<SIFGameOverView> createState() => _SIFGameOverViewState();
 }
 
-class _CWGameOverViewState extends State<CWGameOverView> {
+class _SIFGameOverViewState extends State<SIFGameOverView> {
   late final Services _services;
 
   @override
@@ -38,7 +38,7 @@ class _CWGameOverViewState extends State<CWGameOverView> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final latestRecord = snapshot.data!.last;
-            return CWEndingRecordView(record: latestRecord);
+            return SIFEndingRecordView(record: latestRecord);
           } else {
             // Handle the case where there's no data
             return const Center(child: Text('No records found.'));
