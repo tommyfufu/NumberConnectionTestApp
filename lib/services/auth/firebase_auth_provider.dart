@@ -70,7 +70,6 @@ class FirebaseAuthProvider implements AuthProvider {
         throw UserNotFoundAuthException();
       }
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
         throw WrongPasswordOrUserNotFoundAuthException();
       } else if (e.code == 'invalid-email') {
@@ -102,4 +101,10 @@ class FirebaseAuthProvider implements AuthProvider {
       throw UserNotLoggedInAuthException();
     }
   }
+
+  @override
+  Stream<AuthUser?> get authStateChanges =>
+      FirebaseAuth.instance.authStateChanges().map((user) {
+        return user != null ? AuthUser.fromFirebase(user) : null;
+      });
 }

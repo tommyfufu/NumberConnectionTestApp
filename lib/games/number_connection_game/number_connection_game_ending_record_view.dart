@@ -159,6 +159,7 @@ class _NCEndingRecordViewState extends State<NCEndingRecordView> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
+                    backgroundColor: globColor,
                   ),
                   onPressed: () async {
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -182,6 +183,7 @@ class _NCEndingRecordViewState extends State<NCEndingRecordView> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
+                    backgroundColor: globColor,
                   ),
                   onPressed: () async {
                     Navigator.of(context).pushNamedAndRemoveUntil(

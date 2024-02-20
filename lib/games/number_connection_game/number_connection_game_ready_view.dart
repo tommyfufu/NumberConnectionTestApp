@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_steady_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 
 class NumberConnectionReadyView extends StatefulWidget {
   const NumberConnectionReadyView({
@@ -16,12 +18,21 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
   @override
   Widget build(BuildContext context) {
     const double sizeboxHeigt = 20.0;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       // floatingActionButton: Icon(Icons.arrow_back),
       appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
+        leading: IconButton(
+            onPressed: () async {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                homeRoute,
+                (_) => false,
+              );
+            },
+            icon: const Icon(
+              Icons.home_filled,
+              color: Colors.black,
+            )),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -48,7 +59,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                   '普通模式：',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
-                    color: const Color.fromARGB(255, 120, 169, 140),
+                    color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
                   // textAlign: TextAlign.left,
@@ -69,7 +80,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                   '進階模式：',
                   style: GoogleFonts.permanentMarker(
                     fontSize: 20,
-                    color: const Color.fromARGB(255, 120, 169, 140),
+                    color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
                   // textAlign: TextAlign.left,
@@ -127,7 +138,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                     style: GoogleFonts.permanentMarker(
                       fontSize: 27,
                       fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 120, 169, 140),
+                      color: globColor,
                     ),
                     textScaleFactor: 1,
                   ),
@@ -158,7 +169,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                     style: GoogleFonts.permanentMarker(
                       fontSize: 27,
                       fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 120, 169, 140),
+                      color: globColor,
                     ),
                     textScaleFactor: 1,
                   ),

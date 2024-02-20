@@ -54,11 +54,11 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
 
     _nodesNumber = widget.endNum - widget.startNum + 1;
     if (_nodesNumber > 1 && _nodesNumber <= 20) {
-      _range = 90;
+      _range = 80;
     } else if (_nodesNumber > 20 && _nodesNumber <= 30) {
-      _range = 70;
+      _range = 65;
     } else if (_nodesNumber > 30 && _nodesNumber <= 40) {
-      _range = 50;
+      _range = 45;
     } else {
       throw WrongRangeException;
     }
@@ -164,7 +164,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
                         left: _buttonPositions[i].dx,
                         top: _buttonPositions[i].dy,
                         child: WrapperButton(
-                          labelnum: widget.endNum - i,
+                          labelnum: (widget.endNum - widget.startNum + 1) - i,
                           endnum: widget.endNum,
                           postiions: _buttonPositions,
                         ),

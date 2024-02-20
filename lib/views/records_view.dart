@@ -37,6 +37,7 @@ class _RecordsViewState extends State<RecordsView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('遊戲紀錄'),
+        backgroundColor: globColor,
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (int gameId) {

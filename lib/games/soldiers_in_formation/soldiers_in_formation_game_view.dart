@@ -32,10 +32,14 @@ class _SoldiersInFormationGameState extends State<SoldiersInFormationGame> {
   }
 
   void _createAndSaveNewRecord() async {
+    stopwatch.stop;
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
+    final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
+    _gametime = '$minutes : $seconds';
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
-
     await _services.createDatabaseRecord(
       owner: owner,
       gameId: _gameid,

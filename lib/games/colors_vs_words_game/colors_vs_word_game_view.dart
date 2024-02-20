@@ -42,12 +42,6 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
       final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
       final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
       _gametime = '$minutes : $seconds';
-      // game over
-      // Navigator.of(context).push(MaterialPageRoute(
-      //     builder: (context) => CWGameOverView(
-      //           gameScore: globScore,
-      //           finishedTime: _gametime,
-      //         )));
       Navigator.of(context)
           .pushNamedAndRemoveUntil(cwgameoverRoute, (_) => false);
     }

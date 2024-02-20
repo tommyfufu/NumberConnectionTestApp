@@ -2,6 +2,8 @@ library my_prj.globals;
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 int globGamingNumber = -1;
 int globScore = 0;
 String globFinishedTime = '';
@@ -18,6 +20,7 @@ int globWrongPressedCount = 0;
 int globButtonsCount = 0;
 
 //
-const int globNumOfCWProblems = 9;
+const int globNumOfCWProblems = 8;
 
 const globColor = Color.fromARGB(255, 120, 169, 140);
+var globFontColor = Colors.grey.shade700;

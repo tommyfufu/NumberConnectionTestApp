@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 
@@ -21,9 +22,18 @@ class _ColorsVsWordGameReadyViewState extends State<ColorsVsWordGameReadyView> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // floatingActionButton: Icon(Icons.arrow_back),
       appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
+        leading: IconButton(
+            onPressed: () async {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                homeRoute,
+                (_) => false,
+              );
+            },
+            icon: const Icon(
+              Icons.home_filled,
+              color: Colors.black,
+            )),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

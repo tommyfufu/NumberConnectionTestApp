@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/utilities/dialogs/logout_dialog.dart';
 import 'package:number_connection_test/views/asus_vivowatch_data_view.dart';
 
 class AccountView extends StatefulWidget {
@@ -14,15 +16,31 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-  late final Future<DatabaseUser> _userFuture;
-  late final String _userEmail;
+  late Future<DatabaseUser> _userFuture;
+  late String _userEmail;
   final _services = Services();
+
+  void _setupUser() {
+    _userEmail = AuthService.firebase().currentUser!.email;
+    _userFuture = _services.getDatabaseUser(email: _userEmail);
+  }
 
   @override
   void initState() {
-    _userEmail = AuthService.firebase().currentUser!.email;
-    _userFuture = _services.getDatabaseUser(email: _userEmail);
+    _setupUser();
+    AuthService.firebase().authStateChanges.listen((user) {
+      if (user != null) {
+        setState(() {
+          _setupUser();
+        });
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -30,14 +48,19 @@ class _AccountViewState extends State<AccountView> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('會員專區'),
+          backgroundColor: globColor,
           actions: <Widget>[
             IconButton.outlined(
               onPressed: () async {
-                Services().logOut();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  loginRoute,
-                  (_) => false,
-                );
+                final shouldLogOut = await showLogOutDialog(context);
+                // Check the user's decision
+                if (shouldLogOut) {
+                  await AuthService.firebase().logOut();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginRoute,
+                    (_) => false,
+                  );
+                }
               },
               icon: const Icon(Icons.logout),
             ),
@@ -74,6 +97,7 @@ class _AccountViewState extends State<AccountView> {
                             child: Column(
                               children: [
                                 TextFormField(
+                                  enableInteractiveSelection: false,
                                   initialValue: user.name,
                                   decoration: const InputDecoration(
                                     labelText: '姓名',
@@ -82,12 +106,14 @@ class _AccountViewState extends State<AccountView> {
                                     ),
                                   ),
                                   readOnly: true,
-                                  style: const TextStyle(
-                                    fontSize:
-                                        28, // Adjust the font size as needed
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color:
+                                        globFontColor, // Adjust the font size as needed
                                   ),
                                 ),
                                 TextFormField(
+                                  enableInteractiveSelection: false,
                                   initialValue: user.gender,
                                   decoration: const InputDecoration(
                                     labelText: '性別',
@@ -96,9 +122,10 @@ class _AccountViewState extends State<AccountView> {
                                     ),
                                   ),
                                   readOnly: true,
-                                  style: const TextStyle(
-                                    fontSize:
-                                        28, // Adjust the font size as needed
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color:
+                                        globFontColor, // Adjust the font size as needed
                                   ),
                                 ),
                               ],
@@ -108,6 +135,7 @@ class _AccountViewState extends State<AccountView> {
                       ),
                       const SizedBox(height: 20), // Space between rows
                       TextFormField(
+                        enableInteractiveSelection: false,
                         initialValue: user.email,
                         decoration: const InputDecoration(
                           labelText: 'E-mail',
@@ -116,12 +144,15 @@ class _AccountViewState extends State<AccountView> {
                           ),
                         ),
                         readOnly: true,
-                        style: const TextStyle(
-                          fontSize: 26, // Adjust the font size as needed
+                        style: TextStyle(
+                          fontSize: 26,
+                          color:
+                              globFontColor, // Adjust the font size as needed
                         ),
                       ),
                       TextFormField(
                         initialValue: user.identity,
+                        enableInteractiveSelection: false,
                         decoration: const InputDecoration(
                           labelText: '身份',
                           labelStyle: TextStyle(
@@ -129,12 +160,15 @@ class _AccountViewState extends State<AccountView> {
                           ),
                         ),
                         readOnly: true,
-                        style: const TextStyle(
-                          fontSize: 28, // Adjust the font size as needed
+                        style: TextStyle(
+                          fontSize: 28,
+                          color:
+                              globFontColor, // Adjust the font size as needed
                         ),
                       ),
                       TextFormField(
                         initialValue: user.birthday,
+                        enableInteractiveSelection: false,
                         decoration: const InputDecoration(
                           labelText: '生日',
                           labelStyle: TextStyle(
@@ -142,8 +176,10 @@ class _AccountViewState extends State<AccountView> {
                           ),
                         ),
                         readOnly: true,
-                        style: const TextStyle(
-                          fontSize: 28, // Adjust the font size as needed
+                        style: TextStyle(
+                          fontSize: 28,
+                          color:
+                              globFontColor, // Adjust the font size as needed
                         ),
                       ),
                       const SizedBox(
@@ -157,7 +193,7 @@ class _AccountViewState extends State<AccountView> {
                           },
                           child: const Text(
                             'ASUS VivoWatch 資料',
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(fontSize: 25, color: globColor),
                           )),
                     ],
                   ),

@@ -50,6 +50,7 @@ class _RegisterViewState extends State<RegisterView> {
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      locale: const Locale('zh', 'TW'),
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -192,6 +193,10 @@ class _RegisterViewState extends State<RegisterView> {
                     const identity =
                         '一般使用者'; // hard-coding, doctor identity given by server side
                     try {
+                      await AuthService.firebase().createUser(
+                        email: email,
+                        password: password,
+                      );
                       await Services().createDatabaseUser(
                         email: email,
                         name: name,
@@ -199,28 +204,22 @@ class _RegisterViewState extends State<RegisterView> {
                         birthday: birthday,
                         gender: gender,
                       );
-                      try {
-                        await AuthService.firebase().createUser(
-                          email: email,
-                          password: password,
-                        );
-                        await AuthService.firebase().sendEmailVerification();
-                        Navigator.of(localcontext).pushNamedAndRemoveUntil(
-                          verifyEmailRoute,
-                          (route) => false,
-                        );
-                      } on WeakPasswordAuthException {
-                        await showErrorDialog(
-                            localcontext, '密碼問題', '密碼強度太弱，請換一組密碼');
-                      } on EmailAlreadyInUseAuthException {
-                        await showErrorDialog(
-                            localcontext, 'Email問題', '此E-mail已被註冊');
-                      } on InvalidEmailAuthException {
-                        await showErrorDialog(
-                            localcontext, 'Email問題', '此E-mail格式有誤');
-                      } on GenericAuthException {
-                        await showErrorDialog(localcontext, '出錯了', '註冊失敗');
-                      }
+                      await AuthService.firebase().sendEmailVerification();
+                      Navigator.of(localcontext).pushNamedAndRemoveUntil(
+                        verifyEmailRoute,
+                        (route) => false,
+                      );
+                    } on WeakPasswordAuthException {
+                      await showErrorDialog(
+                          localcontext, '密碼問題', '密碼強度太弱，請換一組密碼');
+                    } on EmailAlreadyInUseAuthException {
+                      await showErrorDialog(
+                          localcontext, 'Email問題', '此E-mail已被註冊');
+                    } on InvalidEmailAuthException {
+                      await showErrorDialog(
+                          localcontext, 'Email問題', '此E-mail格式有誤');
+                    } on GenericAuthException {
+                      await showErrorDialog(localcontext, '出錯了', '註冊失敗');
                     } on DBCouldNotCreateUser {
                       await showErrorDialog(
                           localcontext, 'Database', 'Create user failed');

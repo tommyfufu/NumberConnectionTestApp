@@ -29,31 +29,43 @@ class RecordsListView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 gameName, // Fallback if game name is not found
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: globFontColor,
+                ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text('日期',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18)),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: globFontColor,
+                        )),
                   ),
                   Expanded(
                     flex: 2,
                     child: Text('遊玩時長',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18)),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: globFontColor,
+                        )),
                   ),
                   Expanded(
                     flex: 2,
                     child: Text('遊戲分數',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18)),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: globFontColor,
+                        )),
                   ),
                 ],
               ),
@@ -79,19 +91,28 @@ class RecordsListView extends StatelessWidget {
                       Expanded(
                         flex: 3, // Adjust flex as needed to allocate space
                         child: Text(record.gameDateTime,
-                            style: const TextStyle(fontSize: 18)),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: globFontColor,
+                            )),
                       ),
                       Expanded(
                         flex: 2, // Adjust flex as needed
                         child: Text(record.gameTime,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 18)),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: globFontColor,
+                            )),
                       ),
                       Expanded(
                         flex: 2, // Adjust flex as needed
                         child: Text(record.score.toString(),
                             textAlign: TextAlign.right,
-                            style: const TextStyle(fontSize: 18)),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: globFontColor,
+                            )),
                       ),
                       const Spacer(
                         flex: 1,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 
 class GamesHomeView extends StatefulWidget {
   const GamesHomeView({super.key});
@@ -31,7 +32,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(250, 100),
+                maximumSize: const Size(260, 100),
                 minimumSize: const Size(200, 80),
                 backgroundColor: Colors.white,
                 shape: const RoundedRectangleBorder(
@@ -50,7 +51,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
                 '數字點點名',
                 style: TextStyle(
                   fontSize: 40,
-                  color: Color.fromARGB(255, 120, 169, 140),
+                  color: globColor,
                 ),
               ),
             ),
@@ -59,7 +60,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(250, 100),
+                maximumSize: const Size(260, 100),
                 minimumSize: const Size(200, 80),
                 backgroundColor: Colors.white,
                 shape: const RoundedRectangleBorder(
@@ -78,7 +79,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
                 '五顏配六色',
                 style: TextStyle(
                   fontSize: 40,
-                  color: Color.fromARGB(255, 120, 169, 140),
+                  color: globColor,
                 ),
               ),
             ),
@@ -87,7 +88,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(250, 100),
+                maximumSize: const Size(260, 100),
                 minimumSize: const Size(200, 80),
                 backgroundColor: Colors.white,
                 shape: const RoundedRectangleBorder(
@@ -107,7 +108,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
                 '按鈕排排站',
                 style: TextStyle(
                   fontSize: 40,
-                  color: Color.fromARGB(255, 120, 169, 140),
+                  color: globColor,
                 ),
               ),
             ),

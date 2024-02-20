@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_game_ending_view.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/colors_vs_word_ready_view.dart';
 import 'package:number_connection_test/constants/routes.dart';
@@ -45,6 +46,15 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('zh', 'TW'), // Chinese
+      ],
       home: const MyHomePage(title: 'Home'),
       routes: {
         numberConnectionReadyRoute: (context) =>

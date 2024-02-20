@@ -159,6 +159,7 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
+                    backgroundColor: globColor,
                   ),
                   onPressed: () async {
                     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -182,10 +183,11 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
+                    backgroundColor: globColor,
                   ),
                   onPressed: () async {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      colorVsWordsGameReadyRoute,
+                      soldiersInFormationGameReadyRoute,
                       (_) => false,
                     );
                   },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/asus/model/asus_vivowatch_data.dart';
 import 'package:number_connection_test/services/asus/service/asus_vivowatch_service.dart';
 import 'package:number_connection_test/views/asus_data_list_view.dart';
@@ -29,6 +30,7 @@ class _ASUSVivoWatchDataViewState extends State<ASUSVivoWatchDataView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: globColor,
         title: const Text('ASUS VivoWatch 生理數據'),
         actions: <Widget>[
           IconButton(
