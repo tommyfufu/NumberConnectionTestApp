@@ -1,8 +1,7 @@
 //login View
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
-import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_exceptions.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
@@ -19,6 +18,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -38,9 +38,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     const uiHight = 20.0;
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('登入'),
-        // ),
         body: Center(
       child: SingleChildScrollView(
         child: Container(
@@ -49,39 +46,50 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'HE App',
-                style: TextStyle(
-                  color: globColor,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  // fontFamily:
-                ),
+                style: Theme.of(context).textTheme.displayLarge,
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: 30.h,
               ),
               TextField(
                 controller: _email,
                 enableSuggestions: false,
                 autocorrect: false,
+                style: Theme.of(context).textTheme.bodySmall,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: '請輸入您的e-mail',
                   icon: Icon(Icons.email),
                 ),
               ),
-              const SizedBox(
-                height: uiHight,
+              SizedBox(
+                height: uiHight.h,
               ),
               TextField(
                 controller: _password,
-                obscureText: true,
+                obscureText: !_isPasswordVisible,
                 enableSuggestions: false,
                 autocorrect: false,
-                decoration: const InputDecoration(
+                style: Theme.of(context).textTheme.bodySmall,
+                decoration: InputDecoration(
                   hintText: '請輸入您的密碼',
-                  icon: Icon(Icons.lock),
+                  icon: const Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
               const SizedBox(
@@ -138,12 +146,9 @@ class _LoginViewState extends State<LoginView> {
                     await showErrorDialog(context, 'Database', 'Did not open');
                   }
                 },
+                // style: Theme.of(context).textButtonTheme.style,
                 child: const Text(
                   '登入',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: globColor,
-                  ),
                 ),
               ),
               TextButton(
@@ -153,11 +158,6 @@ class _LoginViewState extends State<LoginView> {
                 },
                 child: const Text(
                   '點擊此處註冊',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: globColor,
-                  ),
-                  textAlign: TextAlign.center,
                 ),
               )
             ],

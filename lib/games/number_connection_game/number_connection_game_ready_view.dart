@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_steady_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
   @override
   Widget build(BuildContext context) {
     const double sizeboxHeigt = 20.0;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       // floatingActionButton: Icon(Icons.arrow_back),
@@ -43,11 +45,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
           children: [
             Text(
               '數字點點名',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800,
-              ),
+              style: Theme.of(context).textTheme.headlineLarge,
               textScaleFactor: 1.5,
             ),
             const SizedBox(height: sizeboxHeigt),
@@ -58,7 +56,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                 Text(
                   '普通模式：',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -68,7 +66,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                 Text(
                   '僅出現數字',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,7 +77,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                 Text(
                   '進階模式：',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -89,7 +87,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                 Text(
                   '英文字母來搗亂！別被騙了！',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.bold,
                   ),
@@ -102,7 +100,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
             Text(
               '選擇模式',
               style: GoogleFonts.permanentMarker(
-                fontSize: 36,
+                fontSize: 36.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
@@ -114,8 +112,8 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    maximumSize: const Size(140, 120),
-                    minimumSize: const Size(120, 100),
+                    maximumSize: Size(140.w, 120.h),
+                    minimumSize: Size(120.w, 100.h),
                     // backgroundColor: const Color.fromARGB(255, 27, 97, 149),
                     backgroundColor: Colors.white,
                     shape: const RoundedRectangleBorder(
@@ -136,7 +134,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                   child: Text(
                     '普通\n模式',
                     style: GoogleFonts.permanentMarker(
-                      fontSize: 27,
+                      fontSize: 27.sp,
                       fontWeight: FontWeight.bold,
                       color: globColor,
                     ),
@@ -146,8 +144,8 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                 const SizedBox(width: 20.0),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    maximumSize: const Size(140, 120),
-                    minimumSize: const Size(120, 100),
+                    maximumSize: Size(140.w, 120.h),
+                    minimumSize: Size(120.w, 100.h),
                     backgroundColor: Colors.white,
                     shape: const RoundedRectangleBorder(
                       side: BorderSide(
@@ -167,7 +165,7 @@ class _NumberConnectionReadyViewState extends State<NumberConnectionReadyView> {
                   child: Text(
                     '進階\n模式',
                     style: GoogleFonts.permanentMarker(
-                      fontSize: 27,
+                      fontSize: 27.sp,
                       fontWeight: FontWeight.bold,
                       color: globColor,
                     ),

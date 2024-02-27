@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 
@@ -18,23 +21,13 @@ class AccountView extends StatefulWidget {
 class _AccountViewState extends State<AccountView> {
   late Future<DatabaseUser> _userFuture;
   late String _userEmail;
-  final _services = Services();
-
-  void _setupUser() {
-    _userEmail = AuthService.firebase().currentUser!.email;
-    _userFuture = _services.getDatabaseUser(email: _userEmail);
-  }
+  late Services _services;
 
   @override
   void initState() {
-    _setupUser();
-    AuthService.firebase().authStateChanges.listen((user) {
-      if (user != null) {
-        setState(() {
-          _setupUser();
-        });
-      }
-    });
+    _services = Services();
+    _userEmail = AuthService.firebase().currentUser!.email;
+    _userFuture = Future(() => _services.getDatabaseUser(email: _userEmail));
     super.initState();
   }
 
@@ -45,9 +38,11 @@ class _AccountViewState extends State<AccountView> {
 
   @override
   Widget build(BuildContext context) {
+    final futureBuilderKey = ValueKey(_userEmail);
     return Scaffold(
         appBar: AppBar(
           title: const Text('會員專區'),
+          toolbarHeight: 60.h,
           backgroundColor: globColor,
           actions: <Widget>[
             IconButton.outlined(
@@ -55,18 +50,22 @@ class _AccountViewState extends State<AccountView> {
                 final shouldLogOut = await showLogOutDialog(context);
                 // Check the user's decision
                 if (shouldLogOut) {
-                  await AuthService.firebase().logOut();
+                  await _services.logOut();
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     loginRoute,
                     (_) => false,
                   );
                 }
               },
-              icon: const Icon(Icons.logout),
+              icon: Icon(
+                Icons.logout,
+                size: 20.sp,
+              ),
             ),
           ],
         ),
         body: FutureBuilder<DatabaseUser>(
+          key: futureBuilderKey,
           future: _userFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,9 +100,9 @@ class _AccountViewState extends State<AccountView> {
                                   initialValue: user.name,
                                   decoration: const InputDecoration(
                                     labelText: '姓名',
-                                    labelStyle: TextStyle(
-                                      fontSize: 25, // Set your desired size
-                                    ),
+                                    // labelStyle: TextStyle(
+                                    //   fontSize: 25, // Set your desired size
+                                    // ),
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
@@ -117,9 +116,9 @@ class _AccountViewState extends State<AccountView> {
                                   initialValue: user.gender,
                                   decoration: const InputDecoration(
                                     labelText: '性別',
-                                    labelStyle: TextStyle(
-                                      fontSize: 25, // Set your desired size
-                                    ),
+                                    // labelStyle: TextStyle(
+                                    //   fontSize: 25, // Set your desired size
+                                    // ),
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
@@ -139,9 +138,9 @@ class _AccountViewState extends State<AccountView> {
                         initialValue: user.email,
                         decoration: const InputDecoration(
                           labelText: 'E-mail',
-                          labelStyle: TextStyle(
-                            fontSize: 25, // Set your desired size
-                          ),
+                          // labelStyle: TextStyle(
+                          //   fontSize: 25, // Set your desired size
+                          // ),
                         ),
                         readOnly: true,
                         style: TextStyle(
@@ -155,9 +154,9 @@ class _AccountViewState extends State<AccountView> {
                         enableInteractiveSelection: false,
                         decoration: const InputDecoration(
                           labelText: '身份',
-                          labelStyle: TextStyle(
-                            fontSize: 25,
-                          ),
+                          // labelStyle: TextStyle(
+                          //   fontSize: 25,
+                          // ),
                         ),
                         readOnly: true,
                         style: TextStyle(
@@ -171,9 +170,9 @@ class _AccountViewState extends State<AccountView> {
                         enableInteractiveSelection: false,
                         decoration: const InputDecoration(
                           labelText: '生日',
-                          labelStyle: TextStyle(
-                            fontSize: 25, // Set your desired size
-                          ),
+                          // labelStyle: TextStyle(
+                          //   fontSize: 25, // Set your desired size
+                          // ),
                         ),
                         readOnly: true,
                         style: TextStyle(
@@ -193,7 +192,7 @@ class _AccountViewState extends State<AccountView> {
                           },
                           child: const Text(
                             'ASUS VivoWatch 資料',
-                            style: TextStyle(fontSize: 25, color: globColor),
+                            // style: TextStyle(fontSize: 25, color: globColor),
                           )),
                     ],
                   ),

@@ -164,11 +164,12 @@ class Services {
   Future<void> logOut() async {
     await AuthService.firebase().logOut();
     _user = null;
+    // _records.clear(); // Clear any cached records
+    // _recordsStreamController.add([]); // Update listeners with an empty list
   }
 
   Future<DatabaseUser> getDatabaseUser({required String email}) async {
     if (_user != null) return _user!;
-    print('test');
     final encodedEmail = Uri.encodeComponent(email);
     final response =
         await http.get(Uri.parse('$getUserRoute?email=$encodedEmail'));

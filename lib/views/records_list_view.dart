@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 
@@ -30,7 +31,7 @@ class RecordsListView extends StatelessWidget {
               child: Text(
                 gameName, // Fallback if game name is not found
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                   color: globFontColor,
                 ),
@@ -45,7 +46,7 @@ class RecordsListView extends StatelessWidget {
                     child: Text('日期',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           color: globFontColor,
                         )),
                   ),
@@ -54,7 +55,7 @@ class RecordsListView extends StatelessWidget {
                     child: Text('遊玩時長',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           color: globFontColor,
                         )),
                   ),
@@ -63,7 +64,7 @@ class RecordsListView extends StatelessWidget {
                     child: Text('遊戲分數',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           color: globFontColor,
                         )),
                   ),
@@ -92,7 +93,7 @@ class RecordsListView extends StatelessWidget {
                         flex: 3, // Adjust flex as needed to allocate space
                         child: Text(record.gameDateTime,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               color: globFontColor,
                             )),
                       ),
@@ -101,7 +102,7 @@ class RecordsListView extends StatelessWidget {
                         child: Text(record.gameTime,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               color: globFontColor,
                             )),
                       ),
@@ -110,7 +111,7 @@ class RecordsListView extends StatelessWidget {
                         child: Text(record.score.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               color: globFontColor,
                             )),
                       ),

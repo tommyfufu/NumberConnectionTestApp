@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
 import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
@@ -38,6 +39,7 @@ class _RecordsViewState extends State<RecordsView> {
       appBar: AppBar(
         title: const Text('遊戲紀錄'),
         backgroundColor: globColor,
+        toolbarHeight: 60.h,
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (int gameId) {
@@ -53,7 +55,10 @@ class _RecordsViewState extends State<RecordsView> {
                 );
               }).toList();
             },
-            icon: const Icon(Icons.menu),
+            icon: Icon(
+              Icons.menu,
+              size: 20.sp,
+            ),
           ),
         ],
       ),

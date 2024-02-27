@@ -52,7 +52,7 @@ class _SoldiersInFormationGameState extends State<SoldiersInFormationGame> {
   Widget build(BuildContext context) {
     double gridWidth = MediaQuery.of(context).size.width; // 80% of screen width
     double gridHeight =
-        MediaQuery.of(context).size.height * 0.6; // 60% of screen height
+        MediaQuery.of(context).size.height * 0.8; // 60% of screen height
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),

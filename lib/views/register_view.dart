@@ -22,6 +22,7 @@ class _RegisterViewState extends State<RegisterView> {
   DateTime? _selectedDate;
   late final TextEditingController _birthDateController;
   late final TextEditingController _genderController;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -105,14 +106,9 @@ class _RegisterViewState extends State<RegisterView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'HE App',
-                  style: TextStyle(
-                    color: globColor,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    // fontFamily:
-                  ),
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
                 const SizedBox(
                   height: 50,
@@ -122,6 +118,7 @@ class _RegisterViewState extends State<RegisterView> {
                   enableSuggestions: false,
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: const InputDecoration(
                     hintText: '請輸入您的e-mail',
                     icon: Icon(Icons.email),
@@ -132,12 +129,27 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 TextField(
                   controller: _password,
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration: const InputDecoration(
-                    hintText: '請輸入您的密碼',
-                    icon: Icon(Icons.lock),
+                  style: Theme.of(context).textTheme.bodySmall,
+                  decoration: InputDecoration(
+                    hintText: '請輸入長度需大於8位數的密碼',
+                    icon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -147,6 +159,7 @@ class _RegisterViewState extends State<RegisterView> {
                   controller: _name,
                   enableSuggestions: false,
                   autocorrect: false,
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: const InputDecoration(
                     hintText: '請輸入您的大名',
                     icon: Icon(Icons.person),
@@ -158,6 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
                 TextFormField(
                   controller: _birthDateController,
                   readOnly: true,
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: const InputDecoration(
                     hintText: '選擇您的生日',
                     icon: Icon(Icons.calendar_today),
@@ -169,7 +183,9 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 TextFormField(
                   controller: _genderController,
-                  readOnly: true, // This makes the field not editable directly
+                  // This makes the field not editable directly
+                  readOnly: true,
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: const InputDecoration(
                     hintText: '選擇您性別',
                     icon: Icon(Icons.transgender),
@@ -211,7 +227,7 @@ class _RegisterViewState extends State<RegisterView> {
                       );
                     } on WeakPasswordAuthException {
                       await showErrorDialog(
-                          localcontext, '密碼問題', '密碼強度太弱，請換一組密碼');
+                          localcontext, '密碼問題', '密碼強度太弱，請換一組超過8位數的密碼');
                     } on EmailAlreadyInUseAuthException {
                       await showErrorDialog(
                           localcontext, 'Email問題', '此E-mail已被註冊');
@@ -222,13 +238,13 @@ class _RegisterViewState extends State<RegisterView> {
                       await showErrorDialog(localcontext, '出錯了', '註冊失敗');
                     } on DBCouldNotCreateUser {
                       await showErrorDialog(
-                          localcontext, 'Database', 'Create user failed');
+                          localcontext, '資料庫問題', '新建使用者失敗，請聯絡客服');
                     } on DBUserAlreadyExists {
                       await showErrorDialog(
-                          localcontext, 'Database', 'User already exsit');
+                          localcontext, '資料庫問題', '使用者已存在，請登入或聯絡客服');
                     } on DatabaseIsNotOpen {
                       await showErrorDialog(
-                          localcontext, 'Database', 'Database not open');
+                          localcontext, '資料庫問題', '資料庫伺服器問題，請聯絡客服');
                     }
                   },
                   child: const Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 
@@ -23,7 +24,7 @@ class _GamesHomeViewState extends State<GamesHomeView> {
               '遊戲選單',
               style: TextStyle(
                 color: Colors.grey.shade800,
-                fontSize: 60,
+                fontSize: 50.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -32,25 +33,26 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(260, 100),
-                minimumSize: const Size(200, 80),
+                maximumSize:
+                    Size(200.w, 80.h), // Use ScreenUtil for responsive size
+                minimumSize: Size(160.w, 60.h),
                 backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                   side: BorderSide(
                     // color: Colors.black,
                     color: Colors.white,
-                    width: 1.5,
+                    width: 1.5.w,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
               ),
               onPressed: () {
                 Navigator.of(context).pushNamed(numberConnectionReadyRoute);
               },
-              child: const Text(
+              child: Text(
                 '數字點點名',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 30.sp,
                   color: globColor,
                 ),
               ),
@@ -60,25 +62,26 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(260, 100),
-                minimumSize: const Size(200, 80),
+                maximumSize:
+                    Size(200.w, 80.h), // Use ScreenUtil for responsive size
+                minimumSize: Size(160.w, 60.h),
                 backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                   side: BorderSide(
                     // color: Colors.black,
                     color: Colors.white,
-                    width: 1.5,
+                    width: 1.5.w,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
               ),
               onPressed: () {
                 Navigator.of(context).pushNamed(colorVsWordsGameReadyRoute);
               },
-              child: const Text(
+              child: Text(
                 '五顏配六色',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 30.sp,
                   color: globColor,
                 ),
               ),
@@ -88,26 +91,27 @@ class _GamesHomeViewState extends State<GamesHomeView> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                maximumSize: const Size(260, 100),
-                minimumSize: const Size(200, 80),
+                maximumSize:
+                    Size(200.w, 80.h), // Use ScreenUtil for responsive size
+                minimumSize: Size(160.w, 60.h),
                 backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                   side: BorderSide(
                     // color: Colors.black,
                     color: Colors.white,
-                    width: 1.5,
+                    width: 1.5.w,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
               ),
               onPressed: () {
                 Navigator.of(context)
                     .pushNamed(soldiersInFormationGameReadyRoute);
               },
-              child: const Text(
+              child: Text(
                 '按鈕排排站',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 30.sp,
                   color: globColor,
                 ),
               ),

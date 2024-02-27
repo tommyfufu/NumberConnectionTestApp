@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
@@ -15,8 +16,8 @@ class SIFEndingRecordView extends StatefulWidget {
 class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
   @override
   Widget build(BuildContext context) {
-    const double sizeboxHeigt = 40.0;
-    const TextStyle dataTextStyle = TextStyle(fontSize: 20);
+    const double sizeboxHeigt = 20.0;
+    // const TextStyle dataTextStyle = TextStyle(fontSize: 20);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Center(
@@ -24,33 +25,27 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
           mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               '按鈕排排站',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 60,
-              ),
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-            const Text(
+            Text(
               '遊戲結束',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 50,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            const SizedBox(
-              height: sizeboxHeigt,
+            SizedBox(
+              height: sizeboxHeigt.h,
             ),
-            const Text(
+            Text(
               '遊戲數據',
-              style: TextStyle(
-                fontSize: 40,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            const SizedBox(
-              width: 220,
+            SizedBox(
+              width: 150.w,
               height: 10,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black,
               ),
             ),
@@ -64,12 +59,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '遊玩日期：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       widget.record.gameDateTime.split(" ")[0],
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -78,12 +71,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '遊玩時間：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       widget.record.gameDateTime.split(" ")[1],
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -92,12 +83,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '遊玩時長：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       widget.record.gameTime,
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -106,12 +95,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '按鈕總數：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       ' $globButtonsCount',
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -120,12 +107,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '按錯次數：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       ' $globWrongPressedCount',
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -134,12 +119,10 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                   children: [
                     const Text(
                       '遊玩分數：',
-                      style: dataTextStyle,
                       textAlign: TextAlign.right,
                     ),
                     Text(
                       ' $globScore',
-                      style: dataTextStyle,
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -155,7 +138,8 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 60),
+                    maximumSize: Size(140.w, 100.h),
+                    minimumSize: Size(120.w, 80.h),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
@@ -167,9 +151,8 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                       (_) => false,
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     '遊戲選單',
-                    style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),
                 ),
@@ -179,7 +162,8 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(150, 60),
+                    maximumSize: Size(140.w, 100.h),
+                    minimumSize: Size(120.w, 80.h),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
@@ -191,9 +175,8 @@ class _SIFEndingRecordViewState extends State<SIFEndingRecordView> {
                       (_) => false,
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     '再來一次',
-                    style: GoogleFonts.permanentMarker(fontSize: 18),
                     textScaleFactor: 1.5,
                   ),
                 ),

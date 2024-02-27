@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_ending_record_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
@@ -26,6 +27,7 @@ class _NCGameOverViewState extends State<NCGameOverView> {
       appBar: AppBar(
         title: const Text('遊戲紀錄'),
         backgroundColor: globColor,
+        toolbarHeight: 60.h,
       ),
       extendBodyBehindAppBar: false,
       body: StreamBuilder<List<DatabaseRecord>>(

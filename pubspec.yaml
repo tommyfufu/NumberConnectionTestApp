@@ -53,6 +53,7 @@ dependencies:
   mysql1: ^0.20.0
   http: ^1.1.0
   table_calendar: ^3.0.9
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:

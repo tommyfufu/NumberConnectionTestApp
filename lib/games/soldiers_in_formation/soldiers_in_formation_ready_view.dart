@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_game_view.dart';
@@ -45,11 +46,7 @@ class _SoldiersInFormationGameReadyViewState
           children: [
             Text(
               '按鈕排排站',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800,
-              ),
+              style: Theme.of(context).textTheme.headlineLarge,
               textScaleFactor: 1.5,
             ),
             const SizedBox(height: sizeboxHeigt),
@@ -59,7 +56,7 @@ class _SoldiersInFormationGameReadyViewState
                 Text(
                   '遊戲玩法：',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: globColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -69,7 +66,7 @@ class _SoldiersInFormationGameReadyViewState
                 Text(
                   '請快速的依照由左至右\n由上而下的順序',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,7 +76,7 @@ class _SoldiersInFormationGameReadyViewState
                 Text(
                   '將綠色按鈕點擊成紅色',
                   style: GoogleFonts.permanentMarker(
-                    fontSize: 20,
+                    fontSize: 22.sp,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.bold,
                   ),
@@ -91,16 +88,16 @@ class _SoldiersInFormationGameReadyViewState
             const SizedBox(height: sizeboxHeigt * 1.5),
             Image.asset(
               'assets/images/SIFGameRule.JPG',
-              width: 300,
-              height: 125,
+              width: 250.w,
+              height: 125.h,
               fit: BoxFit.cover, // Adjust according to your requirement
             ),
             const SizedBox(height: sizeboxHeigt * 1.5),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                maximumSize: const Size(140, 120),
-                minimumSize: const Size(120, 100),
+                maximumSize: Size(140.w, 120.h),
+                minimumSize: Size(120.w, 100.h),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,
@@ -117,7 +114,7 @@ class _SoldiersInFormationGameReadyViewState
                 '遊戲開始',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.permanentMarker(
-                  fontSize: 27,
+                  fontSize: 27.sp,
                   fontWeight: FontWeight.bold,
                   color: globColor,
                 ),

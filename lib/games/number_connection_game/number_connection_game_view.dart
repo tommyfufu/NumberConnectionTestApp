@@ -53,12 +53,12 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     _nodesNumber = widget.endNum - widget.startNum + 1;
-    if (_nodesNumber > 1 && _nodesNumber <= 20) {
+    if (_nodesNumber > 1 && _nodesNumber < 15) {
       _range = 80;
-    } else if (_nodesNumber > 20 && _nodesNumber <= 30) {
+    } else if (_nodesNumber >= 15 && _nodesNumber < 35) {
       _range = 65;
-    } else if (_nodesNumber > 30 && _nodesNumber <= 40) {
-      _range = 45;
+    } else if (_nodesNumber >= 35 && _nodesNumber <= 50) {
+      _range = 55;
     } else {
       throw WrongRangeException;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/utilities/dialogs/show_range_check_dialog.dart';
@@ -41,11 +42,7 @@ class _NumberConnectionSteadyViewState
           children: [
             Text(
               '數字點點名',
-              style: GoogleFonts.permanentMarker(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800,
-              ),
+              style: Theme.of(context).textTheme.headlineLarge,
               textScaleFactor: 1.5,
             ),
             // Text(
@@ -60,7 +57,7 @@ class _NumberConnectionSteadyViewState
             Text(
               '遊戲規則：\n螢幕上將出現隨機分布的數字\n請從起始數字開始\n將綠色按鈕長按成紅色\n按到結束數字時遊戲結束',
               style: GoogleFonts.permanentMarker(
-                fontSize: 20,
+                fontSize: 22.sp,
                 color: Colors.grey.shade700,
                 fontWeight: FontWeight.bold,
               ),
@@ -76,14 +73,20 @@ class _NumberConnectionSteadyViewState
                     Text(
                       '起始數字',
                       style: GoogleFonts.permanentMarker(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         color: Colors.grey.shade800,
                       ),
                       textScaleFactor: 1.5,
                     ),
                     NumberPicker(
                       value: _startingNumber,
-                      itemWidth: 60,
+                      itemWidth: 60.w,
+                      itemHeight: 40.h,
+                      textStyle: Theme.of(context).textTheme.labelMedium,
+                      selectedTextStyle: TextStyle(
+                          fontSize: 20.0.sp,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold),
                       minValue: 1,
                       maxValue: 40,
                       haptics: true,
@@ -106,16 +109,22 @@ class _NumberConnectionSteadyViewState
                     Text(
                       '結束數字',
                       style: GoogleFonts.permanentMarker(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         color: Colors.grey.shade800,
                       ),
                       textScaleFactor: 1.5,
                     ),
                     NumberPicker(
                       value: _endingNumber,
-                      itemWidth: 60,
+                      itemWidth: 60.w,
+                      itemHeight: 40.h,
                       minValue: 1,
                       maxValue: 40,
+                      textStyle: Theme.of(context).textTheme.labelMedium,
+                      selectedTextStyle: TextStyle(
+                          fontSize: 20.0.sp,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold),
                       onChanged: (value) =>
                           setState(() => _endingNumber = value),
                       decoration: BoxDecoration(
@@ -135,8 +144,8 @@ class _NumberConnectionSteadyViewState
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                maximumSize: const Size(200, 100),
-                minimumSize: const Size(180, 80),
+                maximumSize: Size(140.w, 120.h),
+                minimumSize: Size(120.w, 100.h),
                 shape: const RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,
@@ -162,11 +171,11 @@ class _NumberConnectionSteadyViewState
               child: Text(
                 '開始遊戲',
                 style: GoogleFonts.permanentMarker(
-                  fontSize: 25,
+                  fontSize: 25.sp,
                   fontWeight: FontWeight.bold,
                   color: globColor,
                 ),
-                textScaleFactor: 1.5,
+                textScaleFactor: 1,
               ),
             ),
           ],

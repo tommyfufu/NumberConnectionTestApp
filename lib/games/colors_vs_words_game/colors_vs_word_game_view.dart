@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/options_in_row.dart';
 import 'package:number_connection_test/games/colors_vs_words_game/questions.dart';
@@ -183,8 +184,8 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                                 ),
                                 child: Text(
                                   'Score: $globScore',
-                                  style: const TextStyle(
-                                    fontSize: 20.0,
+                                  style: TextStyle(
+                                    fontSize: 20.0.sp,
                                     fontFamily: 'KGB',
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -206,14 +207,14 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                             questionType
                                 ? const Text(
                                     '字的顏色是什麼顏色',
-                                    style: TextStyle(fontSize: 25),
+                                    // style: TextStyle(fontSize: 25),
                                   )
                                 : const Text(
                                     '字的意義代表什麼顏色',
-                                    style: TextStyle(fontSize: 25),
+                                    // style: TextStyle(fontSize: 25),
                                   ),
-                            const SizedBox(
-                              height: 50,
+                            SizedBox(
+                              height: 50.h,
                             ),
                             Center(
                               child: Text(
@@ -222,7 +223,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
                                         _currinterferenceOptionIndex]]
                                     : wordsList[ansIndexList[_currAnsIndex]],
                                 style: TextStyle(
-                                  fontSize: 150.0,
+                                  fontSize: 120.0.sp,
                                   fontFamily: 'RussoOne',
                                   color: questionType
                                       ? colorsList[ansIndexList[_currAnsIndex]]

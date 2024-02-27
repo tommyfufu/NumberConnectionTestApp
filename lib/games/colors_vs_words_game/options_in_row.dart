@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Expanded genrow(
     {required int btn1,
@@ -60,8 +61,8 @@ ElevatedButton genbutton(
     ),
     child: Text(
       questionType ? btnStr : "",
-      style: const TextStyle(
-        fontSize: 50.0,
+      style: TextStyle(
+        fontSize: 50.0.sp,
         fontFamily: 'KGB',
         color: Colors.black,
         // fontWeight: FontWeight.bold,
