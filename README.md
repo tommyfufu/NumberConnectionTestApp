@@ -12,4 +12,5 @@ HEAppforTVGH is a healthcare application designed to enhance patient care and ma
 - **Customizable Dashboard**: A user-friendly dashboard for patients and healthcare providers to access vital information at a glance.
 
 ## Demo
-![YouTube link](https://youtu.be/okHx3yNWXcI?si=TjhFYZYPOFRXDVSE)
+
+[![HEAppforTVGH Demo](url_of_your_image)](https://youtube.com/link_to_your_video)
