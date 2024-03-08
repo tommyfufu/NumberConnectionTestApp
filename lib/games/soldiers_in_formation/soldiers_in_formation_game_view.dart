@@ -54,6 +54,7 @@ class _SoldiersInFormationGameState extends State<SoldiersInFormationGame> {
     double gridHeight =
         MediaQuery.of(context).size.height * 0.8; // 60% of screen height
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 240, 219),
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,

@@ -12,12 +12,12 @@ import 'package:number_connection_test/games/number_connection_game/number_conne
 import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_game_ending_view.dart';
 import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_ready_view.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/views/account_view.dart';
-import 'package:number_connection_test/views/home_view.dart';
-import 'package:number_connection_test/views/login_view.dart';
-import 'package:number_connection_test/views/records_view.dart';
-import 'package:number_connection_test/views/register_view.dart';
-import 'package:number_connection_test/views/verified.dart';
+import 'package:number_connection_test/views/account_view/account_view.dart';
+import 'package:number_connection_test/views/login_email_view/home_view.dart';
+import 'package:number_connection_test/views/login_email_view/login_view.dart';
+import 'package:number_connection_test/views/records_view/records_view.dart';
+import 'package:number_connection_test/views/login_email_view/register_view.dart';
+import 'package:number_connection_test/views/login_email_view/verified.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

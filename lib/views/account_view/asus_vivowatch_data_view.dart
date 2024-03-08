@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/asus/model/asus_vivowatch_data.dart';
 import 'package:number_connection_test/services/asus/service/asus_vivowatch_service.dart';
-import 'package:number_connection_test/views/asus_data_list_view.dart';
+import 'package:number_connection_test/views/account_view/asus_data_list_view.dart';
 
 class ASUSVivoWatchDataView extends StatefulWidget {
   const ASUSVivoWatchDataView({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
-import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
+// import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 
 class WrapperButton extends StatefulWidget {
   const WrapperButton({
@@ -22,7 +22,6 @@ class _WrapperButtonState extends State<WrapperButton> {
 
   @override
   void initState() {
-    // print('Label Num = ${widget.labelnum}');
     super.initState();
   }
 
@@ -42,11 +41,12 @@ class _WrapperButtonState extends State<WrapperButton> {
         _pressedFlag = _pressedFlag;
       });
       globWrongPressedCount++;
-      if (nowValue > 0) {
-        showErrorDialog(context, '阿喔錯了', '請按照按鈕上的數字順序點選按鈕喔');
-      } else {
-        showErrorDialog(context, '阿喔錯了', '不要被字母干擾了，請按照順序點選數字');
-      }
+      // Don't need to let patient know they push wrong button
+      // if (nowValue > 0) {
+      //   showErrorDialog(context, '阿喔錯了', '請按照按鈕上的數字順序點選按鈕喔');
+      // } else {
+      //   showErrorDialog(context, '阿喔錯了', '不要被字母干擾了，請按照順序點選數字');
+      // }
       // throw WrongOrderException();
     }
   }
@@ -76,11 +76,8 @@ class _WrapperButtonState extends State<WrapperButton> {
               : const BorderSide(
                   color: Colors.green,
                 ),
-          // minimumSize: const Size(10, 10),
+
           maximumSize: const Size(100, 100),
-          // textStyle: const TextStyle(fontSize: 11, fontStyle: FontStyle.normal),
-          // disabledBackgroundColor: Colors.red,
-          // disabledForegroundColor: Colors.white,
         ),
         onPressed: () {},
         onLongPress: () {
