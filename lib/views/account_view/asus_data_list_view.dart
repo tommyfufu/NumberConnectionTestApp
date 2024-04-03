@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/services/asus/model/asus_vivowatch_data.dart';
 
 class AsusDataListView extends StatefulWidget {
@@ -15,8 +16,12 @@ class _AsusDataListViewState extends State<AsusDataListView> {
       elevation: 4,
       margin: const EdgeInsets.all(8),
       child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(value),
+        title: Text(title,
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+        subtitle: Text(
+          value,
+          style: TextStyle(fontSize: 14.sp),
+        ),
       ),
     );
   }

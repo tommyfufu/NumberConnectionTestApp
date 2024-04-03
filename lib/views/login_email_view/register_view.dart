@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_exceptions.dart';
@@ -7,6 +8,7 @@ import 'package:number_connection_test/services/crud/services/crud_service_mysql
 import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 import 'package:number_connection_test/utilities/generics/convert_date_format.dart';
+import 'package:path/path.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -52,6 +54,35 @@ class _RegisterViewState extends State<RegisterView> {
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       locale: const Locale('zh', 'TW'),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            textTheme: TextTheme(
+              headlineMedium: TextStyle(
+                fontSize: 18.sp,
+                color: Colors.black,
+              ),
+            ),
+            // This will change the background color of the header and selected date
+            colorScheme: const ColorScheme.light(
+              primary:
+                  Color.fromARGB(255, 120, 169, 140), // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+              surface: Colors.black,
+            ),
+            dialogBackgroundColor:
+                Colors.white, // or any other color for the background
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                textStyle:
+                    const TextStyle(color: Colors.black), // button text color
+              ),
+            ),
+          ),
+          child: child ?? const Text(''), // The showDatePicker widget
+        );
+      },
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -168,6 +199,7 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(
                   height: uiHight,
                 ),
+
                 TextFormField(
                   controller: _birthDateController,
                   readOnly: true,
