@@ -8,7 +8,6 @@ import 'package:number_connection_test/services/crud/services/crud_service_mysql
 import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 import 'package:number_connection_test/utilities/generics/convert_date_format.dart';
-import 'package:path/path.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -24,6 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
   DateTime? _selectedDate;
   late final TextEditingController _birthDateController;
   late final TextEditingController _genderController;
+  late final TextEditingController _vivowatchSN;
   bool _isPasswordVisible = false;
 
   @override
@@ -34,6 +34,7 @@ class _RegisterViewState extends State<RegisterView> {
     _birthDateController =
         TextEditingController(); // Initialize the birth date controller
     _genderController = TextEditingController();
+    _vivowatchSN = TextEditingController();
     super.initState();
   }
 
@@ -44,6 +45,7 @@ class _RegisterViewState extends State<RegisterView> {
     _name.dispose();
     _birthDateController.dispose();
     _genderController.dispose();
+    _vivowatchSN.dispose();
     super.dispose();
   }
 
@@ -199,7 +201,6 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(
                   height: uiHight,
                 ),
-
                 TextFormField(
                   controller: _birthDateController,
                   readOnly: true,
@@ -224,6 +225,19 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   onTap: () => _selectGender(
                       context), // Call the gender selection dialog
+                ),
+                const SizedBox(
+                  height: uiHight,
+                ),
+                TextFormField(
+                  controller: _vivowatchSN,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  decoration: const InputDecoration(
+                    hintText: '請輸入您的Asus Vivowatch序號(Serial Number)',
+                    icon: Icon(Icons.watch),
+                  ),
                 ),
                 const SizedBox(
                   height: uiHight,
@@ -293,7 +307,7 @@ class _RegisterViewState extends State<RegisterView> {
                         .pushNamedAndRemoveUntil('/login/', (route) => false);
                   },
                   child: const Text(
-                    '已經註冊，點擊這裡登入！',
+                    '已經註冊，點擊此處登入！',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: globColor,

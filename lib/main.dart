@@ -13,6 +13,7 @@ import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_f
 import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_ready_view.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/views/account_view/account_view.dart';
+import 'package:number_connection_test/views/login_email_view/forget_password_view.dart';
 import 'package:number_connection_test/views/login_email_view/home_view.dart';
 import 'package:number_connection_test/views/login_email_view/login_view.dart';
 import 'package:number_connection_test/views/records_view/records_view.dart';
@@ -113,6 +114,7 @@ class MyApp extends StatelessWidget {
                 ncgameoverRoute: (context) => const NCGameOverView(),
                 cwgameoverRoute: (context) => const CWGameOverView(),
                 sifgameoverRoute: (context) => const SIFGameOverView(),
+                forgotPasswordRoute: (context) => const ForgetPassView(),
               },
             ),
           )

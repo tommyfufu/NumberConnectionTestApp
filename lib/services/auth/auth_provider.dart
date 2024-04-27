@@ -14,4 +14,5 @@ abstract class AuthProvider {
   Future<void> logOut();
   Future<void> sendEmailVerification();
   Stream<AuthUser?> get authStateChanges;
+  Future<void> resetPassword({required String email});
 }

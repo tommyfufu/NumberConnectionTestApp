@@ -179,6 +179,22 @@ class _AccountViewState extends State<AccountView> {
                               globFontColor, // Adjust the font size as needed
                         ),
                       ),
+                      TextFormField(
+                        initialValue: '123456789',
+                        enableInteractiveSelection: false,
+                        decoration: const InputDecoration(
+                          labelText: 'Asus Vivowatch 序號',
+                          // labelStyle: TextStyle(
+                          //   fontSize: 25, // Set your desired size
+                          // ),
+                        ),
+                        readOnly: true,
+                        style: TextStyle(
+                          fontSize: 28,
+                          color:
+                              globFontColor, // Adjust the font size as needed
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),

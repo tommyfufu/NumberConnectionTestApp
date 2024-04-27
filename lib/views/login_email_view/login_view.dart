@@ -153,13 +153,24 @@ class _LoginViewState extends State<LoginView> {
               ),
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pushNamed(forgotPasswordRoute);
+                },
+                child: const Text(
+                  '忘記密碼',
+                ),
+              ),
+              const SizedBox(
+                height: uiHight,
+              ),
+              TextButton(
+                onPressed: () {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(registerRoute, (route) => false);
                 },
                 child: const Text(
                   '點擊此處註冊',
                 ),
-              )
+              ),
             ],
           ),
         ),

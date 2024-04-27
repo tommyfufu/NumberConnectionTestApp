@@ -107,4 +107,14 @@ class FirebaseAuthProvider implements AuthProvider {
       FirebaseAuth.instance.authStateChanges().map((user) {
         return user != null ? AuthUser.fromFirebase(user) : null;
       });
+
+  @override
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      // Handle error
+      rethrow;
+    }
+  }
 }

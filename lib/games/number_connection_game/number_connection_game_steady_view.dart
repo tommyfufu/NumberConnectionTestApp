@@ -45,14 +45,6 @@ class _NumberConnectionSteadyViewState
               style: Theme.of(context).textTheme.headlineLarge,
               textScaleFactor: 1.5,
             ),
-            // Text(
-            //   '點點名',
-            //   style: GoogleFonts.permanentMarker(
-            //     fontSize: 36,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            //   textScaleFactor: 1.5,
-            // ),
             const SizedBox(height: sizeboxHeigt),
             Text(
               '遊戲規則：\n螢幕上將出現隨機分布的數字\n請從起始數字開始\n將綠色按鈕長按成紅色\n按到結束數字時遊戲結束',

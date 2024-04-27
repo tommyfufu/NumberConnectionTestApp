@@ -38,4 +38,8 @@ class AuthService implements AuthProvider {
 
   @override
   Stream<AuthUser?> get authStateChanges => provider.authStateChanges;
+
+  @override
+  Future<void> resetPassword({required String email}) =>
+      provider.resetPassword(email: email);
 }
