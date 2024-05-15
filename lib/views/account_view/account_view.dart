@@ -4,10 +4,10 @@ import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/models/users_and_records.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 import 'package:number_connection_test/utilities/dialogs/logout_dialog.dart';
-import 'package:number_connection_test/views/account_view/asus_vivowatch_data_view.dart';
+import 'package:number_connection_test/views/account_view/asus_view/asus_vivowatch_data_view.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -17,7 +17,7 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-  late Future<DatabaseUser> _userFuture;
+  late Future<User> _userFuture;
   late String _userEmail;
   late Services _services;
 
@@ -25,6 +25,7 @@ class _AccountViewState extends State<AccountView> {
   void initState() {
     _services = Services();
     _userEmail = AuthService.firebase().currentUser!.email;
+    print(_userEmail);
     _userFuture = Future(() => _services.getDatabaseUser(email: _userEmail));
     super.initState();
   }
@@ -62,7 +63,7 @@ class _AccountViewState extends State<AccountView> {
             ),
           ],
         ),
-        body: FutureBuilder<DatabaseUser>(
+        body: FutureBuilder<User>(
           key: futureBuilderKey,
           future: _userFuture,
           builder: (context, snapshot) {
@@ -147,22 +148,7 @@ class _AccountViewState extends State<AccountView> {
                               globFontColor, // Adjust the font size as needed
                         ),
                       ),
-                      TextFormField(
-                        initialValue: user.identity,
-                        enableInteractiveSelection: false,
-                        decoration: const InputDecoration(
-                          labelText: '身份',
-                          // labelStyle: TextStyle(
-                          //   fontSize: 25,
-                          // ),
-                        ),
-                        readOnly: true,
-                        style: TextStyle(
-                          fontSize: 28,
-                          color:
-                              globFontColor, // Adjust the font size as needed
-                        ),
-                      ),
+
                       TextFormField(
                         initialValue: user.birthday,
                         enableInteractiveSelection: false,
@@ -180,13 +166,28 @@ class _AccountViewState extends State<AccountView> {
                         ),
                       ),
                       TextFormField(
-                        initialValue: '123456789',
+                        initialValue: user.phone,
                         enableInteractiveSelection: false,
                         decoration: const InputDecoration(
-                          labelText: 'Asus Vivowatch 序號',
+                          labelText: '手機號碼',
                           // labelStyle: TextStyle(
                           //   fontSize: 25, // Set your desired size
                           // ),
+                        ),
+                        readOnly: true,
+                        style: TextStyle(
+                          fontSize: 28,
+                          color:
+                              globFontColor, // Adjust the font size as needed
+                        ),
+                      ),
+                      TextFormField(
+                        initialValue: user.asusvivowatchsn != null
+                            ? "未設定"
+                            : user.asusvivowatchsn,
+                        enableInteractiveSelection: false,
+                        decoration: const InputDecoration(
+                          labelText: '手錶序號',
                         ),
                         readOnly: true,
                         style: TextStyle(
@@ -203,8 +204,8 @@ class _AccountViewState extends State<AccountView> {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              maximumSize: Size(140.w, 120.h),
-                              minimumSize: Size(120.w, 100.h),
+                              maximumSize: Size(120.w, 100.h),
+                              minimumSize: Size(100.w, 60.h),
                               // backgroundColor: const Color.fromARGB(255, 27, 97, 149),
                               backgroundColor: Colors.white,
                               shape: const RoundedRectangleBorder(
@@ -235,8 +236,39 @@ class _AccountViewState extends State<AccountView> {
                           const SizedBox(width: 20.0),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              maximumSize: Size(140.w, 120.h),
-                              minimumSize: Size(120.w, 100.h),
+                              maximumSize: Size(120.w, 100.h),
+                              minimumSize: Size(100.w, 60.h),
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(
+                                  // color: Colors.black,
+                                  color: Colors.white,
+                                  width: 1.5,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                            ),
+                            onPressed: () async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ASUSVivoWatchDataView()));
+                            },
+                            child: Text(
+                              '留言\n紀錄',
+                              style: TextStyle(
+                                fontSize: 27.sp,
+                                fontWeight: FontWeight.bold,
+                                color: globColor,
+                              ),
+                              textScaleFactor: 1,
+                            ),
+                          ),
+                          const SizedBox(width: 20.0),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              maximumSize: Size(120.w, 100.h),
+                              minimumSize: Size(100.w, 60.h),
                               backgroundColor: Colors.white,
                               shape: const RoundedRectangleBorder(
                                 side: BorderSide(

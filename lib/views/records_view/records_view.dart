@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/globals/gobals.dart';
-import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/models/users_and_records.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 import 'package:number_connection_test/views/records_view/records_list_view.dart';
 
 class RecordsView extends StatefulWidget {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_exceptions.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 import 'package:number_connection_test/utilities/generics/convert_date_format.dart';
@@ -20,10 +21,11 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
   late final TextEditingController _name;
+  late final TextEditingController _phone;
+
   DateTime? _selectedDate;
   late final TextEditingController _birthDateController;
   late final TextEditingController _genderController;
-  late final TextEditingController _vivowatchSN;
   bool _isPasswordVisible = false;
 
   @override
@@ -31,10 +33,10 @@ class _RegisterViewState extends State<RegisterView> {
     _email = TextEditingController();
     _password = TextEditingController();
     _name = TextEditingController();
+    _phone = TextEditingController();
     _birthDateController =
         TextEditingController(); // Initialize the birth date controller
     _genderController = TextEditingController();
-    _vivowatchSN = TextEditingController();
     super.initState();
   }
 
@@ -43,9 +45,9 @@ class _RegisterViewState extends State<RegisterView> {
     _email.dispose();
     _password.dispose();
     _name.dispose();
+    _phone.dispose();
     _birthDateController.dispose();
     _genderController.dispose();
-    _vivowatchSN.dispose();
     super.dispose();
   }
 
@@ -201,6 +203,26 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(
                   height: uiHight,
                 ),
+                TextField(
+                  controller: _phone,
+                  keyboardType: TextInputType.number,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  style: Theme.of(context).textTheme.bodySmall,
+                  decoration: const InputDecoration(
+                    hintText: '請輸入您的電話',
+                    icon: Icon(Icons.phone),
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter
+                        .digitsOnly, // Restricts input to digits only
+                    LengthLimitingTextInputFormatter(
+                        10), // Limits input to 9 digits
+                  ],
+                ),
+                const SizedBox(
+                  height: uiHight,
+                ),
                 TextFormField(
                   controller: _birthDateController,
                   readOnly: true,
@@ -226,22 +248,7 @@ class _RegisterViewState extends State<RegisterView> {
                   onTap: () => _selectGender(
                       context), // Call the gender selection dialog
                 ),
-                const SizedBox(
-                  height: uiHight,
-                ),
-                TextFormField(
-                  controller: _vivowatchSN,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  decoration: const InputDecoration(
-                    hintText: '請輸入您的Asus Vivowatch序號(Serial Number)',
-                    icon: Icon(Icons.watch),
-                  ),
-                ),
-                const SizedBox(
-                  height: uiHight,
-                ),
+
                 //controller connect to TextButton
                 TextButton(
                   onPressed: () async {
@@ -249,11 +256,10 @@ class _RegisterViewState extends State<RegisterView> {
                     final email = _email.text;
                     final password = _password.text;
                     final name = _name.text;
+                    final phone = _phone.text;
                     final birthday =
                         convertDateFormat(_birthDateController.text);
                     final gender = _genderController.text;
-                    const identity =
-                        '一般使用者'; // hard-coding, doctor identity given by server side
                     try {
                       await AuthService.firebase().createUser(
                         email: email,
@@ -262,7 +268,7 @@ class _RegisterViewState extends State<RegisterView> {
                       await Services().createDatabaseUser(
                         email: email,
                         name: name,
-                        identity: identity,
+                        phone: phone,
                         birthday: birthday,
                         gender: gender,
                       );

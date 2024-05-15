@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/globals/gobals.dart';
-import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
+import 'package:number_connection_test/services/crud/models/users_and_records.dart';
 
 class RecordsListView extends StatelessWidget {
   // final List<DatabaseRecord> records;
