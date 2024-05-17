@@ -7,7 +7,7 @@ String databaseUsersToJson(List<User> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class User {
-  String id; // type of objectID in mongodb is string
+  String id;
   String name;
   String email;
   String phone;
@@ -32,42 +32,88 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["ID"],
-        name: json["Name"],
-        email: json["Email"],
-        phone: json["Phone"],
-        birthday: json["Birthday"],
-        gender: json["Gender"],
-        asusvivowatchsn:
-            (json["AsusvivowatchSN"] != null) ? json["AsusvivowatchSN"] : null,
-        photosticker:
-            (json["PhotoSticker"] != null) ? json["PhotoSticker"] : null,
-        messages: json["messages"] != null
-            ? List<Message>.from(
-                json["messages"].map((x) => Message.fromJson(x)))
-            : null,
-        medications: json["medications"] != null
-            ? List<MedicationType>.from(
-                json["medication"].map((x) => MedicationType.fromJson(x)))
-            : null,
+        id: json["_id"] ?? json["ID"], // Handling potential case differences
+        name: json["name"] ?? 'Default name',
+        email: json["email"] ?? 'Default email',
+        phone: json["phone"] ?? 'Default phone',
+        birthday: json["birthday"] ?? 'Default birthday',
+        gender: json["gender"] ?? 'Default gender',
+        asusvivowatchsn: json["asusvivowatchsn"],
+        photosticker: json["photosticker"],
+        messages: (json["messages"] as List<dynamic>?)
+                ?.map((x) => Message.fromJson(x))
+                .toList() ??
+            [],
+        medications: (json["medications"] as List<dynamic>?)
+                ?.map((e) => MedicationType.fromJson(e))
+                .toList() ??
+            [],
       );
 
   Map<String, dynamic> toJson() => {
-        "ID": id,
-        "Email": email,
-        "Name": name,
-        "Phone": phone,
-        "Birthday": birthday,
-        "Gender": gender,
-        "AsusvivowatchSN": asusvivowatchsn,
-        "PhotoSticker": photosticker,
-        "Messages": messages != null
-            ? List<dynamic>.from(messages!.map((x) => x))
-            : null,
-        "Medication": medications != null
-            ? List<dynamic>.from(medications!.map((x) => x))
-            : null,
+        "_id": id,
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "birthday": birthday,
+        "gender": gender,
+        "asusvivowatchsn": asusvivowatchsn,
+        "photosticker": photosticker,
+        "messages": messages?.map((x) => x.toJson()).toList(),
+        "medications": medications?.map((x) => x.toJson()).toList(),
       };
+}
+
+class Message {
+  String message;
+  String date;
+
+  Message({required this.message, required this.date});
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      message: json['message'],
+      date: json['date'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'date': date,
+    };
+  }
+}
+
+class MedicationType {
+  String name;
+  int dosage; // Number of pills
+  int frequency; // Times per day
+  bool isTaken;
+
+  MedicationType(
+      {required this.name,
+      required this.dosage,
+      required this.frequency,
+      required this.isTaken});
+
+  factory MedicationType.fromJson(Map<String, dynamic> json) {
+    return MedicationType(
+      name: json['Name'],
+      dosage: json['Dosage'],
+      frequency: json['Frequency'],
+      isTaken: json['IsTaken'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Name': name,
+      'Dosage': dosage,
+      'Frequency': frequency,
+      'IsTaken': isTaken,
+    };
+  }
 }
 
 List<DatabaseRecord> databaseRecordsFromJson(List<dynamic> recordsJson) {
@@ -109,50 +155,4 @@ class DatabaseRecord {
         "game_time": gameTime,
         "score": score,
       };
-}
-
-class Message {
-  String message;
-  String date;
-
-  Message({required this.message, required this.date});
-
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      message: json['message'],
-      date: json['date'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'date': date,
-    };
-  }
-}
-
-class MedicationType {
-  String name;
-  int dosage; // Number of pills
-  int frequency; // Times per day
-
-  MedicationType(
-      {required this.name, required this.dosage, required this.frequency});
-
-  factory MedicationType.fromJson(Map<String, dynamic> json) {
-    return MedicationType(
-      name: json['name'],
-      dosage: json['dosage'],
-      frequency: json['frequency'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'dosage': dosage,
-      'frequency': frequency,
-    };
-  }
 }

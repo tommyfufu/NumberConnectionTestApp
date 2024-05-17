@@ -117,6 +117,38 @@ class Services {
   ///
   ///////////////////////////////////////////
 
+  // Fetch all messages for a specific user
+  Future<List<Message>> fetchMessages(String userId) async {
+    final response = await httpClient.get(
+      Uri.parse('$userApi/$userId/messages'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+    if (response.statusCode == 200) {
+      var messagesJson = json.decode(response.body) as List<dynamic>;
+      return messagesJson.isNotEmpty
+          ? messagesJson
+              .map((m) => Message.fromJson(m))
+              .toList()
+              .reversed
+              .toList()
+          : [];
+    } else {
+      throw Exception('Failed to load messages: ${response.body}');
+    }
+  }
+
+  // Create a new message for a specific user
+  Future<void> createMessage(String userId, String messageText) async {
+    final response = await httpClient.post(
+      Uri.parse('$userApi/$userId/message'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode({'message': messageText}),
+    );
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create message: ${response.body}');
+    }
+  }
+
   // Fetch medications for a specific user
   Future<List<MedicationType>> fetchMedications(String userId) async {
     final response = await httpClient.get(
@@ -178,11 +210,7 @@ class Services {
 
   Future<User> getDatabaseUser(
       {String? id, String? email, String? phone}) async {
-    // if (_user != null) return _user!;
     final Uri uri;
-    // print(id);
-    // print(email);
-    // print(phone);
     if (id != null) {
       uri = Uri.parse('$userApi/$id');
     } else if (email != null) {
@@ -203,7 +231,6 @@ class Services {
     if (response.statusCode == 200) {
       var res = jsonDecode(response.body);
       _user = User.fromJson(res);
-      print(_user);
       // await _cacheRecords();
       return _user!;
     } else if (response.statusCode == 404) {

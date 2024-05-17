@@ -8,6 +8,8 @@ import 'package:number_connection_test/services/crud/models/users_and_records.da
 import 'package:number_connection_test/services/crud/services/crud_service.dart';
 import 'package:number_connection_test/utilities/dialogs/logout_dialog.dart';
 import 'package:number_connection_test/views/account_view/asus_view/asus_vivowatch_data_view.dart';
+import 'package:number_connection_test/views/account_view/medication_record_view/medication_record_list_view.dart';
+import 'package:number_connection_test/views/account_view/messages_board_view/message_board_view.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({super.key});
@@ -221,7 +223,7 @@ class _AccountViewState extends State<AccountView> {
                             onPressed: () async {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      const ASUSVivoWatchDataView()));
+                                      MedicationListView(userId: user.id)));
                             },
                             child: Text(
                               '用藥\n紀錄',
@@ -252,7 +254,7 @@ class _AccountViewState extends State<AccountView> {
                             onPressed: () async {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      const ASUSVivoWatchDataView()));
+                                      MessageBoardView(userId: user.id)));
                             },
                             child: Text(
                               '留言\n紀錄',
@@ -265,36 +267,36 @@ class _AccountViewState extends State<AccountView> {
                             ),
                           ),
                           const SizedBox(width: 20.0),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              maximumSize: Size(120.w, 100.h),
-                              minimumSize: Size(100.w, 60.h),
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(
-                                  // color: Colors.black,
-                                  color: Colors.white,
-                                  width: 1.5,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                            ),
-                            onPressed: () async {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ASUSVivoWatchDataView()));
-                            },
-                            child: Text(
-                              '手錶\n資料',
-                              style: TextStyle(
-                                fontSize: 27.sp,
-                                fontWeight: FontWeight.bold,
-                                color: globColor,
-                              ),
-                              textScaleFactor: 1,
-                            ),
-                          ),
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //     maximumSize: Size(120.w, 100.h),
+                          //     minimumSize: Size(100.w, 60.h),
+                          //     backgroundColor: Colors.white,
+                          //     shape: const RoundedRectangleBorder(
+                          //       side: BorderSide(
+                          //         // color: Colors.black,
+                          //         color: Colors.white,
+                          //         width: 1.5,
+                          //       ),
+                          //       borderRadius:
+                          //           BorderRadius.all(Radius.circular(20)),
+                          //     ),
+                          //   ),
+                          //   onPressed: () async {
+                          //     Navigator.of(context).push(MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const ASUSVivoWatchDataView()));
+                          //   },
+                          //   child: Text(
+                          //     '手錶\n資料',
+                          //     style: TextStyle(
+                          //       fontSize: 27.sp,
+                          //       fontWeight: FontWeight.bold,
+                          //       color: globColor,
+                          //     ),
+                          //     textScaleFactor: 1,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
