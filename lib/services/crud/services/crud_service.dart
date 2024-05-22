@@ -43,28 +43,26 @@ class Services {
     _recordsStreamController.add(_records);
   }
 
-  Future<Iterable<DatabaseRecord>> getAllRecords() async {
+  Future<List<DatabaseRecord>> getAllRecords() async {
     var currentUser = _user;
     if (currentUser == null) {
       throw UserNotLoggedInException();
     }
-    final response = await http.get(
-      Uri.parse('$recordApi?userId=${currentUser.id}'),
+    String url = '$recordApi/${currentUser.id}';
+    print('Fetching records from: $url');
+    final response = await httpClient.get(
+      Uri.parse('$recordApi/${currentUser.id}'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
 
     if (response.statusCode == 200) {
-      var res = jsonDecode(response.body);
-      if (res['success']) {
-        return databaseRecordsFromJson(res['records']); // all records
-      } else {
-        throw Exception('test');
-      }
+      return List<DatabaseRecord>.from(
+          jsonDecode(response.body).map((x) => DatabaseRecord.fromJson(x)));
     } else {
-      // Handle server errors or bad requests
-      throw CouldNotGetAllRecord();
+      throw Exception(
+          'Failed to get records. Status code: ${response.statusCode}');
     }
   }
 
@@ -72,37 +70,32 @@ class Services {
     if (_records.isNotEmpty) {
       return _records.last;
     } else {
-      throw CouldNotFindRecord();
+      throw Exception('No records available.');
     }
   }
 
   Future<DatabaseRecord> createDatabaseRecord({
-    required User owner,
+    required String userId,
     required int gameId,
     required String gameTime,
     required int score,
   }) async {
-    //make sure owner exists in the db with the correct id
-    final recordUser = await getDatabaseUser(id: owner.id);
-    if (recordUser != owner) {
-      throw DBCouldNotFindUser();
-    }
-    final response = await http.post(
+    final response = await httpClient.post(
       Uri.parse(recordApi),
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8', // Added header
+        'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(
-        <String, dynamic>{
-          'userId': recordUser.id,
-          'gameId': gameId,
-          'gameTime': gameTime,
-          'score': score,
-        },
-      ),
+      body: jsonEncode({
+        'userId': userId,
+        'gameId': gameId,
+        'gameTime': gameTime,
+        'score': score,
+      }),
     );
-    if (response.statusCode == 200) {
-      final record = DatabaseRecord.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 201) {
+      var res = jsonDecode(response.body);
+      // Add this line
+      final record = DatabaseRecord.fromJson(res);
       _records.add(record);
       _recordsStreamController.add(_records);
       return record;
@@ -144,7 +137,7 @@ class Services {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode({'message': messageText}),
     );
-    if (response.statusCode != 201) {
+    if (response.statusCode != 204) {
       throw Exception('Failed to create message: ${response.body}');
     }
   }
@@ -210,6 +203,7 @@ class Services {
 
   Future<User> getDatabaseUser(
       {String? id, String? email, String? phone}) async {
+    if (_user != null) return _user!;
     final Uri uri;
     if (id != null) {
       uri = Uri.parse('$userApi/$id');

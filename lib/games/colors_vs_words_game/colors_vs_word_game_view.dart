@@ -42,7 +42,7 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
       final minutes = twoDigits(stopwatch.elapsed.inMinutes.remainder(60));
       final seconds = twoDigits(stopwatch.elapsed.inSeconds.remainder(60));
-      _gametime = '$minutes : $seconds';
+      _gametime = '$minutes:$seconds';
       Navigator.of(context)
           .pushNamedAndRemoveUntil(cwgameoverRoute, (_) => false);
     }
@@ -75,9 +75,8 @@ class _ColorvsWordGameViewState extends State<ColorvsWordGameView> {
     final currentUser = AuthService.firebase().currentUser!;
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
-
     await _services.createDatabaseRecord(
-      owner: owner,
+      userId: owner.id,
       gameId: _gameid,
       gameTime: _gametime,
       score: globScore,

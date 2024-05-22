@@ -226,7 +226,7 @@ class _AccountViewState extends State<AccountView> {
                                       MedicationListView(userId: user.id)));
                             },
                             child: Text(
-                              '用藥\n紀錄',
+                              '每日\n用藥',
                               style: TextStyle(
                                 fontSize: 27.sp,
                                 fontWeight: FontWeight.bold,

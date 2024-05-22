@@ -99,19 +99,19 @@ class MedicationType {
 
   factory MedicationType.fromJson(Map<String, dynamic> json) {
     return MedicationType(
-      name: json['Name'],
-      dosage: json['Dosage'],
-      frequency: json['Frequency'],
-      isTaken: json['IsTaken'],
+      name: json['name'],
+      dosage: json['dosage'],
+      frequency: json['frequency'],
+      isTaken: json['istaken'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'Name': name,
-      'Dosage': dosage,
-      'Frequency': frequency,
-      'IsTaken': isTaken,
+      'name': name,
+      'dosage': dosage,
+      'frequency': frequency,
+      'istaken': isTaken,
     };
   }
 }
@@ -140,19 +140,25 @@ class DatabaseRecord {
     required this.score,
   });
 
-  factory DatabaseRecord.fromJson(Map<String, dynamic> json) => DatabaseRecord(
-        recordId: json["record_id"],
-        userId: json["user_id"],
-        gameId: json["game_id"],
-        gameDateTime: json["game_date_time"],
-        gameTime: json["game_time"],
-        score: json["score"],
-      );
+  factory DatabaseRecord.fromJson(Map<String, dynamic> json) {
+    return DatabaseRecord(
+      recordId: json['id'],
+      userId: json['userId'],
+      gameId: json['gameId'],
+      gameDateTime: json['gameDateTime'],
+      gameTime: json['gameTime'],
+      score: json['score'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "fk_user_id": userId,
-        "game_id": gameId,
-        "game_time": gameTime,
-        "score": score,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': recordId,
+      'user_id': userId,
+      'game_id': gameId,
+      'game_date_time': gameDateTime,
+      'game_time': gameTime,
+      'score': score,
+    };
+  }
 }

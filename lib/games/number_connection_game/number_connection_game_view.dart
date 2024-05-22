@@ -108,7 +108,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
     await _services.createDatabaseRecord(
-      owner: owner,
+      userId: owner.id,
       gameId: _gameid,
       gameTime: _gametime,
       score: _nodesNumber,
