@@ -87,7 +87,7 @@ class _MessageBoardViewState extends State<MessageBoardView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
+            return Center(child: Text('目前沒有留言喔！'));
           } else if (snapshot.hasData) {
             return snapshot.data!.isEmpty
                 ? const Center(child: Text("目前沒有留言喔！"))

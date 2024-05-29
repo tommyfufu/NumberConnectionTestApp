@@ -23,11 +23,23 @@ class _NumberConnectionSteadyViewState
   int _startingNumber = 1;
   int _endingNumber = 1;
 
+  void _updateEndingNumber(int newStartNumber) {
+    int newMaxEndNumber = newStartNumber + 24;
+
+    setState(() {
+      _startingNumber = newStartNumber;
+      // Ensure the ending number is within the new range.
+      if (_endingNumber > newMaxEndNumber) {
+        _endingNumber = newMaxEndNumber;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const double sizeboxWidth = 50.0;
     const double sizeboxHeigt = 20.0;
-
+    int maxEndingNumber = _startingNumber + 24;
     return Scaffold(
       extendBodyBehindAppBar: true,
       // floatingActionButton: Icon(Icons.arrow_back),
@@ -80,10 +92,9 @@ class _NumberConnectionSteadyViewState
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold),
                       minValue: 1,
-                      maxValue: 40,
+                      maxValue: 25,
                       haptics: true,
-                      onChanged: (value) =>
-                          setState(() => _startingNumber = value),
+                      onChanged: (value) => _updateEndingNumber(value),
                       decoration: BoxDecoration(
                         border: Border(
                           left: BorderSide(
@@ -111,7 +122,7 @@ class _NumberConnectionSteadyViewState
                       itemWidth: 60.w,
                       itemHeight: 40.h,
                       minValue: 1,
-                      maxValue: 40,
+                      maxValue: maxEndingNumber,
                       textStyle: Theme.of(context).textTheme.labelMedium,
                       selectedTextStyle: TextStyle(
                           fontSize: 20.0.sp,

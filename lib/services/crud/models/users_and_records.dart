@@ -15,8 +15,8 @@ class User {
   String gender;
   String? asusvivowatchsn;
   String? photosticker;
-  List<Message>? messages;
-  List<MedicationType>? medications;
+  List<Message> messages;
+  List<MedicationType> medications;
 
   User({
     required this.id,
@@ -27,9 +27,10 @@ class User {
     required this.gender,
     this.asusvivowatchsn,
     this.photosticker,
-    this.messages,
-    this.medications,
-  });
+    List<Message>? messages,
+    List<MedicationType>? medications,
+  })  : messages = messages ?? [], // Initialize with empty list if null
+        medications = medications ?? []; // Initialize with empty list if null
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["_id"] ?? json["ID"], // Handling potential case differences
@@ -59,8 +60,8 @@ class User {
         "gender": gender,
         "asusvivowatchsn": asusvivowatchsn,
         "photosticker": photosticker,
-        "messages": messages?.map((x) => x.toJson()).toList(),
-        "medications": medications?.map((x) => x.toJson()).toList(),
+        "messages": messages.map((x) => x.toJson()).toList(),
+        "medications": medications.map((x) => x.toJson()).toList(),
       };
 }
 

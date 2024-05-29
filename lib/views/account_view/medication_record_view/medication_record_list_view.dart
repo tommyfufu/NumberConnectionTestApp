@@ -55,7 +55,7 @@ class _MedicationListViewState extends State<MedicationListView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return const Center(child: Text('目前醫生尚未投藥喔！'));
           } else if (snapshot.hasData) {
             return ListView(
               children: snapshot.data!

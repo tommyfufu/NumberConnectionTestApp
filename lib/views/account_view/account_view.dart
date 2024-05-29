@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
-
 import 'package:number_connection_test/services/auth/auth_service.dart';
 import 'package:number_connection_test/services/crud/models/users_and_records.dart';
 import 'package:number_connection_test/services/crud/services/crud_service.dart';
@@ -22,12 +23,13 @@ class _AccountViewState extends State<AccountView> {
   late Future<User> _userFuture;
   late String _userEmail;
   late Services _services;
+  File? _imageFile;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     _services = Services();
     _userEmail = AuthService.firebase().currentUser!.email;
-    print(_userEmail);
     _userFuture = Future(() => _services.getDatabaseUser(email: _userEmail));
     super.initState();
   }
@@ -35,6 +37,16 @@ class _AccountViewState extends State<AccountView> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 
   @override
@@ -85,11 +97,14 @@ class _AccountViewState extends State<AccountView> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const CircleAvatar(
-                            radius: 70, // Adjust the radius as needed
-                            backgroundImage: NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwM5DeX5IzxdcfTTbDO1J_P7jBnUZIini9gg&usqp=CAU'),
-                            backgroundColor: Colors.transparent,
+                          GestureDetector(
+                            onTap: _pickImage,
+                            child: const CircleAvatar(
+                              radius: 70,
+                              backgroundImage: AssetImage(
+                                  'assets/images/nonHeadShotDefault.jpg'),
+                              backgroundColor: Colors.transparent,
+                            ),
                           ),
                           const SizedBox(
                               width: 20), // Space between image and text fields
@@ -107,7 +122,7 @@ class _AccountViewState extends State<AccountView> {
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 22.sp,
                                     color:
                                         globFontColor, // Adjust the font size as needed
                                   ),
@@ -123,7 +138,7 @@ class _AccountViewState extends State<AccountView> {
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 22.sp,
                                     color:
                                         globFontColor, // Adjust the font size as needed
                                   ),
@@ -145,7 +160,7 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 26,
+                          fontSize: 22.sp,
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -162,7 +177,7 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 22.sp,
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -178,22 +193,20 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 22.sp,
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
                       ),
                       TextFormField(
-                        initialValue: user.asusvivowatchsn != null
-                            ? "未設定"
-                            : user.asusvivowatchsn,
+                        initialValue: user.asusvivowatchsn ?? "未設定",
                         enableInteractiveSelection: false,
                         decoration: const InputDecoration(
                           labelText: '手錶序號',
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 22.sp,
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -235,7 +248,7 @@ class _AccountViewState extends State<AccountView> {
                               textScaleFactor: 1,
                             ),
                           ),
-                          const SizedBox(width: 20.0),
+                          const SizedBox(width: 10.0),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               maximumSize: Size(120.w, 100.h),
@@ -266,37 +279,37 @@ class _AccountViewState extends State<AccountView> {
                               textScaleFactor: 1,
                             ),
                           ),
-                          const SizedBox(width: 20.0),
-                          // ElevatedButton(
-                          //   style: ElevatedButton.styleFrom(
-                          //     maximumSize: Size(120.w, 100.h),
-                          //     minimumSize: Size(100.w, 60.h),
-                          //     backgroundColor: Colors.white,
-                          //     shape: const RoundedRectangleBorder(
-                          //       side: BorderSide(
-                          //         // color: Colors.black,
-                          //         color: Colors.white,
-                          //         width: 1.5,
-                          //       ),
-                          //       borderRadius:
-                          //           BorderRadius.all(Radius.circular(20)),
-                          //     ),
-                          //   ),
-                          //   onPressed: () async {
-                          //     Navigator.of(context).push(MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const ASUSVivoWatchDataView()));
-                          //   },
-                          //   child: Text(
-                          //     '手錶\n資料',
-                          //     style: TextStyle(
-                          //       fontSize: 27.sp,
-                          //       fontWeight: FontWeight.bold,
-                          //       color: globColor,
-                          //     ),
-                          //     textScaleFactor: 1,
-                          //   ),
-                          // ),
+                          const SizedBox(width: 10.0),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              maximumSize: Size(120.w, 100.h),
+                              minimumSize: Size(100.w, 60.h),
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(
+                                  // color: Colors.black,
+                                  color: Colors.white,
+                                  width: 1.5,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                            ),
+                            onPressed: () async {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ASUSVivoWatchDataView()));
+                            },
+                            child: Text(
+                              '手錶\n資料',
+                              style: TextStyle(
+                                fontSize: 27.sp,
+                                fontWeight: FontWeight.bold,
+                                color: globColor,
+                              ),
+                              textScaleFactor: 1,
+                            ),
+                          ),
                         ],
                       ),
                     ],

@@ -43,6 +43,13 @@ class Services {
     _recordsStreamController.add(_records);
   }
 
+  String getAsusSn() {
+    if (_user == null || _user!.asusvivowatchsn == null) {
+      return '';
+    }
+    return _user!.asusvivowatchsn!;
+  }
+
   Future<List<DatabaseRecord>> getAllRecords() async {
     var currentUser = _user;
     if (currentUser == null) {
@@ -132,6 +139,7 @@ class Services {
 
   // Create a new message for a specific user
   Future<void> createMessage(String userId, String messageText) async {
+    print(messageText);
     final response = await httpClient.post(
       Uri.parse('$userApi/$userId/message'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -150,7 +158,9 @@ class Services {
     );
     if (response.statusCode == 200) {
       List<dynamic> meds = json.decode(response.body);
-      return meds.map((m) => MedicationType.fromJson(m)).toList();
+      return meds.isNotEmpty
+          ? meds.map((m) => MedicationType.fromJson(m)).toList()
+          : [];
     } else {
       throw Exception('Failed to load medications: ${response.body}');
     }
@@ -196,6 +206,8 @@ class Services {
 
   Future<void> logOut() async {
     await AuthService.firebase().logOut();
+    _user!.messages ?? _user!.messages!.clear();
+    _user!.medications ?? _user!.medications!.clear();
     _user = null;
     // _records.clear(); // Clear any cached records
     // _recordsStreamController.add([]); // Update listeners with an empty list
