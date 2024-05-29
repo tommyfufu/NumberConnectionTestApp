@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 
 class SoldiersInFormationGame extends StatefulWidget {
   const SoldiersInFormationGame({super.key});
@@ -41,7 +41,7 @@ class _SoldiersInFormationGameState extends State<SoldiersInFormationGame> {
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
     await _services.createDatabaseRecord(
-      owner: owner,
+      userId: owner.id,
       gameId: _gameid,
       gameTime: _gametime,
       score: globScore,

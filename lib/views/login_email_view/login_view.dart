@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/constants/routes.dart';
 import 'package:number_connection_test/services/auth/auth_exceptions.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 import 'package:number_connection_test/services/crud/sqlite/crud_exceptions.dart';
 import 'package:number_connection_test/utilities/dialogs/error_dialog.dart';
 
@@ -140,10 +140,9 @@ class _LoginViewState extends State<LoginView> {
                       );
                     }
                   } on DBCouldNotFindUser {
-                    await showErrorDialog(
-                        context, 'Database', 'Can Not find user');
+                    await showErrorDialog(context, '資料庫', '找不到用戶');
                   } on DatabaseIsNotOpen {
-                    await showErrorDialog(context, 'Database', 'Did not open');
+                    await showErrorDialog(context, '資料庫', '資料庫未開啟');
                   }
                 },
                 // style: Theme.of(context).textButtonTheme.style,

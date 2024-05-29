@@ -5,7 +5,7 @@ import 'package:number_connection_test/games/number_connection_game/number_conne
 import 'package:number_connection_test/games/number_connection_game/number_connection_game_exceptions.dart';
 import 'package:number_connection_test/globals/gobals.dart';
 import 'package:number_connection_test/services/auth/auth_service.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 
 class NumberConnectionGameView extends StatefulWidget {
   const NumberConnectionGameView({
@@ -108,7 +108,7 @@ class _NumberConnectionGameViewState extends State<NumberConnectionGameView> {
     final email = currentUser.email;
     final owner = await _services.getDatabaseUser(email: email);
     await _services.createDatabaseRecord(
-      owner: owner,
+      userId: owner.id,
       gameId: _gameid,
       gameTime: _gametime,
       score: _nodesNumber,

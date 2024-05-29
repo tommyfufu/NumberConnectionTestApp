@@ -39,6 +39,7 @@ class _ForgetPassViewState extends State<ForgetPassView> {
             ),
             SizedBox(height: 20.h),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: globColor),
               onPressed: _isLoading ? null : _resetPassword,
               child: _isLoading
                   ? const CircularProgressIndicator()

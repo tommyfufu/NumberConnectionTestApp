@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_connection_test/games/soldiers_in_formation/soldiers_in_formation_game_ending_record_view.dart';
 import 'package:number_connection_test/globals/gobals.dart';
-import 'package:number_connection_test/services/crud/models/UsersAndRecords.dart';
-import 'package:number_connection_test/services/crud/services/crud_service_mysql.dart';
+import 'package:number_connection_test/services/crud/models/users_and_records.dart';
+import 'package:number_connection_test/services/crud/services/crud_service.dart';
 
 class SIFGameOverView extends StatefulWidget {
   const SIFGameOverView({

@@ -7,18 +7,19 @@ class ASUSVivowatchService {
   static const getData = "$endpoint/getASUSLatestData.php";
   var httpClient = http.Client();
 
-  Future<ASUSVivowatchData> fetchData() async {
-    try {
-      final response = await httpClient.get(Uri.parse(getData));
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        return ASUSVivowatchData.fromJson(json);
-      } else {
-        throw Exception('Failed to load data');
-      }
-    } catch (e) {
-      // Handle any errors that occur during the fetch operation
-      throw Exception('Failed to load data: $e');
+  Future<ASUSVivowatchData> fetchData(String deviceId) async {
+    if (deviceId.isEmpty) {
+      throw Exception("No ASUS VivoWatch device ID provided");
+    }
+    var response = await http.get(
+      Uri.parse('$getData?deviceid=$deviceId'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if (response.statusCode == 200) {
+      return ASUSVivowatchData.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 }
