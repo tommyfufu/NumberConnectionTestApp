@@ -122,7 +122,7 @@ class _AccountViewState extends State<AccountView> {
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
-                                    fontSize: 22.sp,
+                                    fontSize: 20.sp,
                                     color:
                                         globFontColor, // Adjust the font size as needed
                                   ),
@@ -138,7 +138,8 @@ class _AccountViewState extends State<AccountView> {
                                   ),
                                   readOnly: true,
                                   style: TextStyle(
-                                    fontSize: 22.sp,
+                                    fontSize: 20.sp,
+
                                     color:
                                         globFontColor, // Adjust the font size as needed
                                   ),
@@ -160,7 +161,8 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 22.sp,
+                          fontSize: 20.sp,
+
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -177,7 +179,8 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 22.sp,
+                          fontSize: 20.sp,
+
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -193,7 +196,8 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 22.sp,
+                          fontSize: 20.sp,
+
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),
@@ -206,7 +210,8 @@ class _AccountViewState extends State<AccountView> {
                         ),
                         readOnly: true,
                         style: TextStyle(
-                          fontSize: 22.sp,
+                          fontSize: 20.sp,
+
                           color:
                               globFontColor, // Adjust the font size as needed
                         ),

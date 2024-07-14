@@ -206,8 +206,8 @@ class Services {
 
   Future<void> logOut() async {
     await AuthService.firebase().logOut();
-    _user!.messages ?? _user!.messages!.clear();
-    _user!.medications ?? _user!.medications!.clear();
+    _user!.messages ?? _user!.messages.clear();
+    _user!.medications ?? _user!.medications.clear();
     _user = null;
     // _records.clear(); // Clear any cached records
     // _recordsStreamController.add([]); // Update listeners with an empty list
